@@ -5,7 +5,7 @@ import { debounce } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { SearchFilter } from '../redux/ProductSlice';
 
-const AutocompleteTwo = ({Setsearchpop , placeholder, keralaDistricts, onSelect}) => {
+const AutocompleteTwo = ({Setsearchpop,Setpage , placeholder, keralaDistricts, onSelect}) => {
  const [loading,Setloading]=useState(false)
     const [error,Seterror]=useState(null)
     const [Getsuggestion,Setsuggestion]=useState([])
@@ -43,7 +43,7 @@ const DebouncingSuggestion=useCallback(debounce(GetdatasSearch,200),[])
     if(userinput.length>2){
             dispatch(SearchFilter(userinput))
     }
-
+Setpage(1)
         
 
     },[userinput])

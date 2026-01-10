@@ -1,16 +1,16 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
 
 
-export default function Footer() {
+ const Footer=forwardRef((ref)=> {
   return (
-    <footer className="bg-black text-white py-12 px-6 md:px-20">
+    <footer ref={ref} className="bg-black text-white py-12 px-6 md:px-20">
       <div className="max-w-7xl mx-auto grid md:grid-cols-5 gap-10">
 
         {/* Logo + Description */}
         <div className="col-span-2">
-          <h2 className="text-2xl font-bold flex mb-4">
-             <img src="../../public/images/Logo (1).png" className="w-30 h-12" alt="" /></h2>
+         <h3 className='font-bold text-2l md:text-4xl  bg-linear-to-br from-blue-400 via-blue-600 to-yellow-500  text-transparent bg-clip-text '>Mytrip<span className='text-transparent bg-linear-to-br from-blue-400 via-yellow-400 to-yellow-700 bg-clip-text'>.in</span></h3>
+
           <p className="text-gray-300 mb-6 leading-relaxed">
             We help you find and book the perfect stay from cozy guesthouses to 
             top hotels — with ease, trust, and the best deals.
@@ -72,4 +72,5 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+})
+export default Footer

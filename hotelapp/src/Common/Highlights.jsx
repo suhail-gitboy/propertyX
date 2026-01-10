@@ -5,7 +5,7 @@ import { SearchFilter } from '../redux/ProductSlice'
 const Highlights = ({Getsuggestion,Setsuggestion,Setsearchpop}) => {
   const Dispatch=useDispatch()
   return (
-    <div className='w-full mt-5 border border-gray-700/20 rounded-lg z-30'>
+    <div className='w-full h-120 overflow-scroll mt-5 border border-gray-700/20 rounded-lg z-30'>
         <ul>
 {
     Getsuggestion.map((data,id)=>(
