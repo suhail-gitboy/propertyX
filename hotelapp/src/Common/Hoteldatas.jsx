@@ -1,29 +1,29 @@
-   import * as Yup from "yup";
+import * as Yup from "yup";
 
-   export const Datasforhotel=[{
-    location:"kochi,ernakulam",
-    starting:1399,
-    quotes:"best place to chill in classic forts,cafes,vintage churches",
-    img:"https://static.india.com/wp-content/uploads/2024/12/Here-are-7-Stunning-Instagram-Worthy-Places-In-Kochi.jpg?impolicy=Medium_Widthonly&w=400&h=800"
-  },
+export const Datasforhotel = [{
+  location: "kochi,ernakulam",
+  starting: 1399,
+  quotes: "best place to chill in classic forts,cafes,vintage churches",
+  img: "https://static.india.com/wp-content/uploads/2024/12/Here-are-7-Stunning-Instagram-Worthy-Places-In-Kochi.jpg?impolicy=Medium_Widthonly&w=400&h=800"
+},
 {
-    location:"calicut,koxhikode",
-    starting:999,
-    quotes:"best place to chill in classic forts,cafes,vintage churches",
-    img:"https://i0.wp.com/oneday.travel/wp-content/uploads/visit-beypore-beach-with-kozhikode-sightseeing-tour-by-car.jpg?resize=620%2C930&ssl=1"
-  },{
-    location:"Vatanapally,thrissur",
-    starting:799,
-    quotes:"beach vibes,cafes,nature",
-    img:"https://content.jdmagicbox.com/comp/thrissur/n9/9999px487.x487.190721023603.u1n9/catalogue/vadanappally-beach-vatanapally-thrissur-tourist-attraction-uSz3iEtWzE.jpg"
-  },{
-    location:"vaikom,trivandrom",
-    starting:599,
-    quotes:"best place to chill in classic forts,cafes,vintage churches",
-    img:"https://s7ap1.scene7.com/is/image/incredibleindia/padmanabhaswamy-temple-thiruvananthapuram-kerala-city-ff?qlt=82&ts=1742155592663"
-  }]
+  location: "calicut,koxhikode",
+  starting: 999,
+  quotes: "best place to chill in classic forts,cafes,vintage churches",
+  img: "https://i0.wp.com/oneday.travel/wp-content/uploads/visit-beypore-beach-with-kozhikode-sightseeing-tour-by-car.jpg?resize=620%2C930&ssl=1"
+}, {
+  location: "Vatanapally,thrissur",
+  starting: 799,
+  quotes: "beach vibes,cafes,nature",
+  img: "https://content.jdmagicbox.com/comp/thrissur/n9/9999px487.x487.190721023603.u1n9/catalogue/vadanappally-beach-vatanapally-thrissur-tourist-attraction-uSz3iEtWzE.jpg"
+}, {
+  location: "vaikom,trivandrom",
+  starting: 599,
+  quotes: "best place to chill in classic forts,cafes,vintage churches",
+  img: "https://s7ap1.scene7.com/is/image/incredibleindia/padmanabhaswamy-temple-thiruvananthapuram-kerala-city-ff?qlt=82&ts=1742155592663"
+}]
 
-  export const Springdata = [
+export const Springdata = [
   {
     location: "Munnar, Idukki",
     starting: 1499,
@@ -100,7 +100,7 @@ export const WinterNewYearKerala = [
     quotes: "Houseboat parties, peaceful lakeside resorts and magical winter sunsets",
     img: "https://images.trvl-media.com/lodging/4000000/3790000/3780300/3780257/bf5c56ee.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill"
   },
-  
+
 ];
 export const reviews = [
   {
@@ -165,12 +165,12 @@ export const reviews = [
   }
 ];
 
-export const Signupschema=Yup.object({
-  name:Yup.string().min(3, "Name must be at least 3 characters")
+export const Signupschema = Yup.object({
+  name: Yup.string().min(3, "Name must be at least 3 characters")
     .required("Name is required"),
-    email:Yup.string().email("Invalid email format")
+  email: Yup.string().email("Invalid email format")
     .required("Email is required"),
-     password: Yup.string()
+  password: Yup.string()
     .min(6, "Password must be at least 6 characters long")
     .required("Password is required"),
 
@@ -179,7 +179,24 @@ export const Signupschema=Yup.object({
     .required("Confirm your password"),
 })
 
-export const LoginSchema=Yup.object({
-  email:Yup.string().email("invalid email").required("email is required"),
-  password:Yup.string().min(6,"password must be atleast 6 charectors long").required("Password is required"),
+export const LoginSchema = Yup.object({
+  email: Yup.string().email("invalid email").required("email is required"),
+  password: Yup.string().min(6, "password must be atleast 6 charectors long").required("Password is required"),
+})
+
+export const Hostschema = Yup.object({
+  name: Yup.string().min(3, "Name must be at least 3 characters")
+    .required("Name is required"),
+  email: Yup.string().email("Invalid email format")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters long")
+    .required("Password is required"),
+
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Confirm your password"),
+  phone: Yup.string()
+    .matches(/^[6-9]\d{9}$/, "Phone number must be a valid 10-digit mobile number")
+    .required("Phone number is required")
 })

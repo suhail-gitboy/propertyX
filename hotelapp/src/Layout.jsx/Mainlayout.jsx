@@ -1,36 +1,53 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { Outlet } from 'react-router'
 import Footer from '../Common/Footer'
 import { ContextDatas } from '../Common/ContextWrapped'
-import TriptoAuthModal from '../modals/Modallogin'
+import TriptoAuthModal from '../Components/modals/Modallogin'
 import { AnimatePresence } from 'framer-motion'
-import TriptoSignupModal from '../modals/Modalsign'
+import TriptoSignupModal from '../Components/modals/Modalsign'
 import { useDispatch } from 'react-redux'
-import { GetApiHotel } from '../redux/ProductSlice'
+import { FuncAddallproduct, GetApiHotel } from '../redux/ProductSlice'
 import ScrollToTop from '../Components/Scrollcomp'
+import DetailSucess from '../Components/modals/DetailSucess'
+import { useAllPropertiesAdmin } from '../Admin/ApiTanstack/Propertyfetch'
+import { addWishlist } from '../redux/BookingSlice'
+import { useGetallwishlist } from '../ApiServices/tanstack/PropertyMethod'
+import BookingSuccessModal from '../Utils/UILIBRARY/bookedsucesmodal'
 
 const Mainlayout = () => {
-  const {loginmdal,signmodal}=ContextDatas()
-  const dispatch=useDispatch()
-  useEffect(()=>{
-   dispatch(GetApiHotel())
-  },[])
-  
+  const { popUpinputsuccess, Setpopupinputsuccess, bookingsuccessmodal, SetbookingSuccessfull } = ContextDatas()
+  const { loginmdal, signmodal, token } = ContextDatas()
+  const dispatch = useDispatch()
+
+
+
+  const { data } = useAllPropertiesAdmin()
+
+
+
+
+  useEffect(() => {
+    dispatch(FuncAddallproduct(data))
+
+  }, [data])
+
+  const FooterRef = useRef(null)
   return (
-    
- <>
-     
- <AnimatePresence>
- {loginmdal&&<TriptoAuthModal/>}
- {signmodal&&<TriptoSignupModal/>}
- </AnimatePresence>
+
+    <>
+      {bookingsuccessmodal && <BookingSuccessModal onClose={() => SetbookingSuccessfull(false)} />}
+      {popUpinputsuccess && <DetailSucess />}
+      <AnimatePresence>
+        {loginmdal && <TriptoAuthModal />}
+        {signmodal && <TriptoSignupModal />}
+      </AnimatePresence>
 
 
- <Outlet/>
- <Footer/>
+      <Outlet context={{ FooterRef }} />
+      <Footer ref={FooterRef} />
 
- </>
+    </>
   )
 }
 
