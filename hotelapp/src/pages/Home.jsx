@@ -11,11 +11,9 @@ import {
 } from "react-icons/fi";
 import { LuSun } from "react-icons/lu";
 import { Link, Outlet, useLocation } from 'react-router';
-import { GiWinterGloves } from "react-icons/gi";
-import { FaTree } from "react-icons/fa";
-import { LuTentTree } from "react-icons/lu";
 
-import { FaMountainSun } from "react-icons/fa6";
+
+
 import Rating from '@mui/material/Rating';
 
 
@@ -31,7 +29,7 @@ import CardHome from '../Components/HomepageCard';
 
 import Header from '../Common/Header';
 import PropertyCard from '../Components/MediaScroll';
-import { ConfettiDemo } from '../Utils/UILIBRARY/Sucesscomp';
+
 import Homenav from '../Common/Homenav';
 
 

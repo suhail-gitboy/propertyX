@@ -2,13 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Nav from '../Common/Nav'
 import { MapPin, Home, Ruler, CheckCircle } from "lucide-react";
 import { data, Link, useLocation, useParams } from 'react-router';
-import { useSelector } from 'react-redux';
-import Cardhotel from '../Components/Cardhotel';
+
 import { easeIn, motion } from 'framer-motion';
 import { FaRegHeart } from 'react-icons/fa';
-import { GetApiHotel } from '../redux/ProductSlice';
-import { Addapi, AddApiBooking } from '../ApiServices/crud/Adding';
-import Wishlist from '../Components/Wishlist';
+
 import { toast } from 'sonner';
 import { ContextDatas } from '../Common/ContextWrapped';
 import Swal from 'sweetalert2'
@@ -16,14 +13,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { CiShare2 } from "react-icons/ci";
 import dayjs from "dayjs";
-import { FiMessageCircle } from "react-icons/fi";
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+
 import ImagesHotal from '../Components/modals/ImagesHotal';
 import Reviews from '../Components/Reviews';
 import { AiOutlineMessage } from "react-icons/ai";
