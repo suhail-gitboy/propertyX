@@ -1,6 +1,6 @@
-import { data } from "react-router"
+
 import { MainapiCall } from "./MAINapi"
-import { SERVERurl } from "./url"
+import { SERVERurl } from "./Urldata"
 
 
 
