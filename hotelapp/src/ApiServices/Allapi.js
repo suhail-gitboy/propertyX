@@ -1,6 +1,6 @@
 
-import { MainapiCall } from "./MAINapi"
-import { SERVERurl } from "./Urldata"
+import { MainapiCall } from "./MAINapi.js"
+import { SERVERurl } from "./Urldata.jsx"
 
 
 
