@@ -1,4 +1,4 @@
-import { use } from "react";
+
 import { Booking } from "../models/Booking.model.js";
 import { Propertymodel } from "../models/Property.model.js"
 import { sendMail } from "../utils/Nodemailer.js";
