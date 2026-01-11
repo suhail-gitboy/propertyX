@@ -18,8 +18,6 @@ import Userprofile from './pages/profileuser/userprofile'
 import Message from './pages/profileuser/Message'
 import Alassitance from './pages/profileuser/Alassitance'
 import Saleshistory from './pages/profileuser/Saleshistory'
-import Sellingproperties from './pages/profileuser/Sellingproperties'
-import Approved from './pages/profileuser/Approved'
 
 import Mapdetail from './pages/Sellingpage/Mapdetail'
 import Payment from './pages/Payment'
@@ -74,7 +72,7 @@ function App() {
             { index: true, element: <Userprofile /> },
             { path: "bookings", element: <Bookinglist /> },
             { path: "messages", element: <Message /> },
-            { path: "message/:id", element: <MessageTosingleuser/>},
+            { path: "message/:id", element: <MessageTosingleuser /> },
             { path: "wishlists", element: <Wishlist /> },
             { path: "aibot", element: <Alassitance /> },
             { path: "history", element: <Saleshistory /> },
