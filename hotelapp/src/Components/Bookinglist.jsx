@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { GetBookingData } from '../redux/BookingSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { motion, warnOnce } from 'framer-motion'
-import { GetDeleteBoooking } from '../ApiServices/crud/Deleteapi'
-import { Link } from 'react-router'
+
 import Formupdate from './modals/Formupdate'
 
 import { Update } from '../ApiServices/crud/Update'
