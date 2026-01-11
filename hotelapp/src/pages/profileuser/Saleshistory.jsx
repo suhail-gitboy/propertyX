@@ -11,7 +11,7 @@ import { ContextDatas } from '../../Common/ContextWrapped'
 import BookedRoomCard from '../../Components/Bookingcard'
 import { useGetbookings } from '../../ApiServices/tanstack/PropertyMethod'
 import HostBookingCard from '../../Components/Hostbookingcard'
-import HostBookingSummary from '../../Components/HostbR.JSX'
+
 import CancelBookingModal from '../../Components/modals/Notify'
 const Saleshistory = () => {
   const sampleImage = '/mnt/data/IMG_7246ACDF-FB44-45E0-A583-ABD058AA4BD8.jpeg'
