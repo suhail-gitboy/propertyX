@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import Messagelist from '../../Components/messagelist';
+
 import { ContextDatas } from '../../Common/ContextWrapped';
 import { useAllmessaged, useGetalluserdata, useMessagehistory, useNewmessage, useStartConverstaion } from '../../ApiServices/tanstack/PropertyMethod';
 import Loading from '../../Components/Loading';
@@ -12,6 +12,7 @@ import { FaHamburger } from 'react-icons/fa';
 import { FaMessage } from 'react-icons/fa6';
 import { TiMessages } from "react-icons/ti";
 import { IoIosClose } from "react-icons/io";
+import Messagelist from '../../Components/Messagelists';
 
 
 const Message = () => {
