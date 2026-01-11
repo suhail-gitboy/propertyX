@@ -429,9 +429,10 @@ const Detailpage = () => {
                       </div>
 
                       {/* CTA */}
-                      <Link to={`profile/message/${data?.seller?.sellerId}`} className="mt-6 w-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition">
+                      <button onClick={() =>
+                        navigate(`/profile/message/${data?.seller?.sellerId}`)} className="mt-6 w-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition">
                         Contact Seller
-                      </Link>
+                      </button>
                     </div>
 
                     <p className="mt-4 text-center text-xs text-gray-500">
