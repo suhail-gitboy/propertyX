@@ -3,8 +3,7 @@ import { easeInOut, motion } from 'framer-motion'
 import { CiHeart } from "react-icons/ci";
 import { FaRegHeart } from "react-icons/fa";
 import React from 'react'
-import { Addapi } from '../ApiServices/crud/Adding';
-import { toast } from 'sonner';
+
 import { Link } from 'react-router';
 
 const Cardhotel = ({ data, id, grid, home }) => {

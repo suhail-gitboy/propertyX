@@ -113,9 +113,9 @@ const UserDetailspages = () => {
                                 </>
                             }
                             <div className="flex gap-4">
-                                <button className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 text-sm">
+                                <Link to={`/profile/message/${userdata?._id}`} className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 text-sm">
                                     💬 Message
-                                </button>
+                                </Link>
 
                                 <Link to="/" className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 text-sm">
                                     🏠 Home

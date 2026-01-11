@@ -5,14 +5,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import Cardhotel from '../Components/Cardhotel'
 import SkeletonCard from '../Components/Skeleton'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaArrowLeft } from 'react-icons/fa'
-import { Link, useOutletContext } from 'react-router'
-import { CiHome } from "react-icons/ci";
+
 import { BsFastForward } from "react-icons/bs";
 import { BsSkipBackward } from "react-icons/bs";
 import { Sortingfunc } from '../redux/ProductSlice'
 import ScrollToTop from '../Components/Scrollcomp'
-import { ContextDatas } from '../Common/ContextWrapped'
+
 import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
 import { LuSettings2 } from "react-icons/lu";

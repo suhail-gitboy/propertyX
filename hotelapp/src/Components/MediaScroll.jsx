@@ -337,7 +337,7 @@ const PropertyCard = ({ property }) => {
                                 </Link>
                                 {
                                     User?._id !== property.seller.sellerId &&
-                                    <Link to={`profile/message/${property.seller.sellerId}`} className="flex items-center gap-1 text-xs px-4 py-1 rounded-full bg-blue-600 text-white hover:bg-blue-700">
+                                    <Link to={`/profile/message/${property.seller.sellerId}`} className="flex items-center gap-1 text-xs px-4 py-1 rounded-full bg-blue-600 text-white hover:bg-blue-700">
                                         <Send className="w-4 h-4" />
                                         Message
                                     </Link>

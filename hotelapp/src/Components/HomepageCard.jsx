@@ -2,7 +2,7 @@ import Rating from "@mui/material/Rating";
 import { motion, easeInOut } from "framer-motion";
 import { FaRegHeart } from "react-icons/fa";
 import React from "react";
-import { Addapi } from "../ApiServices/crud/Adding";
+
 import { toast } from "sonner";
 import { Link } from "react-router";
 import { useAddtowishlist } from "../ApiServices/tanstack/PropertyMethod";

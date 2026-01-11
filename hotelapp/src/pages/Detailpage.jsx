@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Nav from '../Common/Nav'
 import { MapPin, Home, Ruler, CheckCircle } from "lucide-react";
-import { data, Link, useLocation, useParams } from 'react-router';
+import { data, Link, useLocation, useNavigate, useParams } from 'react-router';
 
 import { easeIn, motion } from 'framer-motion';
 import { FaRegHeart } from 'react-icons/fa';
@@ -24,7 +24,7 @@ import { checkAvailabilityApi, NewbookingApi } from '../ApiServices/Allapi';
 
 const Detailpage = () => {
 
-
+  const navigate = useNavigate()
   const { isLogged, SetisLogged, loginmdal, Setloginmodal, User, Booking, Setbooking } = ContextDatas()
   // mapping 
   const [pos, setPos] = useState(null);
@@ -429,9 +429,9 @@ const Detailpage = () => {
                       </div>
 
                       {/* CTA */}
-                      <button className="mt-6 w-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition">
+                      <Link to={`profile/message/${data?.seller?.sellerId}`} className="mt-6 w-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition">
                         Contact Seller
-                      </button>
+                      </Link>
                     </div>
 
                     <p className="mt-4 text-center text-xs text-gray-500">
@@ -470,11 +470,13 @@ const Detailpage = () => {
           </div>
 
         </div>
-        <button
+        <button onClick={() =>
+          navigate(`/profile/message/${data?.seller?.sellerId}`)
+        }
           className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-300
                  hover:bg-gray-100 transition"
           title="Message host"
-          onClick={() => console.log("Open chat")}
+
         >
           <AiOutlineMessage className="text-2xl text-gray-700" />
 

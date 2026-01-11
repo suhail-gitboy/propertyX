@@ -49,7 +49,7 @@ const Userprofile = () => {
 
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8">
         {
-          User.role == "user" && (
+          User?.role == "user" && (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
 
               {/* Followers */}
