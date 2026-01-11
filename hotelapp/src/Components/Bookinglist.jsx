@@ -5,7 +5,7 @@ import { motion, warnOnce } from 'framer-motion'
 
 import Formupdate from './modals/Formupdate'
 
-import { Update } from '../ApiServices/crud/Update'
+
 import { ContextDatas } from '../Common/ContextWrapped'
 import Swal from 'sweetalert2'
 import BookedRoomCard from './Bookingcard'
@@ -25,37 +25,7 @@ const Bookinglist = () => {
 
 
 
-  const [dataA, Setdata] = useState()
-  console.log(dataA);
 
-  const Updatedata = async () => {
-    const Updated = {
-      ...dataA,
-      Foradd: {
-        ...dataA.Foradd,
-        checkin: Booking.checkin,
-        checkout: Booking.checkout,
-        adult: Booking.adult,
-        total: Booking.total,
-        priceTotal: Booking.priceTotal
-
-      }
-    }
-    Setdata(Updated)
-    const Respnse = await Update(Updated)
-    console.log(Respnse);
-    Swal.fire({
-      title: "updated ",
-      text: `changed your booking details`,
-      icon: "success"
-    });
-
-
-
-    Setmodal(false)
-    Dispatch(GetBookingData())
-
-  }
   const { token } = ContextDatas()
   const { data } = useGetbookings(token)
   console.log(data);
