@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { motion, warnOnce } from 'framer-motion'
-
+import HostBookingSummary from '../../Components/hoostbookingsummary'
 import { Link } from 'react-router'
 import Swal from 'sweetalert2'
 
