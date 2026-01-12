@@ -14,6 +14,7 @@ import { useAllPropertiesAdmin } from '../Admin/ApiTanstack/Propertyfetch'
 import { addWishlist } from '../redux/BookingSlice'
 import { useGetallwishlist } from '../ApiServices/tanstack/PropertyMethod'
 import BookingSuccessModal from '../Utils/UILIBRARY/bookedsucesmodal'
+import { SERVERurl } from '../ApiServices/MAINapi'
 
 const Mainlayout = () => {
   const { popUpinputsuccess, Setpopupinputsuccess, bookingsuccessmodal, SetbookingSuccessfull } = ContextDatas()
@@ -25,6 +26,7 @@ const Mainlayout = () => {
   const { data } = useAllPropertiesAdmin()
 
 
+  console.log("SERVER URL:", SERVERurl)
 
 
   useEffect(() => {

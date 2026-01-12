@@ -9,22 +9,7 @@ import "leaflet/dist/leaflet.css";
 
 const Sidebar = ({ Hoteldata }) => {
 
-  // const [location,Setlocation]=useState({
-  //       lat: 10.99835602,
-  //       lng: 77.01502627
-  //     })
-  //   useEffect(()=>{
 
-  // navigator.geolocation.getCurrentPosition((position)=>{
-  // console.log(position.coords);
-  // Setlocation({
-  //   lat:position.coords.latitude,
-  //   lng:position.coords.longitude
-  // })
-
-  // })
-
-  //   },[])
 
   const houseIcon = new L.Icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/619/619032.png",
