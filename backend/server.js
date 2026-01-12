@@ -17,7 +17,7 @@ const allowedOrigins = [
 
 
 app.use(express.urlencoded({ extended: true }));
-app.use(cors())
+
 
 app.use(cors({
   origin: allowedOrigins
@@ -31,7 +31,7 @@ import { PropertyRoute } from "./routes/property.routes.js";
 import { BookingRoute } from "./routes/Booking.route.js";
 import { Conversatiionrouter } from "./routes/conversation.routes.js";
 import { Messagerouter } from "./routes/message.route.js";
-import { use } from "react";
+
 
 app.use("/auth", Authroute)
 app.use("/user", UseRoute)
@@ -72,7 +72,7 @@ const EXpressserver = app.listen(PORT, () => console.log("Server running on port
 
 
 const io = new Server(EXpressserver, {
-  cors: { origin: allowedOrigins }
+  cors: { origin: allowedOrigins, credentials: true }
 })
 
 
