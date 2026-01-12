@@ -35,7 +35,7 @@ const Nav = ({
   const keralaPlaces = [ /* same list as before */];
 
   return (
-    <div className="px-8 py-5 flex justify-between items-center shadow-md">
+    <div className="px-3 md:px-8 py-5 flex justify-between items-center shadow-md">
 
       {/* LOGO */}
       <h3 className="font-bold text-sm md:text-2xl bg-linear-to-br from-blue-400 via-blue-600 to-yellow-500 text-transparent bg-clip-text">

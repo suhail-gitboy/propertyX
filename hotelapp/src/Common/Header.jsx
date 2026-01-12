@@ -56,7 +56,7 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
                 </div>
                 <div className='flex  relative justify-center items-center '>
 
-                    <div className=' absolute -bottom-9 bg-white  rounded-md shadow-xl flex-col px-6 py-3'>
+                    <div className=' absolute -bottom-9 bg-blue-100  rounded-md shadow-xl flex-col px-3 md:px-6 py-1 md:py-3'>
                         <div className='mb-2  hidden md:flex  absolute left-0  justify-center items-center -top-18 w-full px-3 py-5  rounded-md'>
                             <div className='flex items-center justify-center gap-x-2 backdrop-blur-xl px-9 mx-auto py-4 rounded-full'>
                                 <Link to="/search" className='flex  items-center text-white hover:bg-white hover:text-black  px-3 rounded-full py-2 transition-colors duration-300' ><RiHotelLine className=' w-6 h-6 mr-1' />hotel</Link>
@@ -111,7 +111,7 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
                                 </div>
 
                                 {/* HOST CTA */}
-                                <div className="flex flex-col items-center border-l border-black/10 p-3">
+                                <div className="flex flex-col items-center border-0 md:border-l border-black/10 p-2 md:p-3">
                                     {User?.role === "host" ? (
                                         <>
                                             <Link
@@ -146,7 +146,7 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
                             <div>
                                 <Link
                                     to="/search"
-                                    className="flex items-center gap-2 px-5 py-2 rounded-md text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-90 transition shadow"
+                                    className="flex items-center mr-5 md:mr-0 gap-2 px-3 md:px-5 py-2 rounded-md text-xs  md:text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-90 transition shadow"
                                 >
                                     <FaSearch />
                                     Search

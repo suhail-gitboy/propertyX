@@ -47,7 +47,7 @@ const PropertyTypeSelector = ({ value, onChange, property, setProperty }) => {
     console.log(property);
 
     return (
-        <div className="space-y-6 h-120">
+        <div className="space-y-6  h-fit md:h-120">
             <h1 className="text-3xl font-semibold">
                 What type of place will guests have?
             </h1>
@@ -55,7 +55,7 @@ const PropertyTypeSelector = ({ value, onChange, property, setProperty }) => {
                 Choose the property type you want to list
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
                 {PROPERTY_TYPES.map((type) => {
                     const Icon = type.icon;
                     const isActive = value === type.id;
