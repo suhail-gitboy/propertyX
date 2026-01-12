@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 import cors from "cors";
 import dotenv from "dotenv"
 import Stripe from "stripe";
+import { Server } from "socket.io";
 dotenv.config()
 const app = express();
 
@@ -24,6 +25,7 @@ import { PropertyRoute } from "./routes/property.routes.js";
 import { BookingRoute } from "./routes/Booking.route.js";
 import { Conversatiionrouter } from "./routes/conversation.routes.js";
 import { Messagerouter } from "./routes/message.route.js";
+import { use } from "react";
 
 app.use("/auth", Authroute)
 app.use("/user", UseRoute)
@@ -60,4 +62,73 @@ app.get("/geocode", async (req, res) => {
 
 
 
-app.listen(8000, () => console.log("Server running on port 8000"));
+const EXpressserver = app.listen(8000, () => console.log("Server running on port 8000"));
+
+
+const io = new Server(EXpressserver, {
+  cors: { origin: ["http://localhost:5173", "http://localhost:5174"] }
+})
+
+
+let onlineUsers = []
+io.on("connection", (socket) => {
+
+  console.log("its connected");
+
+
+  socket.on("newuserjoin", (userId) => {
+    console.log(userId);
+    socket.userId = userId;
+
+    onlineUsers = onlineUsers.filter(
+      (u) => u.userId !== userId
+    );
+    onlineUsers.push({
+      userId,
+      socketId: socket.id
+    })
+
+
+    io.emit("getallonlineusers", onlineUsers)
+
+
+
+  })
+
+  socket.on("sendmessages", (res) => {
+    console.log("onrecpientid", res.Recipientid);
+
+
+    const user = onlineUsers?.find((users) => users?.userId == res?.Recipientid)
+    console.log("userrrrecipientifuser", user);
+    console.log("from sended data", res);
+
+    if (user) {
+      io.to(user?.socketId).emit("getMessages", res)
+    }
+
+
+
+  })
+
+
+
+
+
+  socket.on("disconnect", () => {
+    if (!socket.userId) return;
+    onlineUsers = onlineUsers.filter(
+      (u) => u.userId !== socket.userId
+    );
+
+    io.emit("getallonlineusers", onlineUsers)
+
+  })
+
+
+
+})
+
+
+
+

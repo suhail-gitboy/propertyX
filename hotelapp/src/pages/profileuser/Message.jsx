@@ -13,7 +13,9 @@ import { FaMessage } from 'react-icons/fa6';
 import { TiMessages } from "react-icons/ti";
 import { IoIosClose } from "react-icons/io";
 import Messagelist from '../../Components/Messagelists';
-
+import { io, Socket } from "socket.io-client"
+import { useQueryClient } from '@tanstack/react-query';
+import Userprofile from './Userprofiledata';
 
 const Message = () => {
   const { token, User } = ContextDatas()
@@ -21,14 +23,106 @@ const Message = () => {
   const [userProfile, Setuserprofile] = useState(null)
   const [messagebar, Setmessagebar] = useState(false)
   const [chatId, SetchatID] = useState(null)
+  const [soket, Setsocket] = useState(null)
+  const [recipientuser, Setrecipientid] = useState(null)
+  const queryClient = useQueryClient();
+
+  const [allonlineUsers, Setonlineusers] = useState(null)
+  const [messagedata, Setmessagedata] = useState(null)
+
+
   const bottomRef = useRef(null);
-
-
 
   // its bring ing both mutual id also chatId its _id from conversation and sending recipient data from here 
   const { mutate: startConversation, data: recipientuserdetail } = useStartConverstaion(token);
 
 
+
+  const { data: messages } = useMessagehistory(recipientuserdetail?.conversation?._id, token)
+
+
+  // socket section
+
+  useEffect(() => {
+
+    const Newsocket = io("http://localhost:8000")
+    Setsocket(Newsocket)
+
+    return () => { Newsocket.disconnect() }
+
+
+  }, [User])
+
+
+  useEffect(() => {
+    if (!soket || !User?._id) return;
+
+    const handleOnlineUsers = (res) => {
+      Setonlineusers(res);
+    };
+
+    soket.emit("newuserjoin", User._id);
+    soket.on("getallonlineusers", handleOnlineUsers);
+
+    return () => {
+      soket.off("getallonlineusers", handleOnlineUsers);
+    };
+  }, [soket]);
+
+
+
+
+  useEffect(() => {
+
+    if (soket == null) return;
+
+    soket.emit("sendmessages", messagedata)
+
+
+
+  }, [messagedata])
+
+  useEffect(() => {
+    console.log("recipient", allonlineUsers);
+
+  }, [allonlineUsers])
+
+  useEffect(() => {
+
+    if (!soket) return
+
+
+    soket.on("getMessages", (res) => {
+      console.log("from socket", res);
+
+
+      queryClient.setQueryData(["messages", res.chatId], (oldData) => {
+        if (!oldData) return [res];
+
+        return [...oldData, res]
+
+      }
+
+      )
+    })
+
+
+
+    return () => {
+      soket.off("getallonlineusers", (res) => {
+        Setonlineusers(res)
+      })
+    }
+
+  }, [soket, queryClient])
+
+
+  const onlineUsers = allonlineUsers?.some((user) => user.userId == recipientuser)
+
+
+
+
+  const isOnline = onlineUsers
 
 
   const { data } = useAllmessaged(User._id, token)
@@ -50,13 +144,12 @@ const Message = () => {
 
   const { data: Userdetail } = useGetalluserdata(Data, token)
   useEffect(() => {
+
+
     Setuserprofile(recipientuserdetail?.recipientUser)
+    Setrecipientid(recipientuserdetail?.recipientUser._id)
     SetchatID(recipientuserdetail?.conversation?._id)
   }, [recipientuserdetail])
-
-
-
-  const { data: messages } = useMessagehistory(recipientuserdetail?.conversation?._id, token)
 
 
 
@@ -87,6 +180,18 @@ const Message = () => {
       text: messageText
     }
 
+
+
+    const message = {
+      text: messageText,
+      chatId,
+      senderId: User._id,
+      Recipientid: recipientuser,
+    };
+    Setmessagedata(message)
+
+
+
     sendmessage.mutate(body)
 
 
@@ -105,22 +210,57 @@ const Message = () => {
           onClick={() => Setmessagebar(!messagebar)} className={` transition-transform duration-200 ${messagebar == false ? "rotate-180" : ""}`} /> : < TiMessages onClick={() => Setmessagebar(!messagebar)} />}</button>
 
       </div>
-      <aside className={`w-3/4 h-screen z-50 bg-teal-500 -left-20 transition-transform duration-150 fixed sm:w-2/5 md:h-auto  p-4 ${messagebar ? "translate-x-0 left-0" : "-translate-x-full"} md:static md:translate-x-0 gap-2 flex-col  items-center`}>
-        <h3 className="py-3 text-2xl font-bold">
-          Your Chat history
-        </h3>
+      <aside
+        className={`
+    fixed top-0 left-0 z-50
+    h-screen w-4/5 sm:w-2/5 md:w-[320px]
+    bg-white
+    border-r border-gray-200
+    shadow-lg
+    transition-transform duration-300 ease-in-out
+    flex flex-col
+    ${messagebar ? "translate-x-0" : "-translate-x-full"}
+    md:static md:translate-x-0 md:shadow-none
+  `}
+      >
 
-        {/* left */}
-        {
-          Userdetail.map((user, key) => (
-            <Messagelist startConversation={startConversation} user={user} key={user._id} />
-          ))
-        }
+        <div className="flex items-center justify-between px-4 py-4 border-b">
+          <h3 className="text-lg font-semibold text-gray-800">
+            Chats
+          </h3>
+
+
+          <button
+            onClick={() => Setmessagebar(false)}
+            className="md:hidden text-gray-500 hover:text-gray-800"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-2 py-2 space-y-1">
+          {Userdetail?.length > 0 ? (
+            Userdetail.map((user) => (
+              <Messagelist
+                key={user._id}
+                user={user}
+                onlineuser={allonlineUsers}
+                startConversation={startConversation}
+                Setmessagebar={Setmessagebar}
+              />
+            ))
+          ) : (
+            <p className="text-sm text-gray-500 text-center mt-6">
+              No conversations yet
+            </p>
+          )}
+        </div>
       </aside>
-      {/* right */}
-      <div className="w-full relative h-190 flex flex-col">
 
-        {/* HEADER */}
+
+      <div className="w-full relative h-160 flex flex-col">
+
+
         {
           userProfile && <h2 className="w-full py-4 px-4 bg-black text-gray-200 text-xl flex items-center gap-3 font-semibold sticky top-0 z-10"
           >
@@ -129,15 +269,23 @@ const Message = () => {
               className="w-10 h-10 rounded-full object-cover"
               alt=""
             />
-            <span className="relative">
-              <span className="w-2 h-2 bg-green-500 rounded-full absolute -left-3 top-1/2 -translate-y-1/2"></span>
-              {userProfile?.name}
-            </span>
+            <div className="flex flex-col flex-1 min-w-0">
+              <span className="font-medium text-white truncate">
+                {userProfile.name}
+              </span>
+
+              <span
+                className={`text-xs ${isOnline ? "text-green-600" : "text-gray-500"
+                  }`}
+              >
+                {isOnline ? "Active now" : "Offline"}
+              </span>
+            </div>
           </h2>
         }
 
         {/* MESSAGES */}
-        <div className="flex-1 flex flex-col gap-3 p-6 bg-gray-200 overflow-y-auto">
+        <div className="flex-1 flex flex-col gap-3 h-120 p-6 bg-gray-200 overflow-y-auto pb-10 ">
           {messages?.length > 0 ? (
             messages?.map((msg) => {
               const isMe = msg.senderId == User._id

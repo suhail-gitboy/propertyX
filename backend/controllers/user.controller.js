@@ -53,7 +53,7 @@ export const UpdateUserprofile = async (req, res) => {
 
 export const Totalusers = async (req, res) => {
     const adminemail = req.payload.email
-    console.log(req.payload);
+
 
     try {
         const Users = await Usermodel.find({ email: { $ne: adminemail } }).sort({ createdAt: -1 })
@@ -87,7 +87,7 @@ export const FollowUser = async (req, res) => {
 
     // followingusers id
     const { id } = req.params
-    console.log(id, "from");
+
 
     try {
 
@@ -139,7 +139,7 @@ export const GETsingleuser = async (req, res) => {
             path: "following",
             select: "name picture "
         })
-        console.log(User);
+
 
         return res.status(200).json(User)
     } catch (error) {

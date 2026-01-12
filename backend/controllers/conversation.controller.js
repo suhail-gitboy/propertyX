@@ -9,7 +9,6 @@ export const Conversationstart = async (req, res) => {
 
     const { recipientId } = req.params;
 
-    console.log("reached", userId, recipientId);
 
 
     const recipientUser = await Usermodel.findById({ _id: recipientId })
@@ -57,7 +56,7 @@ export const Getalluserdata = async (req, res) => {
     try {
 
         const Alluserdata = await Usermodel.find({ _id: { $in: data } })
-        console.log(Alluserdata);
+
 
         res.status(200).json(Alluserdata)
 

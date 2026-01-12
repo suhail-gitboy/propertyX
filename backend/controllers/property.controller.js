@@ -21,7 +21,7 @@ export const NewpropertyUpload = async (req, res) => {
     })
 
 
-    console.log(Images);
+
 
     const User = req.payload
     const locationParsed = JSON.parse(location)

@@ -219,7 +219,7 @@ export const GoogleLoginHostController = async (req, res) => {
 
         const Token = jwt.sign({ email: user.email, _id: user._id, picture: user.picture, role: user.role, name: user.name }, process.env.SECRET_KEY, { expiresIn: "4h" })
         res.status(200).json({ user: user, Token })
-        console.log(user);
+
     } else {
         const New = await Usermodel.create({
             name: username,
