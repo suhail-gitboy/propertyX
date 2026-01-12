@@ -234,20 +234,20 @@ const Home = () => {
           <motion.div className='grid grid-cols-1 sm:grid-cols-3'>
             <motion.div initial={{ opacity: 0, filter: "blur(10px)" }} whileInView={{ opacity: 1, filter: "blur(0px)" }} transition={{ duration: 0.7, ease: easeInOut }} className='p-4 flex flex-col items-center justify-center space-y-2'>
               <div className='p-4 bg-blue-200 rounded-md'>
-                <img src="../../public/images/shield-check.png" alt="" className='w-10 h-10 ' />
+                <img src="/shield-check.png" alt="" className='w-10 h-10 ' />
               </div>
               <p className='font-semibold text-xl'>No hidden fees</p>
               <p className='text-sm text-center text-gray-700 '>Transparent pricing with no hidden fees.</p>
             </motion.div>
             <motion.div initial={{ opacity: 0, filter: "blur(10px)" }} whileInView={{ opacity: 1, filter: "blur(0px)" }} transition={{ duration: 0.7, ease: easeInOut }} className='p-4 flex flex-col items-center justify-center space-y-2'>
               <div className='p-4 bg-blue-200 rounded-md'>
-                <img src="../../public/images/file-list-edit.png" alt="" className='w-10 h-10 ' />
+                <img src="/file-list-edit.png" alt="" className='w-10 h-10 ' />
               </div>
               <p className='font-semibold text-xl'>Instant booking</p>
               <p className='text-sm text-center text-gray-700 '>Get confirm right after you reserve.</p>
             </motion.div> <motion.div initial={{ opacity: 0, filter: "blur(10px)" }} whileInView={{ opacity: 1, filter: "blur(0px)" }} transition={{ duration: 0.7, ease: easeInOut }} className='p-4 flex flex-col items-center  space-y-2'>
               <div className='p-4 bg-blue-200 rounded-md'>
-                <img src="../../public/images/dollar-circle.png" alt="" className='w-10 h-10 ' />
+                <img src="/dollar-circle.png" alt="" className='w-10 h-10 ' />
               </div>
               <p className='font-semibold text-xl'>Flexibility</p>
               <p className='text-sm text-center text-gray-700 '>flexible option with free cancellation on many listings.</p>

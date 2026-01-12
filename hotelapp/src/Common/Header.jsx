@@ -79,7 +79,7 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
                                     </p>
                                 </div>
 
-                                <img src="../../public/house.png" className='h-18 w-14' alt="" />
+                                <img src="/house.png" className='h-18 w-14' alt="" />
                             </div>
 
                             {/* ACTION BLOCKS */}
