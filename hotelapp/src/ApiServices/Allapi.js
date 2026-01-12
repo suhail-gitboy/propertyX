@@ -1,7 +1,5 @@
 
-import { MainapiCall } from "./MAINapi.js"
-import { SERVERurl } from "./Urldata.jsx"
-
+import { MainapiCall, SERVERurl } from "./MAINapi.js"
 
 
 // Authentication

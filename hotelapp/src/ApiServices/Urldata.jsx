@@ -1,8 +1,5 @@
 // main url
 
-export const SERVERurl = "https://propertyx-xm8w.onrender.com"
-
-
 
 
 

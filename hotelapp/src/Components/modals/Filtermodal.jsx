@@ -73,7 +73,7 @@ const Filtermodal = ({ Value, setValue, Setpage, Setskeleton, Setfilter }) => {
                 <h5 className={`${Type == "all" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2 flex flex-col items-center justify-center gap-2  text-nowrap rounded-md"}`} onClick={() => Settypehome("all")}> <img src='/residential.png' className='w-12 h-12' />  Any Type</h5>
                 <h5 className={`${Type == "room" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2  flex flex-col gap-2 rounded-md"}`} onClick={() => Settypehome("room")}><img src='/interior-design.png' className='w-14 h-14' />Room</h5>
                 <h5 className={`${Type == "flat" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2  flex flex-col gap-2 rounded-md"}`} onClick={() => Settypehome("flat")}><img src='/images/flats.png' className='w-14 h-14' /> flat</h5>
-                <h5 className={`${Type == "house" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2  rounded-md flex flex-col gap-2"}`} onClick={() => Settypehome("house")}><img src='//house.png' className='w-14 h-14' /> house</h5>
+                <h5 className={`${Type == "house" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2  rounded-md flex flex-col gap-2"}`} onClick={() => Settypehome("house")}><img src='/house.png' className='w-14 h-14' /> house</h5>
               </div>
 
             </div>
