@@ -1,6 +1,6 @@
 // main url
 
-export const SERVERurl = "http://localhost:8000"
+export const SERVERurl = "https://propertyx-xm8w.onrender.com"
 
 
 

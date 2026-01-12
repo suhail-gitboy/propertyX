@@ -45,7 +45,7 @@ const Message = () => {
 
   useEffect(() => {
 
-    const Newsocket = io("http://localhost:8000")
+    const Newsocket = io("https://propertyx-xm8w.onrender.com")
     Setsocket(Newsocket)
 
     return () => { Newsocket.disconnect() }

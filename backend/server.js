@@ -8,13 +8,19 @@ dotenv.config()
 const app = express();
 
 app.use(express.json())
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "https://propertyxrealestate.netlify.app",
+  "https://6965080394ee87334c7b88e3--propertyxrealestate.netlify.app"
+];
 
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174"]
+  origin: allowedOrigins
 }));
 
 // mongoose connection 
@@ -44,7 +50,7 @@ app.get("/geocode", async (req, res) => {
 
     const response = await fetch(url, {
       headers: {
-        // ✅ Must have a valid User-Agent with your app name and contact info
+
         "User-Agent": "MyHotelApp/1.0 (email@example.com)",
         "Accept-Language": "en"
       }
@@ -60,13 +66,13 @@ app.get("/geocode", async (req, res) => {
 });
 
 
+const PORT = process.env.PORT || 8000;
 
-
-const EXpressserver = app.listen(8000, () => console.log("Server running on port 8000"));
+const EXpressserver = app.listen(PORT, () => console.log("Server running on port 8000"));
 
 
 const io = new Server(EXpressserver, {
-  cors: { origin: ["http://localhost:5173", "http://localhost:5174"] }
+  cors: { origin: allowedOrigins }
 })
 
 
