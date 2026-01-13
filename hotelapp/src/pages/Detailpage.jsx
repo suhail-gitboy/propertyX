@@ -122,12 +122,12 @@ const Detailpage = () => {
         ...prev,
         propertyId: data._id,
         pricePerRoom,
-        name: User.name,
+        name: User?.name,
         hostId: data.seller.sellerId,
         totalPrice: rooms * pricePerRoom
       };
     });
-  }, [data, Booking.rooms]);
+  }, [data, Booking.rooms, User]);
 
 
 
