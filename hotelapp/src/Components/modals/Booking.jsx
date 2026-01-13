@@ -33,64 +33,63 @@ const RoomPaymentModal = ({
 
 
 
-
     const FuncBooking = async () => {
-        const Headers = { "Authorization": `Bearer ${token}` }
-        const Res = await NewbookingApi(Booking, Headers)
-        if (Res.data.success) {
-            console.log(Res.data);
-            Setbookmodal(false)
-            Setnotifydata(Res.data.booking)
-            setTimeout(() => {
-                SetbookingSuccessfull(true)
-            }, 2000);
+        try {
+            const Headers = { Authorization: `Bearer ${token}` }
+            const Res = await NewbookingApi(Booking, Headers)
+
+            if (Res.data.success) {
+                Setbookmodal(false)
+                Setnotifydata(Res.data.booking)
+
+                setTimeout(() => {
+                    SetbookingSuccessfull(true)
+                }, 2000)
+            } else {
+                toast.error("Server error, try again")
+            }
+        } catch (error) {
+            toast.error("Something went wrong")
+            console.error(error)
+        } finally {
             Setloading(false)
-            console.log(Res.data);
-
-
-        } else {
-            Setbookmodal(false)
-            toast.error("Server error,try again")
-            console.log(Res);
-            Setloading(false)
-
-
         }
-
     }
+
 
     const FunctionNewbooking = async () => {
         Setloading(true)
 
         if (!token || !User) {
             Setloginmodal(true)
-            toast.error("loging to continue")
+            toast.error("Login to continue")
+            Setloading(false)
             Navigate("/")
-        } else if (Booking.paymentMode == "online") {
-            const Headers = { "Authorization": `Bearer ${token}` }
-            const Res = await NewpaymentApi(Booking, Headers)
-            if (Res.status == 200) {
-                window.location.href = Res.data.url
-                FuncBooking()
-
-
-
-
-            } else {
-                console.log(Res);
-
-            }
-
-        } else {
-            FuncBooking()
+            return
         }
+
         try {
+            const Headers = { Authorization: `Bearer ${token}` }
 
+            if (Booking.paymentMode === "online") {
+                const Res = await NewpaymentApi(Booking, Headers)
+
+                if (Res.status === 200) {
+
+                    window.location.href = Res.data.url
+                    return
+                } else {
+                    toast.error("Payment failed")
+                }
+            } else {
+                await FuncBooking()
+            }
         } catch (error) {
-
-
+            toast.error("Something went wrong")
+            console.error(error)
+        } finally {
+            Setloading(false)
         }
-
     }
 
     console.log(Booking);

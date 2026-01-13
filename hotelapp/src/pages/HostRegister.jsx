@@ -9,7 +9,7 @@ import { RegisterAshost, RegisterAshostGoogle } from "../ApiServices/Allapi";
 import { useNavigate } from "react-router";
 import { jwtDecode } from "jwt-decode";
 import Loading from "../Components/Loading";
-
+import { FiUser, FiMail, FiLock, FiPhone } from "react-icons/fi"
 const HostRegister = () => {
     const { Setsignmodal, Setloginmodal, SetUser } = ContextDatas();
     const [load, Setload] = useState(false)
@@ -68,26 +68,34 @@ const HostRegister = () => {
 
             {/* BACKGROUND IMAGE */}
             <div
-                className="absolute inset-0 bg-cover bg-center"
+                className="absolute inset-0 bg-cover bg-center scale-105"
                 style={{
                     backgroundImage:
                         "url(https://uploads.prod01.london.platform-os.com/instances/831/assets/images/What%20Makes%20a%20Building%20a%20Skyscraper%20by%20Fred%20Mills%20via%20The%20B1M.jpg)",
                 }}
             />
 
-            {/* DARK OVERLAY */}
-            <div className="absolute inset-0 bg-black/50" />
 
-            {/* CONTENT */}
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
+
             <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-                className="relative z-10 w-full max-w-md bg-white rounded-xl shadow-2xl px-6 py-8"
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="relative z-10 w-full max-w-md 
+                           bg-white/90 backdrop-blur-xl 
+                           rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] 
+                           px-7 py-8"
             >
-                <h2 className="text-center text-lg font-semibold mb-6">
-                    Create Your Host Account
-                </h2>
+
+                <div className="text-center mb-6">
+                    <h2 className="text-xl font-semibold text-gray-800">
+                        Create Host Account
+                    </h2>
+                    <p className="text-sm text-gray-500 mt-1">
+                        Start hosting with us today
+                    </p>
+                </div>
 
                 <Formik
                     initialValues={{
@@ -102,46 +110,134 @@ const HostRegister = () => {
                 >
                     {({ errors, touched, handleSubmit }) => (
                         <form onSubmit={handleSubmit} className="space-y-4">
-                            {["name", "email", "password", "confirmPassword", "phone"].map((field) => (
-                                <div key={field}>
-                                    <Field
-                                        name={field}
-                                        type={field.includes("password") ? "password" : "text"}
-                                        placeholder={field.replace(/([A-Z])/g, " $1")}
-                                        className="w-full px-4 py-3 border border-black/15 rounded-md focus:ring-2 focus:ring-blue-500"
-                                    />
-                                    {errors[field] && touched[field] && (
-                                        <p className="text-red-500 text-xs mt-1">
-                                            {errors[field]}
-                                        </p>
-                                    )}
-                                </div>
-                            ))}
 
-                            <button
+                            {/* NAME */}
+                            <div>
+                                <div className="relative">
+                                    <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                                    <Field
+                                        name="name"
+                                        placeholder="Full Name"
+                                        className="w-full pl-10 pr-4 py-3 
+                                                   border border-gray-300 rounded-lg
+                                                   focus:ring-2 focus:ring-blue-500
+                                                   focus:border-transparent transition"
+                                    />
+                                </div>
+                                {errors.name && touched.name && (
+                                    <p className="text-red-500 text-xs mt-1">
+                                        {errors.name}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* EMAIL */}
+                            <div>
+                                <div className="relative">
+                                    <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                                    <Field
+                                        name="email"
+                                        type="email"
+                                        placeholder="Email Address"
+                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg
+                                                   focus:ring-2 focus:ring-blue-500 transition"
+                                    />
+                                </div>
+                                {errors.email && touched.email && (
+                                    <p className="text-red-500 text-xs mt-1">
+                                        {errors.email}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* PASSWORD */}
+                            <div>
+                                <div className="relative">
+                                    <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                                    <Field
+                                        name="password"
+                                        type="password"
+                                        placeholder="Password"
+                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg
+                                                   focus:ring-2 focus:ring-blue-500 transition"
+                                    />
+                                </div>
+                                {errors.password && touched.password && (
+                                    <p className="text-red-500 text-xs mt-1">
+                                        {errors.password}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* CONFIRM PASSWORD */}
+                            <div>
+                                <div className="relative">
+                                    <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                                    <Field
+                                        name="confirmPassword"
+                                        type="password"
+                                        placeholder="Confirm Password"
+                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg
+                                                   focus:ring-2 focus:ring-blue-500 transition"
+                                    />
+                                </div>
+                                {errors.confirmPassword && touched.confirmPassword && (
+                                    <p className="text-red-500 text-xs mt-1">
+                                        {errors.confirmPassword}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* PHONE */}
+                            <div>
+                                <div className="relative">
+                                    <FiPhone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                                    <Field
+                                        name="phone"
+                                        placeholder="Phone Number"
+                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg
+                                                   focus:ring-2 focus:ring-blue-500 transition"
+                                    />
+                                </div>
+                                {errors.phone && touched.phone && (
+                                    <p className="text-red-500 text-xs mt-1">
+                                        {errors.phone}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* SUBMIT */}
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.97 }}
                                 type="submit"
-                                className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+                                className="w-full py-3 mt-2
+                                           bg-blue-600 hover:bg-blue-700
+                                           text-white font-medium rounded-lg
+                                           transition shadow-md"
                             >
-                                {load ? <Loading /> : "   Create Account"}
-                            </button>
+                                {load ? <Loading /> : "Create Account"}
+                            </motion.button>
                         </form>
                     )}
                 </Formik>
 
-                <div className="mt-4 flex justify-center">
+                {/* GOOGLE LOGIN */}
+                <div className="mt-5 flex justify-center">
                     <GoogleLogin
                         onSuccess={GoogleAuthFunc}
                         onError={() => toast.error("Google login failed")}
                     />
                 </div>
 
-                <p className="text-center text-xs text-gray-500 mt-4">
+                {/* FOOTER */}
+                <p className="text-center text-sm text-gray-500 mt-5">
                     Already have an account?
                     <span
-                        className="text-blue-600 cursor-pointer ml-1"
+                        className="text-blue-600 font-medium cursor-pointer ml-1 hover:underline"
                         onClick={() => {
-                            Setloginmodal(true);
-                            Setsignmodal(false);
+                            Setloginmodal(true)
+                            Setsignmodal(false)
                         }}
                     >
                         Login

@@ -444,6 +444,7 @@ export const useConfirmbooking = (token) => {
 
         onError: (err) => {
             console.error("Failed to fetch admin properties:", err);
+            Setloading(false)
         },
     });
 }
