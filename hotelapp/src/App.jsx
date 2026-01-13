@@ -36,6 +36,7 @@ import HostRegister from './pages/HostRegister'
 import Editpage from './pages/Editpage'
 import { ConfettiDemo } from './Utils/UILIBRARY/Sucesscomp'
 import MessageTosingleuser from './pages/profileuser/MessageTosingleuser'
+import ErrorFallback from './Common/Routererror'
 
 
 
@@ -62,7 +63,7 @@ function App() {
           path: "/host/:host/profile", element: <UserDetailspages />
         },
 
-        { path: "roomdetail/:id", element: (<Detailpage />) },
+        { path: "roomdetail/:id", element: (<Detailpage />), errorElement: <ErrorFallback /> },
         { path: "/editproperty/:id", element: (<Editpage />) },
         { path: "/payment/success", element: (<ConfettiDemo />) },
         { path: "/payment/cancel", element: (<ConfettiDemo cancel={"cancel"} />) },
