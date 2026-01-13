@@ -1,118 +1,172 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router";
-import { FaHome } from "react-icons/fa";
+import {
+    FaHome,
+    FaCity,
+    FaMoneyBillWave,
+    FaCrown,
+    FaStar,
+} from "react-icons/fa";
 import { ContextDatas } from "../Common/ContextWrapped";
 import { useAllPropertiesAdmin, useGetallusers } from "./ApiTanstack/Propertyfetch";
 
 const Adminhome = () => {
+    const { token } = ContextDatas();
+    const { data: userData } = useGetallusers(token);
+    const { data: propertyData } = useAllPropertiesAdmin(token);
 
-    const [approvedproperties, Setapprovedproperties] = useState(null)
-    const [approvedHost, Setapprovedhost] = useState(null)
-    const [pendingproperties, Setpendingproperties] = useState(null)
-
-
-    const { token } = ContextDatas()
-
-    const { data: userData } = useGetallusers(token)
-    const { data: propertyData, isLoading, isError, error } = useAllPropertiesAdmin(token)
-
-
-    useEffect(() => {
-        Setapprovedproperties(propertyData?.filter(data => data.isActive == "approved"))
-        const FilteredPending = propertyData?.filter((data) => data.isActive == "pending")
-        Setpendingproperties(FilteredPending)
-        Setapprovedhost(userData?.filter((data) => data.role == "host"))
-    }, [userData, propertyData])
     return (
-        <div className="w-full p-6 bg-gray-200 min-h-screen text-gray-900">
-            {/* Page Title */}
-            <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold mb-8 text-blue-900">
-                    Admin Dashboard
-                </h1>
-                <Link to={"/"} className="flex items-center gap-2 text-blue-900 font-semibold"><FaHome />Home</Link>
+        <div className="min-h-screen bg-slate-50 p-6 text-slate-900">
+            {/* HEADER */}
+            <div className="flex justify-between items-center mb-8">
+                <h1 className="text-3xl font-semibold">Admin Dashboard</h1>
+                <Link
+                    to="/"
+                    className="flex items-center gap-2 text-rose-600 font-medium"
+                >
+                    <FaHome /> Home
+                </Link>
             </div>
 
-            {/* MAIN STATS */}
+            {/* FIRST ROW – MAIN STATS */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 <StatBox title="Total Properties" value={propertyData?.length} />
-                <StatBox title="Active Listings" value={approvedproperties?.length} />
+                <StatBox title="Active Listings" value="128" />
                 <StatBox title="Users & Hosts" value={userData?.length} />
-                <StatBox title="Total Revenue" value="₹2,45,000" />
+                <StatBox title="Total Revenue" value="₹2,45,000" highlight />
             </div>
 
-            {/* MONTHLY STATS */}
-            <h2 className="text-xl font-semibold mb-4 text-blue-900">
-                Monthly Overview
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-                <StatBox title="Monthly Bookings" value="185" />
-                <StatBox title="Monthly Revenue" value="₹58,400" />
-                <StatBox title="New Users (This Month)" value="96" />
+            {/* SINGLE ROW – INSIGHTS (3 BOXES ONLY) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <MostBookedCities />
+                <PlatformRevenue />
+                <TopHostCompact />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
 
-            {/* APPROVAL SECTION */}
-            <h2 className="text-xl font-semibold mb-4 text-blue-900">
-                Pending Approvals
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
-                <ApprovalBox
-                    title="approved properties"
-                    count={approvedproperties?.length}
-                    link="/admin/property-approvals"
-                />
-                <ApprovalBox
-                    title="Host Approval"
-                    count={approvedHost?.length}
-                    link="/admin/host-approvals"
-                />
-            </div>
-
-            {/* QUICK NAVIGATION */}
-            <h2 className="text-xl font-semibold mb-4 text-blue-900">
-                Quick Navigation
-            </h2>
+            {/* QUICK NAV */}
+            <h2 className="text-xl font-semibold mb-4">Quick Navigation</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 <QuickLink label="Manage Properties" to="/admin/product" />
                 <QuickLink label="Manage Users" to="/admin/user" />
                 <QuickLink label="Manage Hosts" to="/admin/user" />
-                <QuickLink label="Manage profile" to="/admin/profile" />
+                <QuickLink label="Admin Profile" to="/admin/profile" />
             </div>
         </div>
     );
 };
 
-/* ================= COMPONENTS ================= */
+export default Adminhome;
 
-const StatBox = ({ title, value }) => (
-    <div className="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
-        <h3 className="text-sm uppercase text-gray-600 mb-2">{title}</h3>
-        <p className="text-3xl font-bold text-blue-900">{value}</p>
+
+
+
+
+
+const StatBox = ({ title, value, highlight }) => (
+    <div
+        className={`p-6 rounded-xl border shadow-sm ${highlight
+            ? "bg-gradient-to-br from-rose-600 to-pink-600 text-white"
+            : "bg-white border-slate-200"
+            }`}
+    >
+        <h3 className="text-sm uppercase opacity-80 mb-2">{title}</h3>
+        <p className="text-3xl font-semibold">{value}</p>
     </div>
 );
 
-const ApprovalBox = ({ title, count, link }) => (
-    <div className="bg-gray-100 p-6 rounded-lg shadow flex justify-between items-center">
-        <div>
-            <h3 className="text-lg font-semibold text-blue-900">{title}</h3>
-            <p className="text-2xl font-bold mt-2">{count}</p>
+
+const InsightCard = ({ title, icon, children, accent }) => {
+    const colors = {
+        rose: "bg-rose-50 text-rose-600",
+        emerald: "bg-emerald-50 text-emerald-600",
+        indigo: "bg-indigo-50 text-indigo-600",
+    };
+
+    return (
+        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-4">
+                <div className={`p-2 rounded-lg ${colors[accent]}`}>
+                    {icon}
+                </div>
+                <h3 className="font-semibold text-slate-800">{title}</h3>
+            </div>
+            <div className="space-y-3">{children}</div>
         </div>
-        <Link
-            to={link}
-            className="text-sm text-blue-700 hover:underline font-medium"
+    );
+};
+
+
+const Metric = ({ label, value, highlight }) => (
+    <div className="flex justify-between items-center">
+        <p className="text-sm text-slate-500">{label}</p>
+        <p
+            className={`text-sm font-semibold ${highlight ? "text-rose-600" : "text-slate-800"
+                }`}
         >
-            Review →
-        </Link>
+            {value}
+        </p>
     </div>
 );
 
 const QuickLink = ({ label, to }) => (
     <Link
         to={to}
-        className="bg-blue-900 text-white text-center py-4 rounded-lg shadow hover:bg-blue-800 transition font-semibold"
+        className="bg-white border border-slate-200 rounded-xl py-4 text-center font-medium text-rose-600 hover:bg-rose-50 transition"
     >
         {label}
     </Link>
 );
 
-export default Adminhome;
+
+const TopHostCompact = () => (
+    <InsightCard
+        title="Top Host"
+        icon={<FaCrown />}
+        accent="indigo"
+    >
+        <div className="flex items-center gap-3 mb-3">
+            <img
+                src="https://i.pravatar.cc/100?img=15"
+                className="h-10 w-10 rounded-full border"
+                alt=""
+            />
+            <div>
+                <p className="font-semibold text-slate-800">Alex Johnson</p>
+                <p className="text-xs text-slate-500 flex items-center gap-1">
+                    <FaStar className="text-yellow-400" /> 4.9 Rating
+                </p>
+            </div>
+        </div>
+
+        <Metric label="Total Bookings" value="342" />
+        <Metric label="Revenue" value="₹4.8L" />
+        <Metric label="Active Listings" value="12" />
+    </InsightCard>
+);
+const PlatformRevenue = () => (
+    <InsightCard
+        title="Platform Revenue"
+        icon={<FaMoneyBillWave />}
+        accent="emerald"
+    >
+        <Metric label="This Month" value="₹58,400" />
+        <Metric label="Last Month" value="₹46,200" />
+        <Metric label="Growth" value="+26%" highlight />
+    </InsightCard>
+);
+const MostBookedCities = () => (
+    <InsightCard
+        title="Most Booked Cities"
+        icon={<FaCity />}
+        accent="rose"
+    >
+        <Metric label="Bangalore" value="128" />
+        <Metric label="Mumbai" value="96" />
+        <Metric label="Delhi" value="74" />
+    </InsightCard>
+);

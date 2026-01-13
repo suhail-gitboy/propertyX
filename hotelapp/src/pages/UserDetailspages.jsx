@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { useFollow, useGetsingleuser, useGetuserproperty, useunFollow } from '../ApiServices/tanstack/PropertyMethod';
 import { ContextDatas } from '../Common/ContextWrapped';
+import LoaderMAin from '../Common/Loader';
 
 
 const UserDetailspages = () => {
@@ -69,6 +70,9 @@ const UserDetailspages = () => {
 
     }
 
+    if (!userdata) {
+        return <LoaderMAin />
+    }
 
 
     return (

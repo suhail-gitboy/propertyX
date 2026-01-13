@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Nav from '../Common/Nav'
-import { MapPin, Home, Ruler, CheckCircle } from "lucide-react";
+import { MapPin, Home, Ruler, CheckCircle, Loader } from "lucide-react";
 import { data, Link, useLocation, useNavigate, useParams } from 'react-router';
 
 import { easeIn, motion } from 'framer-motion';
@@ -20,6 +20,7 @@ import { AiOutlineMessage } from "react-icons/ai";
 import { useGetsingleproperty } from '../ApiServices/tanstack/PropertyMethod';
 import RoomPaymentModal from '../Components/modals/Booking';
 import { checkAvailabilityApi, NewbookingApi } from '../ApiServices/Allapi';
+import LoaderMAin from '../Common/Loader';
 
 
 const Detailpage = () => {
@@ -154,7 +155,9 @@ const Detailpage = () => {
         console.error("Error checking availability:", err);
       });
   }
-
+  if (!data) {
+    return <LoaderMAin />
+  }
 
 
 

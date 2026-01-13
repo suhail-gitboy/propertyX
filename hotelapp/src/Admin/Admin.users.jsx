@@ -2,70 +2,115 @@ import React from "react";
 import { toast } from "sonner";
 import { useGetallusers } from "./ApiTanstack/Propertyfetch";
 import { ContextDatas } from "../Common/ContextWrapped";
-import { formatDate, timeAgo } from "../Utils/UILIBRARY/Realtime";
+import { timeAgo } from "../Utils/UILIBRARY/Realtime";
 import { Link } from "react-router";
 
 const Adminuserpage = () => {
+    const { token } = ContextDatas();
+    const { data } = useGetallusers(token);
 
-
-
-    const { token } = ContextDatas()
-
-    const { data } = useGetallusers(token)
-
-    console.log(data);
-
-
-    const handleDelete = (id) => {
-        if (window.confirm("Remove this user?")) {
-            toast.error("User removed");
-        }
+    const handleDelete = () => {
+        toast.error("User removed");
     };
 
-    const handleNotify = (id) => {
-        toast.success("Notification sent to user");
+    const handleNotify = () => {
+        toast.success("Notification sent");
     };
 
     return (
-        <div className="w-full min-h-screen bg-gray-200 p-6">
-            <h1 className="text-3xl font-bold mb-8 text-blue-900">
-                User & Host Listing
+        <div className="min-h-screen bg-slate-50 p-6">
+            {/* Page Title */}
+            <h1 className="text-3xl font-semibold text-slate-900 mb-6">
+                Users & Hosts
             </h1>
 
-            <div className="bg-gray-100 h-150 rounded-lg shadow overflow-x-auto">
-                <table className="w-full text-sm text-left">
-                    <thead className="bg-gray-300 text-gray-700 uppercase">
+            {/* Table Card */}
+            <div className="bg-white relative rounded-xl shadow-sm border border-slate-200 h-140 overflow-auto">
+                <table className="w-full text-sm text-left ">
+                    {/* Table Header */}
+                    <thead className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white">
                         <tr>
-                            <th className="px-4 py-3">Name</th>
-                            <th className="px-4 py-3">Email</th>
-                            <th className="px-4 py-3">Role</th>
-                            <th className="px-4 py-3">joined</th>
-                            <th className="px-4 py-3 text-center">Actions</th>
+                            <th className="px-6 py-4 font-medium">User</th>
+                            <th className="px-6 py-4 font-medium">Email</th>
+                            <th className="px-6 py-4 font-medium">Role</th>
+                            <th className="px-6 py-4 font-medium">Last Updated</th>
+                            <th className="px-6 py-4 font-medium text-center">Actions</th>
                         </tr>
                     </thead>
 
-                    <tbody>
+                    {/* Table Body */}
+                    <tbody className="divide-y divide-slate-100 ">
                         {data?.map((user) => (
                             <tr
                                 key={user._id}
-                                className="border-b hover:bg-gray-200 transition"
+                                className="hover:bg-slate-50 transition"
                             >
-                                <td className="px-4 py-3 font-medium"><div className="flex gap-2 items-center"><img className="h-10 w-10 rounded-full" src={typeof user?.picture == "string" ? user?.picture : user?.picture?.url} alt="" /><p>{user?.name}</p></div></td>
-                                <td className="px-4 py-3">{user?.email}</td>
-                                <td className={`px-4 py-3 flex items-center gap-2 `}><p className={`text-white ${user.role == "host" ? "bg-linear-to-b from-yellow-400  to-blue-600" : "bg-blue-400"}  px-1 py-1 rounded-md`}>{user?.role} </p>{user?.role == "host" && <Link to={`/host/${user._id}/profile`} className="text-blue-700">View user</Link>}</td>
-                                <td className="px-4 py-3"> {timeAgo(user?.updatedAt)}</td>
+                                {/* User */}
+                                <td className="px-6 py-4">
+                                    <div className="flex items-center gap-3">
+                                        <img
+                                            src={
+                                                typeof user?.picture === "string"
+                                                    ? user?.picture
+                                                    : user?.picture?.url
+                                            }
+                                            className="h-10 w-10 rounded-full object-cover border"
+                                            alt=""
+                                        />
+                                        <p className="font-medium text-slate-800">
+                                            {user?.name}
+                                        </p>
+                                    </div>
+                                </td>
 
-                                <td className="px-4 py-3 text-center space-x-2">
+                                {/* Email */}
+                                <td className="px-6 py-4 text-slate-600">
+                                    {user?.email}
+                                </td>
+
+                                {/* Role */}
+                                <td className="px-6 py-4">
+                                    <div className="flex items-center gap-3">
+                                        <span
+                                            className={`px-3 py-1 rounded-full text-xs font-semibold
+                        ${user.role === "host"
+                                                    ? "bg-gradient-to-r from-amber-400 to-orange-500 text-white"
+                                                    : "bg-blue-100 text-blue-700"
+                                                }`}
+                                        >
+                                            {user.role}
+                                        </span>
+
+                                        {user.role === "host" && (
+                                            <Link
+                                                to={`/host/${user._id}/profile`}
+                                                className="text-indigo-600 hover:underline text-xs"
+                                            >
+                                                View profile
+                                            </Link>
+                                        )}
+                                    </div>
+                                </td>
+
+                                {/* Time */}
+                                <td className="px-6 py-4 text-slate-500">
+                                    {timeAgo(user?.updatedAt)}
+                                </td>
+
+                                {/* Actions */}
+                                <td className="px-6 py-4 text-center space-x-2">
                                     <button
-                                        onClick={() => handleNotify(user._id)}
-                                        className="bg-blue-700 text-white px-3 py-1 rounded hover:bg-blue-800"
+                                        onClick={handleNotify}
+                                        className="px-3 py-1.5 rounded-md text-xs font-medium
+                    bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition"
                                     >
                                         Notify
                                     </button>
 
                                     <button
-                                        onClick={() => handleDelete(user._id)}
-                                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                                        onClick={handleDelete}
+                                        className="px-3 py-1.5 rounded-md text-xs font-medium
+                    bg-red-50 text-red-600 hover:bg-red-100 transition"
                                     >
                                         Remove
                                     </button>
@@ -76,8 +121,8 @@ const Adminuserpage = () => {
                         {data?.length === 0 && (
                             <tr>
                                 <td
-                                    colSpan="4"
-                                    className="text-center py-6 text-gray-500"
+                                    colSpan="5"
+                                    className="text-center py-10 text-slate-500"
                                 >
                                     No users found
                                 </td>

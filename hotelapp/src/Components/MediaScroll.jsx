@@ -20,7 +20,7 @@ import { timeAgo } from "../Utils/UILIBRARY/Realtime";
 import { AnimatePresence, easeIn, motion } from "framer-motion";
 
 const PropertyCard = ({ property }) => {
-    const { token, User, RecipientId, setRecipientId } = ContextDatas()
+    const { token, User, RecipientId, setRecipientId, Setloginmodal } = ContextDatas()
     const [showComment, setShowComment] = useState(false);
     const [showKey, setKey] = useState(null);
     const [value, setValue] = useState(null)
@@ -46,10 +46,11 @@ const PropertyCard = ({ property }) => {
 
     const LikeButton = (id) => {
 
-        if (token) {
+        if (token && User) {
             addLike(id)
         } else {
             toast.warning("login to start exploring")
+            Setloginmodal(true)
         }
 
     }
@@ -57,10 +58,11 @@ const PropertyCard = ({ property }) => {
 
     const Addtowishlist = (id) => {
 
-        if (token) {
+        if (token && User) {
             Addid(id)
         } else {
             toast.warning("login to start exploring")
+            Setloginmodal(true)
         }
 
     }

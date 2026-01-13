@@ -16,6 +16,7 @@ import Messagelist from '../../Components/Messagelists';
 import { io, Socket } from "socket.io-client"
 import { useQueryClient } from '@tanstack/react-query';
 import Userprofile from './Userprofiledata';
+import { LoaderFour, LoaderOne, LoaderTwo } from '../../Utils/UILIBRARY/Loader';
 
 const Message = () => {
   const { token, User } = ContextDatas()
@@ -29,6 +30,7 @@ const Message = () => {
 
   const [allonlineUsers, Setonlineusers] = useState(null)
   const [messagedata, Setmessagedata] = useState(null)
+  const [loadercondition, SEtloadercondition] = useState(true)
 
 
   const bottomRef = useRef(null);
@@ -199,6 +201,9 @@ const Message = () => {
   };
 
 
+
+
+
   if (!Userdetail) {
     return <div className='min-h-screen bg-black/40 fixed inset-0 flex justify-center items-center'><Loading /></div>
   }
@@ -238,7 +243,7 @@ const Message = () => {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-2 py-2 space-y-1">
+        <div className="flex-1 overflow-y-auto px-2 py-2 space-y-1 " onClick={() => SEtloadercondition(false)}>
           {Userdetail?.length > 0 ? (
             Userdetail.map((user) => (
               <Messagelist
@@ -262,67 +267,70 @@ const Message = () => {
 
 
         {
-          userProfile && <h2 className="w-full py-4 px-4 bg-black text-gray-200 text-xl flex items-center gap-3 font-semibold sticky top-0 z-10"
-          >
-            <img
-              src={typeof userProfile?.picture == "string" ? userProfile?.picture : userProfile?.picture.url}
-              className="w-10 h-10 rounded-full object-cover"
-              alt=""
-            />
-            <div className="flex flex-col flex-1 min-w-0">
-              <span className="font-medium text-white truncate">
-                {userProfile.name}
-              </span>
-
-              <span
-                className={`text-xs ${isOnline ? "text-green-600" : "text-gray-500"
-                  }`}
-              >
-                {isOnline ? "Active now" : "Offline"}
-              </span>
-            </div>
-          </h2>
-        }
-
-        {/* MESSAGES */}
-        <div className="flex-1 flex flex-col gap-3 h-120 p-6 bg-gray-200 overflow-y-auto pb-10 ">
-          {messages?.length > 0 ? (
-            messages?.map((msg) => {
-              const isMe = msg.senderId == User._id
-
-              return (
-                <div
-                  key={msg.id}
-                  className={`flex ${isMe ? "justify-end" : "justify-start"}`}
+          !messages && !userProfile ? <div className='h-full bg-black flex justify-center items-center'>
+            {!loadercondition ? <LoaderOne /> : <div className='text-blue-600 '>Start Conversation with any of users</div>}
+          </div> :
+            <>
+              {
+                userProfile && <h2 className="w-full py-4 px-4 bg-black text-gray-200 text-xl flex items-center gap-3 font-semibold sticky top-0 z-10"
                 >
-                  <div
-                    className={`max-w-[70%] rounded-2xl px-4 py-3 shadow-sm
-                            ${isMe
-                        ? "bg-black text-white rounded-br-sm"
-                        : "bg-white text-gray-800 rounded-bl-sm"
-                      }`}
-                  >
-                    <p className="text-sm leading-relaxed">{msg.text}</p>
-                    <div
-                      className={`mt-1 text-[11px] text-right
-                              ${isMe ? "text-gray-300" : "text-gray-400"}`}
+                  <img
+                    src={typeof userProfile?.picture == "string" ? userProfile?.picture : userProfile?.picture.url}
+                    className="w-10 h-10 rounded-full object-cover"
+                    alt=""
+                  />
+                  <div className="flex flex-col flex-1 min-w-0">
+                    <span className="font-medium text-white truncate">
+                      {userProfile.name}
+                    </span>
+
+                    <span
+                      className={`text-xs ${isOnline ? "text-green-600" : "text-gray-500"
+                        }`}
                     >
-                      {(timeAgo(msg.createdAt))}
-                    </div>
-
+                      {isOnline ? "Active now" : "Offline"}
+                    </span>
                   </div>
+                </h2>
+              }
 
-                </div>
-              );
-            })
-          ) : (
-            <p className="text-center text-gray-500 mt-10">
-              You haven’t started a conversation
-            </p>
-          )}
-          <div ref={bottomRef} />
-        </div>
+              {/* MESSAGES */}
+              <div className="flex-1 flex flex-col gap-3 h-120 p-6 bg-gray-200 overflow-y-auto pb-10 ">
+                {(
+                  messages?.map((msg) => {
+                    const isMe = msg.senderId == User._id
 
+                    return (
+                      <div
+                        key={msg.id}
+                        className={`flex ${isMe ? "justify-end" : "justify-start"}`}
+                      >
+                        <div
+                          className={`max-w-[70%] rounded-2xl px-4 py-3 shadow-sm
+                            ${isMe
+                              ? "bg-black text-white rounded-br-sm"
+                              : "bg-white text-gray-800 rounded-bl-sm"
+                            }`}
+                        >
+                          <p className="text-sm leading-relaxed">{msg.text}</p>
+                          <div
+                            className={`mt-1 text-[11px] text-right
+                              ${isMe ? "text-gray-300" : "text-gray-400"}`}
+                          >
+                            {(timeAgo(msg.createdAt))}
+                          </div>
+
+                        </div>
+
+                      </div>
+                    );
+                  })
+                )}
+                <div ref={bottomRef} />
+              </div>
+            </>
+
+        }
         <div className="sticky bottom-0 bg-white border-t px-4 py-3">
           <div className="flex items-center gap-3">
             <input

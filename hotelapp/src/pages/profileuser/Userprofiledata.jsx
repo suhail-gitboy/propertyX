@@ -7,6 +7,7 @@ import Detailpage from '../Detailpage';
 import Edituser from '../../Components/modals/Edituser';
 import { data, Link } from 'react-router';
 import { useGetbookings, useGetsingleuser } from '../../ApiServices/tanstack/PropertyMethod';
+import LoaderMAin from '../../Common/Loader';
 
 const Userprofile = () => {
 
@@ -41,6 +42,7 @@ const Userprofile = () => {
 
   const { data } = useGetbookings(token)
   console.log(data);
+
 
   return (
     <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="min-h-screen bg-gray-50 p-8 ">

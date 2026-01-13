@@ -37,6 +37,8 @@ import Editpage from './pages/Editpage'
 import { ConfettiDemo } from './Utils/UILIBRARY/Sucesscomp'
 import MessageTosingleuser from './pages/profileuser/MessageTosingleuser'
 import ErrorFallback from './Common/Routererror'
+import Loader from './Common/Loader'
+import LoaderMAin from './Common/Loader'
 
 
 
@@ -136,7 +138,7 @@ function App() {
     <>
       <Toaster position='top-center' />
       <AnimatePresence mode="wait">
-        <Suspense fallback={<>loading..</>}>
+        <Suspense fallback={<LoaderMAin />}>
 
           <RouterProvider router={router} />
         </Suspense>
