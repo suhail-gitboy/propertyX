@@ -441,6 +441,8 @@ export const Notifyuserfromadminpanel = async (req, res) => {
         subject,
         message,
         email } = req.body;
+    console.log(req.body);
+
 
 
     try {
