@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { FaBell, FaPaperPlane, FaTimes } from "react-icons/fa";
 import { Allnotifyadmin } from "../ApiServices/Allapi";
 import { toast } from "sonner";
-import LoaderMAin from "../Common/Loader";
 
-const NotifyUsersByStateModal = ({ onClose, data, setData }) => {
-    const [loading, Setloading] = useState(false)
+
+const NotifyUsersByStateModal = ({ onClose, data, setData, loading, Setloading }) => {
+
     const handleSend = async () => {
         const { state, subject, message } = data;
 
@@ -39,7 +39,7 @@ const NotifyUsersByStateModal = ({ onClose, data, setData }) => {
 
     return (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
-            {loading && <LoaderMAin />}
+
             <div className="bg-white w-full max-w-lg rounded-2xl shadow-xl p-6 relative">
 
                 {/* Close */}

@@ -5,6 +5,7 @@ import { ContextDatas } from "../Common/ContextWrapped";
 import { timeAgo } from "../Utils/UILIBRARY/Realtime";
 import { Link } from "react-router";
 import NotifyUsersByStateModal from "./Notify";
+import LoaderMAin from "../Common/Loader";
 
 const Adminuserpage = () => {
     const { token } = ContextDatas();
@@ -27,11 +28,14 @@ const Adminuserpage = () => {
 
     };
     const [notfy, Setnotify] = useState(false)
+    const [loading, Setloading] = useState(false)
+
     return (
 
 
         <div className="min-h-screen bg-slate-50 p-6">
-            {notfy && <NotifyUsersByStateModal data={datas} setData={setData} onClose={() => Setnotify(false)} />}
+            {loading && <LoaderMAin />}
+            {notfy && <NotifyUsersByStateModal loading={loading} Setloading={Setloading} data={datas} setData={setData} onClose={() => Setnotify(false)} />}
             {/* Page Title */}
             <h1 className="text-3xl font-semibold text-slate-900 mb-6">
                 Users & Hosts
