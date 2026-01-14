@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { FaBell, FaPaperPlane, FaTimes } from "react-icons/fa";
 import { Allnotifyadmin } from "../ApiServices/Allapi";
 import { toast } from "sonner";
+import { LoaderFour, LoaderThree } from "../Utils/UILIBRARY/Loader";
 
 
 const NotifyUsersByStateModal = ({ onClose, data, setData, loading, Setloading }) => {
 
     const handleSend = async () => {
         const { state, subject, message } = data;
-
+        onClose()
 
         if (!state || !subject || !message) {
             alert("Please fill all fields");
@@ -38,10 +39,10 @@ const NotifyUsersByStateModal = ({ onClose, data, setData, loading, Setloading }
     };
 
     return (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
+        <div className="fixed  inset-0 z-50 bg-black/40 flex items-center justify-center">
 
             <div className="bg-white w-full max-w-lg rounded-2xl shadow-xl p-6 relative">
-
+                {loading && <div className="h-full w-full  bg-violet-700 absolute inset-0 flex justify-center items-center"><h3 className="flex items-center text-gray-200">sending ... <LoaderThree /></h3></div>}
                 {/* Close */}
                 <button
                     onClick={onClose}

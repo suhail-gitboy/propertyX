@@ -34,7 +34,7 @@ const Adminuserpage = () => {
 
 
         <div className="min-h-screen bg-slate-50 p-6">
-            {loading && <LoaderMAin />}
+
             {notfy && <NotifyUsersByStateModal loading={loading} Setloading={Setloading} data={datas} setData={setData} onClose={() => Setnotify(false)} />}
             {/* Page Title */}
             <h1 className="text-3xl font-semibold text-slate-900 mb-6">
