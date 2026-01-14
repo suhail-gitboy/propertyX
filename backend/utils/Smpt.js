@@ -4,7 +4,7 @@ const require = createRequire(import.meta.url);
 const Mailjet = require("node-mailjet");
 
 const mailjet = Mailjet.apiConnect(
-    process.env.MAILJET_API,
+    process.env.MAIL_JETAPI,
     process.env.MAIL_JETSECRET
 );
 
