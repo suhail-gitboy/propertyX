@@ -18,7 +18,7 @@ const NotifyUsersByStateModal = ({ onClose, data, setData }) => {
         try {
             Setloading(true)
 
-            const res = await Allnotifyadmin(data, headerdata)
+            const res = await Allnotifyadmin(data)
 
             if (res.status == 200) {
                 toast.success(res.data)

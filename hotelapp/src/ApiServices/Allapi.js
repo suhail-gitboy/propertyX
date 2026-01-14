@@ -216,6 +216,6 @@ export const Alluserdata = async (data, headers) => {
 
 // notfiy
 
-export const Allnotifyadmin = async (data, headers) => {
-    return MainapiCall("POST", `${SERVERurl}/booking/notifybyadmin`, data, headers)
+export const Allnotifyadmin = async (data) => {
+    return MainapiCall("POST", `${SERVERurl}/booking/notifybyadmin`, data)
 }
