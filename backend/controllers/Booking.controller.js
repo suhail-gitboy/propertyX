@@ -5,6 +5,7 @@ import { sendMail } from "../utils/Nodemailer.js";
 import { bookingToHostTemplate, bookingToUserTemplate } from "../utils/emailtemplate.js";
 import { sendWhatsApp } from "../services/WatsappService.js";
 import Stripe from "stripe";
+import { adminBroadcastTemplate } from "../services/admintemplateemail.js";
 const stripe = new Stripe(process.env.STRIPE_SECRET)
 
 
@@ -431,3 +432,51 @@ export const PaymentStripe = async (req, res) => {
 
 
 }
+
+
+
+export const Notifyuserfromadminpanel = async (req, res) => {
+
+    const { state,
+        subject,
+        message,
+        email } = req.body;
+
+
+    try {
+
+
+        await sendMail({
+            to: email,
+            subject,
+            html: adminBroadcastTemplate({
+                subject,
+                message,
+                location: state,
+            }),
+        });
+
+
+        return res.status(200).json({
+            message: `Notification sent successfully to ${email}`,
+        });
+
+
+
+    }
+
+
+
+
+
+
+    catch (error) {
+        console.error("Cancelbookingbyhost error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "failed"
+        });
+    }
+};
+
+
