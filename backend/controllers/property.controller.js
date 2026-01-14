@@ -6,6 +6,7 @@ import dotenv from "dotenv"
 import { Wishlist } from "../models/Wishlist.js";
 import { v2 as cloudinary } from "cloudinary";
 import { Booking } from "../models/Booking.model.js";
+import { Aggregate } from "mongoose";
 dotenv.config()
 export const NewpropertyUpload = async (req, res) => {
 
@@ -197,8 +198,115 @@ export const Listpropertyall = async (req, res) => {
         const Data = await Propertymodel.find().sort({ createdAt: -1 })
 
 
-        res.status(200).json(Data)
+        const mostdominant = await Propertymodel.aggregate([
+            { $match: { isActive: "approved" } },
+            {
+                $group: {
+                    _id: "$seller.sellerId",
+                    seller: { $first: "$seller.name" },
+                    img: { $first: "$seller.picture" },
+                    totalproperty: {
+                        $push: {
+                            _id: "$_id",
+                            title: "$title",
+                            price: "$price",
+
+                        }
+                    },
+                    total: {
+                        $sum: 1
+                    },
+                }
+            },
+            {
+                $sort: { total: -1 }
+            },
+            { $limit: 3 }
+        ])
+        const lastWeek = new Date();
+        lastWeek.setDate(lastWeek.getDate() - 7);
+
+        const dominatedbybookings = await Booking.aggregate([
+            {
+                $match: {
+                    createdAt: { $gte: lastWeek }
+                }
+            },
+
+            // 🔹 Host lookup
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "hostId",
+                    foreignField: "_id",
+                    as: "host"
+                }
+            },
+            { $unwind: "$host" },
+
+            // 🔹 Property lookup
+            {
+                $lookup: {
+                    from: "properties",
+                    localField: "propertyId",
+                    foreignField: "_id",
+                    as: "property"
+                }
+            },
+            { $unwind: "$property" },
+
+            // 🔹 Group by host
+            {
+                $group: {
+                    _id: "$hostId",
+                    hostName: { $first: "$host.name" },
+                    hostImage: { $first: "$host.picture" },
+
+                    totalBookings: { $sum: 1 },
+                    revenue: { $sum: "$totalPrice" },
+
+                    properties: {
+                        $addToSet: {
+                            propertyId: "$property._id",
+                            title: "$property.title",
+                            price: "$property.price"
+                        }
+                    }
+                }
+            },
+
+            { $sort: { totalBookings: -1 } },
+            { $limit: 3 }
+        ]);
+
+        const totalbookingoflastweek = await Booking.aggregate([
+            {
+                $match: {
+                    createdAt: { $gte: lastWeek },
+                    bookingStatus: "confirmed"
+
+                }
+
+
+            }, {
+
+                $group: {
+                    _id: null,
+                    totalbooking: { $sum: 1 },
+                    totalrevenue: { $sum: "$totalPrice" }
+                }
+            }
+
+
+        ])
+
+
+
+
+        res.status(200).json({ property: Data, tophosts: mostdominant, lastweakbooking: dominatedbybookings, totalrevenue: totalbookingoflastweek })
     } catch (error) {
+        console.log(error);
+
         res.status(500).json(error)
     }
 }

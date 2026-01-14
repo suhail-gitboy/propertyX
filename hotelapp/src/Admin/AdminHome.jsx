@@ -13,7 +13,20 @@ import { useAllPropertiesAdmin, useGetallusers } from "./ApiTanstack/Propertyfet
 const Adminhome = () => {
     const { token } = ContextDatas();
     const { data: userData } = useGetallusers(token);
-    const { data: propertyData } = useAllPropertiesAdmin(token);
+    const { data } = useAllPropertiesAdmin(token);
+    const {
+        property: propertyData,
+        tophosts,
+        lastweakbooking,
+        totalrevenue
+    } = data || {};
+
+    console.log(tophosts);
+
+    if (!data) {
+        return <>loading...</>
+    }
+
 
     return (
         <div className="min-h-screen bg-slate-50 p-6 text-slate-900">
@@ -33,7 +46,7 @@ const Adminhome = () => {
                 <StatBox title="Total Properties" value={propertyData?.length} />
                 <StatBox title="Active Listings" value="128" />
                 <StatBox title="Users & Hosts" value={userData?.length} />
-                <StatBox title="Total Revenue" value="₹2,45,000" highlight />
+                <StatBox title="Weakly Revenue" value="₹2,45,000" highlight />
             </div>
 
             {/* SINGLE ROW – INSIGHTS (3 BOXES ONLY) */}
