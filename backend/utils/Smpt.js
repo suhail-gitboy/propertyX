@@ -1,17 +1,16 @@
-// sendMail.js
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-dotenv.config();
+import dotenv from "dotenv"
+dotenv.config()
 
 export const sendMailsmtp = async ({ to, subject, html }) => {
     try {
         const transporter = nodemailer.createTransport({
-            service: "gmail",
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
             auth: {
                 user: process.env.MAIL_USER,
                 pass: process.env.MAIL_PASS,
             },
-            tls: { rejectUnauthorized: false },
         });
 
         await transporter.verify();
@@ -26,7 +25,6 @@ export const sendMailsmtp = async ({ to, subject, html }) => {
         return { success: true, info };
     } catch (error) {
         console.error("sendMail error:", error);
-
         return { success: false, error: error.message };
     }
 };
