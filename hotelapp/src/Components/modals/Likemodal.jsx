@@ -2,7 +2,7 @@ import React from 'react'
 
 const Likemodal = ({ property, setmodal }) => {
     return (
-        <div className="h-50 absolute w-60 bg-neutral-900 rounded-xl border border-neutral-800 shadow-lg" onClick={() => setmodal(false)}>
+        <div className="h-50 absolute w-60 overflow-auto bg-neutral-900 rounded-xl border border-neutral-800 shadow-lg" onClick={() => setmodal(false)}>
 
             {/* Header */}
             <div className="px-4 py-3 border-b border-neutral-800">
