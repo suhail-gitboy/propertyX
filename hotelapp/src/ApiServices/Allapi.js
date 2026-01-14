@@ -212,3 +212,10 @@ export const AllmessagedHistory = async (id, headers) => {
 export const Alluserdata = async (data, headers) => {
     return MainapiCall("POST", `${SERVERurl}/conversation/alluser/data`, data, headers)
 }
+
+
+// notfiy
+
+export const Allnotifyadmin = async (data, headers) => {
+    return MainapiCall("POST", `${SERVERurl}/booking/notifybyadmin`, data, headers)
+}

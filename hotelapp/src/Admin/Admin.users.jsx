@@ -1,24 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 import { useGetallusers } from "./ApiTanstack/Propertyfetch";
 import { ContextDatas } from "../Common/ContextWrapped";
 import { timeAgo } from "../Utils/UILIBRARY/Realtime";
 import { Link } from "react-router";
+import NotifyUsersByStateModal from "./Notify";
 
 const Adminuserpage = () => {
     const { token } = ContextDatas();
     const { data } = useGetallusers(token);
+    const [datas, setData] = useState({
+        state: "",
+        subject: "",
+        message: "",
+        email: ""
+    });
 
     const handleDelete = () => {
         toast.error("User removed");
     };
 
-    const handleNotify = () => {
-        toast.success("Notification sent");
-    };
+    const handleNotify = (email) => {
+        setData({ ...datas, email: email })
+        Setnotify(true)
 
+
+    };
+    const [notfy, Setnotify] = useState(false)
     return (
+
+
         <div className="min-h-screen bg-slate-50 p-6">
+            {notfy && <NotifyUsersByStateModal data={datas} setData={setData} onClose={() => Setnotify(false)} />}
             {/* Page Title */}
             <h1 className="text-3xl font-semibold text-slate-900 mb-6">
                 Users & Hosts
@@ -100,7 +113,7 @@ const Adminuserpage = () => {
                                 {/* Actions */}
                                 <td className="px-6 py-4 text-center space-x-2">
                                     <button
-                                        onClick={handleNotify}
+                                        onClick={() => handleNotify(user?.email)}
                                         className="px-3 py-1.5 rounded-md text-xs font-medium
                     bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition"
                                     >
