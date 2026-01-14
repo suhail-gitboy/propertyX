@@ -4,8 +4,8 @@ const require = createRequire(import.meta.url);
 const Mailjet = require("node-mailjet");
 
 const mailjet = Mailjet.apiConnect(
-    process.env.MAILJET_API_KEY,
-    process.env.MAILJET_SECRET_KEY
+    process.env.MAILJET_API,
+    process.env.MAIL_JETSECRET
 );
 
 export const sendMailjet = async ({ to, subject, html }) => {
@@ -16,7 +16,7 @@ export const sendMailjet = async ({ to, subject, html }) => {
                 Messages: [
                     {
                         From: {
-                            Email: process.env.MAIL_FROM_EMAIL,
+                            Email: process.env.MAIL_USER,
                             Name: "PropertyX",
                         },
                         To: [{ Email: to }],
