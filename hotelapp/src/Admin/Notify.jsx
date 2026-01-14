@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { FaBell, FaPaperPlane, FaTimes } from "react-icons/fa";
 import { Allnotifyadmin } from "../ApiServices/Allapi";
 import { toast } from "sonner";
+import LoaderMAin from "../Common/Loader";
 
 const NotifyUsersByStateModal = ({ onClose, data, setData }) => {
-
+    const [loading, Setloading] = useState(false)
     const handleSend = async () => {
         const { state, subject, message } = data;
+
 
         if (!state || !subject || !message) {
             alert("Please fill all fields");
@@ -14,23 +16,30 @@ const NotifyUsersByStateModal = ({ onClose, data, setData }) => {
         }
 
         try {
+            Setloading(true)
+
             const res = await Allnotifyadmin(data, headerdata)
 
             if (res.status == 200) {
                 toast.success(res.data)
+                Setloading(false)
             } else {
                 console.log(res);
+                Setloading(false)
 
             }
 
         } catch (error) {
-            error
+            console.log(error);
+            Setloading(false)
+
         }
         onClose();
     };
 
     return (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
+            {loading && <LoaderMAin />}
             <div className="bg-white w-full max-w-lg rounded-2xl shadow-xl p-6 relative">
 
                 {/* Close */}
