@@ -6,7 +6,7 @@ import { bookingToHostTemplate, bookingToUserTemplate } from "../utils/emailtemp
 import { sendWhatsApp } from "../services/WatsappService.js";
 import Stripe from "stripe";
 import { adminBroadcastTemplate } from "../services/admintemplateemail.js";
-import { sendMailsmtp } from "../utils/Smpt.js";
+import { sendMailjet } from "../utils/Smpt.js";
 import e from "cors";
 const stripe = new Stripe(process.env.STRIPE_SECRET)
 
@@ -450,7 +450,7 @@ export const Notifyuserfromadminpanel = async (req, res) => {
     try {
 
 
-        const emailissuccess = await sendMailsmtp({
+        const emailissuccess = await sendMailjet({
             to: email,
             subject,
             html: adminBroadcastTemplate({

@@ -1,30 +1,37 @@
-import dotenv from "dotenv"
-dotenv.config()
+// utils/sendMailjet.js
+import Mailjet from "node-mailjet";
+import dotenv from "dotenv";
+dotenv.config();
 
-export const sendMailsmtp = async ({ to, subject, html }) => {
+const mailjet = Mailjet.apiConnect(
+    process.env.MAILJET_API_KEY,
+    process.env.MAILJET_SECRET_KEY
+);
+
+export const sendMailjet = async ({ to, subject, html }) => {
     try {
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            auth: {
-                user: process.env.MAIL_USER,
-                pass: process.env.MAIL_PASS,
-            },
-        });
+        const request = await mailjet
+            .post("send", { version: "v3.1" })
+            .request({
+                Messages: [
+                    {
+                        From: {
+                            Email: process.env.MAIL_FROM_EMAIL,
+                            Name: "PropertyX",
+                        },
+                        To: [{ Email: to }],
+                        Subject: subject,
+                        HTMLPart: html,
+                    },
+                ],
+            });
 
-        await transporter.verify();
-        const info = await transporter.sendMail({
-            from: `"PropertyX Booking Mail" <${process.env.MAIL_USER}>`,
-            to,
-            subject,
-            html,
-        });
-
-        console.log("Email sent:", info.messageId);
-        return { success: true, info };
+        return { success: true, data: request.body };
     } catch (error) {
-        console.error("sendMail error:", error);
+        console.error(
+            "Mailjet error:",
+            error?.response?.data || error.message
+        );
         return { success: false, error: error.message };
     }
 };
