@@ -1,7 +1,7 @@
-// utils/sendMailjet.js
-import Mailjet from "node-mailjet";
-import dotenv from "dotenv";
-dotenv.config();
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
+const Mailjet = require("node-mailjet");
 
 const mailjet = Mailjet.apiConnect(
     process.env.MAILJET_API_KEY,
