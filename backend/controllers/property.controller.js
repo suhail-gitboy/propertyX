@@ -5,6 +5,7 @@ import { sendWhatsApp } from "../services/WatsappService.js";
 import dotenv from "dotenv"
 import { Wishlist } from "../models/Wishlist.js";
 import { v2 as cloudinary } from "cloudinary";
+import { Booking } from "../models/Booking.model.js";
 dotenv.config()
 export const NewpropertyUpload = async (req, res) => {
 
@@ -190,9 +191,12 @@ export const Updateproperty = async (req, res) => {
 
 export const Listpropertyall = async (req, res) => {
 
-    const Data = await Propertymodel.find().sort({ createdAt: -1 })
 
     try {
+
+        const Data = await Propertymodel.find().sort({ createdAt: -1 })
+
+
         res.status(200).json(Data)
     } catch (error) {
         res.status(500).json(error)
