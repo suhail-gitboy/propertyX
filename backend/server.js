@@ -20,12 +20,13 @@ const allowedOrigins = [
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-  origin: "*",
+  origin: allowedOrigins,
+
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
-app.options("*", cors());
+app.options("/*", cors());
 // mongoose connection 
 import "./config/db.js"
 import { Authroute } from "./routes/auth.route.js";
