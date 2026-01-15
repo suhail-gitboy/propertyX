@@ -31,6 +31,7 @@ import Header from '../Common/Header';
 import PropertyCard from '../Components/MediaScroll';
 
 import Homenav from '../Common/Homenav';
+import { toast } from 'sonner';
 
 
 const Home = () => {
@@ -61,7 +62,15 @@ const Home = () => {
   const [AfterFiltered, Setafterfiltered] = useState([])
   const { products, loading } = useSelector((state) => state.Product)
 
+  const Protuctbar = () => {
 
+    if (User.role == "user" || User.role == "host") return
+
+    if (!User) {
+      toast.warning("login to start explore")
+      Setloginmodal(true)
+    }
+  }
 
   useEffect(() => {
 
@@ -82,14 +91,16 @@ const Home = () => {
       <Header />
       <div className="pt-40 px-4 md:px-10 flex pb-10 w-full">
 
-        {/* LEFT SIDEBAR */}
+
         <div className="hidden md:block md:w-1/6">
-          <div className="sticky top-30">
-            <Homenav />
-          </div>
+          {
+            User.role !== "admin" && User && <div className="sticky top-30">
+              <Homenav />
+            </div>
+          }
         </div>
 
-        {/* MAIN CONTENT */}
+
         <div className="mx-auto w-full md:w-4/6 min-h-screen">
           <PropertyCard property={AfterFiltered} />
         </div>
