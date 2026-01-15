@@ -13,10 +13,10 @@ const Adminproductmanagement = () => {
     const Rejectapproval = useRejectApproval(token)
     const RemoveApproved = useRemoveApproved(token)
 
-
+    const { property } = data || {}
     useEffect(() => {
-        Setapprovedproperties(data?.filter(data => data.isActive == "approved"))
-        const FilteredPending = data?.filter((data) => data.isActive == "pending")
+        Setapprovedproperties(property?.filter(data => data.isActive == "approved"))
+        const FilteredPending = property?.filter((data) => data.isActive == "pending")
         Setpendingproperties(FilteredPending)
     }, [data])
     console.log(approvedproperties);

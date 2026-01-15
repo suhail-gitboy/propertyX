@@ -60,7 +60,7 @@ const RoomPaymentModal = ({
     const FunctionNewbooking = async () => {
         Setloading(true)
 
-        if (!token || !User) {
+        if (!token || User.role == "host") {
             Setloginmodal(true)
             toast.error("Login to continue")
             Setloading(false)

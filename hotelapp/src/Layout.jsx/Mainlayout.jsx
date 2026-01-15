@@ -25,12 +25,12 @@ const Mainlayout = () => {
 
   const { data } = useAllPropertiesAdmin()
 
-
+  const { property } = data || []
   console.log("SERVER URL:", SERVERurl)
 
 
   useEffect(() => {
-    dispatch(FuncAddallproduct(data))
+    dispatch(FuncAddallproduct(property))
 
   }, [data])
 

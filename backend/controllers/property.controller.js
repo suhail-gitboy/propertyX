@@ -198,38 +198,79 @@ export const Listpropertyall = async (req, res) => {
         const Data = await Propertymodel.find().sort({ createdAt: -1 })
 
 
-        const mostdominant = await Propertymodel.aggregate([
-            { $match: { isActive: "approved" } },
+        const topBookedProperties = await Booking.aggregate([
+            // 1️⃣ Only confirmed bookings (optional)
             {
-                $group: {
-                    _id: "$seller.sellerId",
-                    seller: { $first: "$seller.name" },
-                    img: { $first: "$seller.picture" },
-                    totalproperty: {
-                        $push: {
-                            _id: "$_id",
-                            title: "$title",
-                            price: "$price",
-
-                        }
-                    },
-                    total: {
-                        $sum: 1
-                    },
+                $match: {
+                    bookingStatus: "confirmed"
                 }
             },
+
+            // 2️⃣ Group by property
             {
-                $sort: { total: -1 }
+                $group: {
+                    _id: "$propertyId",
+                    totalBookings: { $sum: 1 },
+                    revenue: { $sum: "$totalPrice" }
+                }
             },
-            { $limit: 3 }
-        ])
+
+            // 3️⃣ Sort by most bookings
+            { $sort: { totalBookings: -1 } },
+
+            // 4️⃣ Take top 3
+            { $limit: 3 },
+
+            // 5️⃣ Lookup property details
+            {
+                $lookup: {
+                    from: "properties",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "property"
+                }
+            },
+            { $unwind: "$property" },
+
+            // 6️⃣ Calculate average rating safely
+            {
+                $addFields: {
+                    avgRating: {
+                        $cond: [
+                            { $gt: [{ $size: "$property.comments" }, 0] },
+                            { $avg: "$property.comments.rating" },
+                            0
+                        ]
+                    }
+                }
+            },
+
+            // 7️⃣ Final shape
+            {
+                $project: {
+                    _id: 0,
+                    propertyId: "$property._id",
+                    title: "$property.title",
+                    image: { $arrayElemAt: ["$property.images", 0] },
+
+                    sellerName: "$property.seller.name",
+
+                    totalBookings: 1,
+                    revenue: 1,
+                    avgRating: { $round: ["$avgRating", 1] }
+                }
+            }
+        ]);
+
         const lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
+        console.log(topBookedProperties);
 
         const dominatedbybookings = await Booking.aggregate([
             {
                 $match: {
-                    createdAt: { $gte: lastWeek }
+                    createdAt: { $gte: lastWeek },
+                    bookingStatus: "confirmed"
                 }
             },
 
@@ -265,11 +306,13 @@ export const Listpropertyall = async (req, res) => {
                     totalBookings: { $sum: 1 },
                     revenue: { $sum: "$totalPrice" },
 
+
                     properties: {
                         $addToSet: {
                             propertyId: "$property._id",
                             title: "$property.title",
-                            price: "$property.price"
+                            price: "$property.price",
+                            picture: "$property.images"
                         }
                     }
                 }
@@ -300,10 +343,11 @@ export const Listpropertyall = async (req, res) => {
 
         ])
 
+        console.log(dominatedbybookings);
 
 
 
-        res.status(200).json({ property: Data, tophosts: mostdominant, lastweakbooking: dominatedbybookings, totalrevenue: totalbookingoflastweek })
+        res.status(200).json({ property: Data, tophosts: topBookedProperties, lastweakbooking: dominatedbybookings, totalrevenue: totalbookingoflastweek })
     } catch (error) {
         console.log(error);
 
