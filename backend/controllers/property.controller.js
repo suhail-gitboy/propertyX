@@ -199,14 +199,14 @@ export const Listpropertyall = async (req, res) => {
 
 
         const topBookedProperties = await Booking.aggregate([
-            // 1️⃣ Only confirmed bookings (optional)
+
             {
                 $match: {
                     bookingStatus: "confirmed"
                 }
             },
 
-            // 2️⃣ Group by property
+
             {
                 $group: {
                     _id: "$propertyId",
@@ -215,13 +215,12 @@ export const Listpropertyall = async (req, res) => {
                 }
             },
 
-            // 3️⃣ Sort by most bookings
             { $sort: { totalBookings: -1 } },
 
-            // 4️⃣ Take top 3
+
             { $limit: 3 },
 
-            // 5️⃣ Lookup property details
+
             {
                 $lookup: {
                     from: "properties",
@@ -232,7 +231,7 @@ export const Listpropertyall = async (req, res) => {
             },
             { $unwind: "$property" },
 
-            // 6️⃣ Calculate average rating safely
+
             {
                 $addFields: {
                     avgRating: {
@@ -245,7 +244,7 @@ export const Listpropertyall = async (req, res) => {
                 }
             },
 
-            // 7️⃣ Final shape
+
             {
                 $project: {
                     _id: 0,
@@ -285,7 +284,7 @@ export const Listpropertyall = async (req, res) => {
             },
             { $unwind: "$host" },
 
-            // 🔹 Property lookup
+
             {
                 $lookup: {
                     from: "properties",
@@ -296,7 +295,7 @@ export const Listpropertyall = async (req, res) => {
             },
             { $unwind: "$property" },
 
-            // 🔹 Group by host
+
             {
                 $group: {
                     _id: "$hostId",
@@ -343,11 +342,44 @@ export const Listpropertyall = async (req, res) => {
 
         ])
 
-        console.log(dominatedbybookings);
+        const Topuser = await Booking.aggregate([
+            {
+                $match: {
+                    bookingStatus: "confirmed"
+                }
+            },
+
+
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "userId",
+                    foreignField: "_id",
+                    as: "user"
+                }
+            },
+            { $unwind: "$user" },
+
+            {
+                $group: {
+                    _id: "$userId",
+                    totalbooking: { $sum: 1 },
+                    username: { $first: "$user.name" },
+                    picture: { $first: "$user.picture" }
+                }
+            },
+
+
+            { $sort: { totalbooking: -1 } },
+
+            { $limit: 2 }
+        ]);
 
 
 
-        res.status(200).json({ property: Data, tophosts: topBookedProperties, lastweakbooking: dominatedbybookings, totalrevenue: totalbookingoflastweek })
+        console.log(Topuser);
+
+        res.status(200).json({ property: Data, topuser: Topuser, tophosts: topBookedProperties, lastweakbooking: dominatedbybookings, totalrevenue: totalbookingoflastweek })
     } catch (error) {
         console.log(error);
 
