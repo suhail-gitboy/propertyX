@@ -45,12 +45,15 @@ const PropertyCard = ({ property }) => {
         mutate: addLike } = useAddlike(token)
 
     const LikeButton = (id) => {
+        if (!User) {
+            setlikemodal(true)
+        }
 
-        if (User.role == "admin" || User.role == "host") {
+        else if (User?.role == "admin" || User?.role == "host") {
             toast.warning("only users can like property")
 
         }
-        else if (User.role !== "admin" || User.role !== "host") {
+        else if (User?.role !== "admin" || User?.role !== "host") {
             addLike(id)
         }
         else {
@@ -62,11 +65,14 @@ const PropertyCard = ({ property }) => {
     const { mutate: Addid } = useAddtowishlist(token)
 
     const Addtowishlist = (id) => {
+        if (!User) {
+            setlikemodal(true)
+        }
 
-        if (User.role == "admin" || User.role == "host") {
+        else if (User?.role == "admin" || User?.role == "host") {
             toast.warning("only users can save property")
         }
-        else if (User.role !== "admin" || User.role !== "host") {
+        else if (User?.role !== "admin" || User?.role !== "host") {
             Addid(id)
 
 
@@ -317,7 +323,7 @@ const PropertyCard = ({ property }) => {
 
 
                             {/* COMMENT INPUT */}
-                            {showKey == key && showComment && User.role == "user" && (
+                            {showKey == key && showComment && User?.role == "user" && (
                                 <div className="px-4 py-3 flex items-center justify-between">
                                     <div>
                                         <input
