@@ -46,44 +46,34 @@ const PropertyCard = ({ property }) => {
 
     const LikeButton = (id) => {
         if (!User) {
-            setlikemodal(true)
-        }
-
-        else if (User?.role == "admin" || User?.role == "host") {
-            toast.warning("only users can like property")
-
-        }
-        else if (User?.role !== "admin" || User?.role !== "host") {
-            addLike(id)
-        }
-        else {
-            toast.warning("login to start exploring")
             Setloginmodal(true)
+            return;
         }
+
+        if (User?.role === "admin" || User?.role === "host") {
+            toast.warning("Only users can like property");
+            return;
+        }
+
+        addLike(id);
 
     }
     const { mutate: Addid } = useAddtowishlist(token)
 
     const Addtowishlist = (id) => {
         if (!User) {
-            setlikemodal(true)
+            Setloginmodal(true);
+            return;
         }
 
-        else if (User?.role == "admin" || User?.role == "host") {
-            toast.warning("only users can save property")
-        }
-        else if (User?.role !== "admin" || User?.role !== "host") {
-            Addid(id)
-
-
+        if (User?.role === "admin" || User?.role === "host") {
+            toast.warning("Only users can save property");
+            return;
         }
 
-        else {
-            toast.warning("login to start exploring")
-            Setloginmodal(true)
-        }
+        Addid(id);
+    };
 
-    }
 
     const Mutateforcomment = useADDcoment(token)
 
