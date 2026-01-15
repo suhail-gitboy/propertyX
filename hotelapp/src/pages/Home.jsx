@@ -62,15 +62,6 @@ const Home = () => {
   const [AfterFiltered, Setafterfiltered] = useState([])
   const { products, loading } = useSelector((state) => state.Product)
 
-  const Protuctbar = () => {
-
-    if (User.role == "user" || User.role == "host") return
-
-    if (!User) {
-      toast.warning("login to start explore")
-      Setloginmodal(true)
-    }
-  }
 
   useEffect(() => {
 
@@ -94,7 +85,7 @@ const Home = () => {
 
         <div className="hidden md:block md:w-1/6">
           {
-            User.role !== "admin" && User && <div className="sticky top-30">
+            User?.role !== "admin" && User && <div className="sticky top-30">
               <Homenav />
             </div>
           }
