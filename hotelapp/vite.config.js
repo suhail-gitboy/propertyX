@@ -5,7 +5,5 @@ export default defineConfig({
   plugins: [
     tailwindcss()
   ],
-  optimizeDeps: {
-    exclude: ["fsevents", "lightningcss"]
-  }
+  base: "/"
 });

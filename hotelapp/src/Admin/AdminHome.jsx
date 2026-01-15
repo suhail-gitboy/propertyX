@@ -13,10 +13,11 @@ const Adminhome = () => {
     const {
         property: propertyData,
         tophosts,
-        lastweekbooking,
-        totalrevenue
+        lastweakbooking,
+        totalrevenue,
+        topuser
     } = data || {};
-    console.log(tophosts);
+    console.log(data);
 
 
     if (!data) return <>Loading...</>;
@@ -39,24 +40,118 @@ const Adminhome = () => {
                 <StatBox title="Weekly Revenue" value={`₹${totalrevenue?.[0]?.totalrevenue || 0}`} highlight icon={<FaMoneyBillWave />} />
             </div>
 
-            <div className="flex  flex-col md:flex-row gap-6 mb-10">
-                <div className="w-full bg-blue-600 md:w-1/6">
+            <div className="flex  items-center flex-col md:flex-row gap-6 mb-10">
+                <div className="w-full  md:w-2/6">
+                    <div className="w-full flex flex-col gap-4 justify-center mt-6">
+                        <div className="
+        w-full 
+        rounded-2xl
+        bg-gradient-to-br from-purple-600 via-indigo-600 to-purple-700
+        p-6
+        text-white
+        shadow-xl
+        backdrop-blur-lg
+      ">
+                            {/* Header */}
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-lg font-semibold tracking-wide">
+                                    Weekly Performance
+                                </h2>
+                                <span className="text-xs bg-white/20 px-3 py-1 rounded-full">
+                                    Last 7 Days
+                                </span>
+                            </div>
+
+                            {/* Metrics */}
+                            <div className="flex flex-col gap-4">
+                                {/* Total Bookings */}
+                                <div className="flex justify-between items-center">
+                                    <p className="text-sm text-purple-200">Total Bookings</p>
+                                    <p className="text-3xl font-bold">{totalrevenue[0].totalbooking}</p>
+                                </div>
+
+                                {/* Divider */}
+                                <div className="h-px bg-white/20" />
+
+                                {/* Total Revenue */}
+                                <div className="flex justify-between items-center">
+                                    <p className="text-sm text-purple-200">Total Revenue</p>
+                                    <p className="text-3xl font-bold">
+                                        ₹{totalrevenue[0].totalrevenue.toLocaleString("en-IN")}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-gradient-to-br from-emerald-500 via-green-500 to-lime-400 rounded-2xl p-6 shadow-lg text-white">
+
+                            {/* Header */}
+                            <div className="flex items-center justify-between mb-5">
+                                <h3 className="text-lg font-semibold">Top Users</h3>
+                                <FaCrown className="text-yellow-300 text-xl" />
+                            </div>
+
+                            {/* Users List */}
+                            <div className="space-y-4">
+                                {topuser?.map((user, index) => {
+                                    const image =
+                                        typeof user.picture === "string"
+                                            ? user.picture
+                                            : user.picture?.url;
+
+                                    return (
+                                        <div
+                                            key={user._id}
+                                            className="flex items-center justify-between bg-white/15 backdrop-blur-md rounded-xl p-4 border border-white/20"
+                                        >
+                                            {/* Left */}
+                                            <div className="flex items-center gap-3">
+                                                <img
+                                                    src={image}
+                                                    alt={user.username}
+                                                    className="w-11 h-11 rounded-full object-cover border-2 border-white"
+                                                />
+
+                                                <div>
+                                                    <p className="font-semibold capitalize">
+                                                        {user.username}
+                                                    </p>
+                                                    <p className="text-xs opacity-90">
+                                                        User Rank #{index + 1}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            {/* Right */}
+                                            <div className="text-right">
+                                                <p className="text-xl font-bold">
+                                                    {user.totalbooking}
+                                                </p>
+                                                <p className="text-xs opacity-90">
+                                                    Bookings
+                                                </p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="w-full bg-yellow-400 md:w-5/6">
+                <div className="w-full md:w-4/6">
                     <div className="w-full bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
                         {/* HEADER */}
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-xl font-semibold text-slate-800">
-                                🔥 Most Booked Properties (This Week)
+                                🔥 Leading hosts
                             </h2>
                         </div>
 
                         {/* ROW */}
-                        <div className="flex flex-col md:flex-row gap-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                             {tophosts?.map((item, index) => (
                                 <div
                                     key={item.propertyId}
-                                    className="relative flex-1 rounded-xl border border-slate-200 overflow-hidden bg-slate-50 hover:shadow-md transition"
+                                    className="relative  rounded-xl border border-slate-200 overflow-hidden bg-slate-50 hover:shadow-md transition"
                                 >
                                     {/* RANK BADGE */}
                                     <div className="absolute top-3 left-3 z-10">
@@ -114,6 +209,101 @@ const Adminhome = () => {
                 </div>
 
 
+
+            </div>
+
+
+
+            <div className="mt-10 flex items-center justify-center gap-6 mb-10">
+                <div className="w-4/6">
+                    <div className="w-full mt-8">
+                        <div className="w-full mt-8">
+                            <div className="rounded-2xl bg-gradient-to-br from-purple-700 via-indigo-700 to-purple-800 p-6 text-white shadow-xl">
+
+                                {/* Header */}
+                                <div className="mb-6">
+                                    <h2 className="text-lg font-semibold tracking-wide">
+                                        Top Hosts — Last Week
+                                    </h2>
+                                    <p className="text-sm text-purple-200">
+                                        Based on confirmed bookings & revenue
+                                    </p>
+                                </div>
+
+                                {/* Host List */}
+                                <div className="flex flex-col gap-4">
+                                    {lastweakbooking.map((host, index) => (
+                                        <div
+                                            key={host._id}
+                                            className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/10 rounded-xl p-4 backdrop-blur-md"
+                                        >
+                                            {/* LEFT — Host */}
+                                            <div className="flex items-center gap-4 min-w-[220px]">
+                                                <div className="relative">
+                                                    <img
+                                                        src={host.hostImage?.url}
+                                                        alt={host.hostName}
+                                                        className="w-14 h-14 rounded-full object-cover border-2 border-white/30"
+                                                    />
+                                                    <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-yellow-400 text-purple-900 text-xs font-bold flex items-center justify-center">
+                                                        {index + 1}
+                                                    </span>
+                                                </div>
+
+                                                <div>
+                                                    <p className="font-semibold text-base">
+                                                        {host.hostName}
+                                                    </p>
+                                                    <p className="text-xs text-purple-200">
+                                                        Host
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            {/* CENTER — Metrics */}
+                                            <div className="flex gap-6">
+                                                <div>
+                                                    <p className="text-xs text-purple-200">Bookings</p>
+                                                    <p className="text-lg font-bold">
+                                                        {host.totalBookings}
+                                                    </p>
+                                                </div>
+
+                                                <div>
+                                                    <p className="text-xs text-purple-200">Revenue</p>
+                                                    <p className="text-lg font-bold">
+                                                        ₹{host.revenue.toLocaleString("en-IN")}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+
+                                            <div className="flex items-center gap-2">
+
+                                                <img
+
+                                                    src={
+                                                        host.properties?.[0]?.picture?.[0]?.url ||
+                                                        "https://cdn-icons-png.flaticon.com/512/684/684908.png"
+                                                    }
+                                                    alt={host.properties.title}
+                                                    className="w-9 h-9 rounded-md object-cover border border-white/20"
+                                                />
+
+                                                {host.properties.length > 3 && (
+                                                    <span className="text-xs text-purple-200">
+                                                        +{host.properties.length - 3}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
 

@@ -2,9 +2,9 @@ import './App.css'
 import { createBrowserRouter, Link, RouterProvider } from 'react-router-dom'
 import React, { lazy, Suspense } from 'react'
 const Home = lazy(() => import("./pages/Home"))
-import HotelCardExlusive from './Components/HotelCardExlusive'
+
 import { Toaster } from "sonner"
-import { AutumnKochi, Datasforhotel, Springdata, WinterNewYearKerala } from './Common/Hoteldatas'
+
 import { AnimatePresence } from 'framer-motion'
 const Searchpage = lazy(() => import("./pages/Searchpage"))
 const Profile = lazy(() => import('./pages/Profile'))
@@ -49,14 +49,9 @@ function App() {
       path: "/", element: <Mainlayout />,
       children: [
 
-        // home
+
         {
-          path: "/", element: <Home />, children: [
-            { index: true, element: <HotelCardExlusive data={Datasforhotel} /> },
-            { path: "home/spring", element: <HotelCardExlusive data={Springdata} /> },
-            { path: "home/automn", element: <HotelCardExlusive data={AutumnKochi} /> },
-            { path: "home/winter", element: <HotelCardExlusive data={WinterNewYearKerala} /> },
-          ]
+          path: "/", element: <Home />
         },
         // searchpage
         { path: "search", element: <Searchpage /> },
@@ -102,6 +97,9 @@ function App() {
           path: "/register/host", element: <HostRegister />
         }
         ,
+
+
+        // adminside
         {
           path: "/admin", element: <Adminlayout />,
           children: [

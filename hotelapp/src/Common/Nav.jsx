@@ -45,7 +45,7 @@ const Nav = ({
       {/* SEARCH BAR */}
       {search && (
         <div className="flex items-center space-x-2 bg-gray-100 p-1 rounded-lg relative">
-          <p className="text-xs font-bold">{FilterDetails.district || "Location"}</p>
+          <p className="text-xs font-bold">{FilterDetails?.city.length < 18 && FilterDetails.city || "Location"}</p>
           <p className="hidden md:block text-xs font-bold border-l px-2">
             {monthName}
           </p>

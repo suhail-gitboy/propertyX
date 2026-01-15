@@ -19,7 +19,7 @@ const Searchpage = () => {
 
 
   const { products, loading } = useSelector((state) => state.Product)
-  console.log("filtered", products);
+
 
   const [Value, setValue] = useState([599, 100000])
   const [Page, Setpage] = useState(1)
@@ -124,7 +124,7 @@ const Searchpage = () => {
             </div>
 
             {/* main */}
-            <div className={`mt-10  overflow-y-auto md:grid w-full  ${grid == 1 ? "grid-cols-1 " : "md:grid-cols-2 lg:grid-cols-3 gap-4"}  space-y-3 h-[120vh] mb-20 no-scrollbar`}>
+            <div className={`mt-10  overflow-y-auto md:grid w-full  ${grid == 1 ? "grid-cols-1 " : "md:grid-cols-2 lg:grid-cols-3 gap-4"}  space-y-3 h-140 mb-20 no-scrollbar`}>
               {
                 Skeleton ? (<div>{[...Array(SkeletonCount)]?.map((data, id) => (
                   <SkeletonCard key={id} />

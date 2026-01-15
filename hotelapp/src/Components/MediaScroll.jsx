@@ -46,9 +46,14 @@ const PropertyCard = ({ property }) => {
 
     const LikeButton = (id) => {
 
-        if (token && User) {
+        if (User.role == "admin" || User.role == "host") {
+            toast.warning("only users can like property")
+
+        }
+        else if (User.role !== "admin" || User.role !== "host") {
             addLike(id)
-        } else {
+        }
+        else {
             toast.warning("login to start exploring")
             Setloginmodal(true)
         }
@@ -58,9 +63,16 @@ const PropertyCard = ({ property }) => {
 
     const Addtowishlist = (id) => {
 
-        if (token && User) {
+        if (User.role == "admin" || User.role == "host") {
+            toast.warning("only users can save property")
+        }
+        else if (User.role !== "admin" || User.role !== "host") {
             Addid(id)
-        } else {
+
+
+        }
+
+        else {
             toast.warning("login to start exploring")
             Setloginmodal(true)
         }
@@ -305,7 +317,7 @@ const PropertyCard = ({ property }) => {
 
 
                             {/* COMMENT INPUT */}
-                            {showKey == key && showComment && (
+                            {showKey == key && showComment && User.role == "user" && (
                                 <div className="px-4 py-3 flex items-center justify-between">
                                     <div>
                                         <input

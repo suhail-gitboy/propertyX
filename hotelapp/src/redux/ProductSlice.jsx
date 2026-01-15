@@ -29,23 +29,26 @@ const ProductSlice = createSlice({
     reducers: {
         SearchFilter: (state, action) => {
             const Data = action.payload
-            console.log(Data);
 
-            if (Data) {
-                state.products = state.Allproducts.filter((data) => {
-                    return data?.location.city?.toLowerCase().includes(Data.toLowerCase()) || data.location.city.toLowerCase().includes(Data.toLowerCase())
+
+            if (Data?.length > 2) {
+                state.products = state.Allproducts?.filter((data) => {
+                    return data?.location.city?.toLowerCase().includes(Data.toLowerCase()) || data.location.address.toLowerCase().includes(Data.toLowerCase()) || data.title.toLowerCase().includes(Data.toLowerCase())
 
                 })
+                console.log(Data);
 
-                state.FilterDetails.length = state.products.length
+                state.FilterDetails.length = state?.products?.length
                 state.FilterDetails.city = Data
+            } else if (Data?.length == 0) {
+                state.products = state.Allproducts
             } else {
                 state.products = state.Allproducts
-                state.FilterDetails.length = state.Allproducts.length
+                state.FilterDetails.length = state.Allproducts?.length
                 state.FilterDetails.city = "kerala"
 
             }
-            state.FilterDetails.length = state.products.length;
+            state.FilterDetails.length = state.products?.length;
         },
         Sortingfunc: (state, action) => {
             const Data = action.payload

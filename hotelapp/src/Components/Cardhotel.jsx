@@ -18,7 +18,8 @@ const PropertyCard = ({ data, grid = 2, type = "sell", id }) => {
       whileInView={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       className={`${grid === 3 ? "flex flex-col" : "flex flex-row"
-        } w-full mb-4 mx-auto bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 relative`}
+        } w-full mb-4 h-fit mx-auto bg-white rounded-3xl shadow-lg 
+         hover:shadow-2xl transition-shadow duration-300 relative`}
     >
       {/* Image */}
       <div className={`${grid === 3 ? "w-full" : "w-1/2"}`}>
