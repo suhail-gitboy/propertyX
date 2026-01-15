@@ -85,7 +85,7 @@ const Home = () => {
 
         <div className="hidden md:block md:w-1/6">
           {
-            User?.role !== "admin" && User && <div className="sticky top-30">
+            User && <div className="sticky top-30">
               <Homenav />
             </div>
           }
