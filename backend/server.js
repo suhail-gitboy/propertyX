@@ -12,7 +12,8 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "https://propertyxrealestate.netlify.app",
-  "https://6965080394ee87334c7b88e3--propertyxrealestate.netlify.app"
+  "https://6965080394ee87334c7b88e3--propertyxrealestate.netlify.app",
+  "https://property-x-618e.vercel.app"
 ];
 
 

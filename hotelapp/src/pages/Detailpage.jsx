@@ -21,6 +21,7 @@ import { useGetsingleproperty } from '../ApiServices/tanstack/PropertyMethod';
 import RoomPaymentModal from '../Components/modals/Booking';
 import { checkAvailabilityApi, NewbookingApi } from '../ApiServices/Allapi';
 import LoaderMAin from '../Common/Loader';
+import { SERVERurl } from '../ApiServices/MAINapi';
 
 
 const Detailpage = () => {
@@ -52,7 +53,7 @@ const Detailpage = () => {
   useEffect(() => {
     if (!location) return;
 
-    fetch(`http://localhost:8000/geocode?q=${location}`)
+    fetch(`${SERVERurl}/geocode?q=${location}`)
       .then(res => res.json())
       .then(data => {
         if (data[0]) {
@@ -203,7 +204,7 @@ const Detailpage = () => {
 
               </div>
               <div className='flex p-1 rounded-full  border border-gray-400  items-center gap-4'>
-                <div className=" p-1 md:p-2 hover:bg-gray-200 bg-white transition-colors duration-200 border-1 border-white rounded-full">
+                <div onClick={handleShare} className=" p-1 md:p-2 hover:bg-gray-200 bg-white transition-colors duration-200 border-1 border-white rounded-full">
                   <CiShare2 className=' text-md md:text-xl hover:text-blue-600 text-blue-500' />
 
                 </div>
