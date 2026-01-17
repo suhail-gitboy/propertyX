@@ -3,13 +3,30 @@ const require = createRequire(import.meta.url);
 
 const Mailjet = require("node-mailjet");
 
-const mailjet = Mailjet.apiConnect(
-    process.env.MAIL_JETAPI,
-    process.env.MAIL_JETSECRET
-);
+let mailjet;
+
+function getMailjet() {
+    if (!mailjet) {
+        if (
+            !process.env.MAIL_JETAPI ||
+            !process.env.MAIL_JETSECRET ||
+            !process.env.MAIL_USER
+        ) {
+            throw new Error("Mailjet environment variables missing");
+        }
+
+        mailjet = Mailjet.apiConnect(
+            process.env.MAIL_JETAPI,
+            process.env.MAIL_JETSECRET
+        );
+    }
+    return mailjet;
+}
 
 export const sendMailjet = async ({ to, subject, html }) => {
     try {
+        const mailjet = getMailjet();
+
         const request = await mailjet
             .post("send", { version: "v3.1" })
             .request({

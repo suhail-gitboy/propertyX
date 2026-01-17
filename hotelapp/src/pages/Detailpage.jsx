@@ -140,6 +140,28 @@ const Detailpage = () => {
       return;
     }
 
+    // Normalize dates (remove time)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const checkIn = new Date(Booking.checkin);
+    checkIn.setHours(0, 0, 0, 0);
+
+    const checkOut = new Date(Booking.checkout);
+    checkOut.setHours(0, 0, 0, 0);
+
+
+    if (checkIn < today || checkOut < today) {
+      toast.error("Check-in and check-out cannot be in the past.");
+      return;
+    }
+
+
+    if (checkOut <= checkIn) {
+      toast.error("Check-out must be after check-in.");
+      return;
+    }
+
     checkAvailabilityApi(Booking)
       .then((res) => {
         if (res.data.success) {

@@ -1,0 +1,40 @@
+version: '3.8'
+
+
+services:
+ backend:
+  build: ./backend
+  ports:
+    - "8000:8000"
+  container_name: backend
+  restart: always
+  environment:
+  MAIL_JETAPI: ${MAIL_JETAPI}
+  MAIL_JETSECRET: ${MAIL_JETSECRET}
+  MAIL_USER: ${MAIL_USER}
+
+  DATABASE_URL: ${DATABASE_URL}
+  SECRET_KEY: ${SECRET_KEY}
+
+  CLOUDINARY_NAME: ${CLOUDINARY_NAME}
+  CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
+  CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+
+  TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+  TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+  TWILIO_WHATSAPP_FROM: ${TWILIO_WHATSAPP_FROM}
+  ADMIN_WHATSAPP: ${ADMIN_WHATSAPP}
+
+  MAIL_PASS: ${MAIL_PASS}
+
+  STRIPE_SECRET: ${STRIPE_SECRET}
+
+  PORT: ${PORT}
+
+
+ frontent:
+      build: ./hotelapp
+      ports:
+        - "5173:5173"
+      container_name: frontent
+      restart: always
