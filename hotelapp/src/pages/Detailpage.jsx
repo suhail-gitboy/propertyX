@@ -118,7 +118,6 @@ const Detailpage = () => {
       const pricePerRoom = data.price || 0;
       const rooms = prev.rooms || 1;
 
-      console.log(Booking);
 
       return {
         ...prev,
@@ -132,6 +131,16 @@ const Detailpage = () => {
   }, [data, Booking.rooms, User]);
 
 
+  // Normalize dates (remove time)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const checkIn = new Date(Booking.checkin);
+  checkIn.setHours(0, 0, 0, 0);
+
+  const checkOut = new Date(Booking.checkout);
+  checkOut.setHours(0, 0, 0, 0);
+
 
 
   const FunctCheckavailabity = () => {
@@ -139,16 +148,6 @@ const Detailpage = () => {
       toast.error("Please select check-in and check-out dates.");
       return;
     }
-
-    // Normalize dates (remove time)
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const checkIn = new Date(Booking.checkin);
-    checkIn.setHours(0, 0, 0, 0);
-
-    const checkOut = new Date(Booking.checkout);
-    checkOut.setHours(0, 0, 0, 0);
 
 
     if (checkIn < today || checkOut < today) {
@@ -165,7 +164,7 @@ const Detailpage = () => {
     checkAvailabilityApi(Booking)
       .then((res) => {
         if (res.data.success) {
-          console.log(res.data);
+
 
           toast.success(`✨ ${res.data.availableRooms} room${res.data.availableRooms > 1 ? 's' : ''} available! Book now!`);
 
@@ -177,6 +176,30 @@ const Detailpage = () => {
       .catch((err) => {
         console.error("Error checking availability:", err);
       });
+  }
+
+  const handlemodalbooking = () => {
+    if (!Booking.checkin || !Booking.checkout) {
+      toast.error("Please select check-in and check-out dates.");
+      return;
+    }
+
+
+    if (checkIn < today || checkOut < today) {
+      toast.error("Check-in and check-out cannot be in the past.");
+      return;
+    }
+
+
+    if (checkOut <= checkIn) {
+      toast.error("Check-out must be after check-in.");
+      return;
+    }
+    Setmodalbooking(true)
+
+
+
+
   }
   if (!data) {
     return <LoaderMAin />
@@ -355,7 +378,7 @@ const Detailpage = () => {
 
                     {/* Reserve Button */}
                     {
-                      Bookingopen ? <button onClick={() => Setmodalbooking(true)} className="mt-6 w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition">
+                      Bookingopen ? <button onClick={handlemodalbooking} className="mt-6 w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition">
                         Book now
                       </button> : <button onClick={() => FunctCheckavailabity()} className="mt-6 w-full bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition">
                         check availability
