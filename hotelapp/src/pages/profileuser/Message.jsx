@@ -31,6 +31,8 @@ const Message = () => {
   const [allonlineUsers, Setonlineusers] = useState(null)
   const [messagedata, Setmessagedata] = useState(null)
   const [loadercondition, SEtloadercondition] = useState(true)
+  const [imagetoupload, SEtimagetoupload] = useState(null)
+  const [imagetpreview, SEtimagepreview] = useState(null)
 
 
   const bottomRef = useRef(null);
@@ -154,6 +156,8 @@ const Message = () => {
   }, [recipientuserdetail])
 
 
+  const { isPending, mutate: sendmessage } = useNewmessage(token)
+
 
 
   useEffect(() => {
@@ -161,26 +165,47 @@ const Message = () => {
       behavior: "smooth",
       block: "end",
     });
-  }, [messages]);
+  }, [messages, isPending]);
 
 
 
   const [messageText, setMessageText] = useState("");
 
 
-  const sendmessage = useNewmessage(token)
+
+  const Setimage = (e) => {
+    e.target.files[0]
+
+    const Url = URL.createObjectURL(e.target.files[0])
+    SEtimagepreview(Url)
+    SEtimagetoupload(e.target.files[0])
+
+  }
 
 
   const handleSend = () => {
-    if (!messageText) {
-      toast.warning("type something")
+
+
+    // const body = {
+    //   chatId: chatId,
+    //   senderId: User._id,
+    //   text: messageText,
+
+    // }
+
+    const Reqbody = new FormData()
+
+
+
+    Reqbody.append("chatId", chatId);
+    Reqbody.append("senderId", User._id);
+    Reqbody.append("text", messageText);
+
+    if (imagetoupload) {
+      Reqbody.append("image", imagetoupload); // ✅ File object
     }
 
-    const body = {
-      chatId: chatId,
-      senderId: User._id,
-      text: messageText
-    }
+
 
 
 
@@ -194,11 +219,15 @@ const Message = () => {
 
 
 
-    sendmessage.mutate(body)
+    sendmessage({ FormData: Reqbody, chatId })
 
 
     setMessageText("");
+    SEtimagepreview("")
+    SEtimagetoupload(null)
   };
+
+
 
 
 
@@ -303,35 +332,46 @@ const Message = () => {
                     return (
                       <div
                         key={msg.id}
-                        className={`flex ${isMe ? "justify-end" : "justify-start"}`}
+                        className={`flex relative ${isMe ? "justify-end" : "justify-start"}`}
                       >
+
                         <div
-                          className={`max-w-[70%] rounded-2xl px-4 py-3 shadow-sm
+                          className={`max-w-[70%] rounded-2xl ${msg.image ? "p-2" : "px-4 py-3"}  shadow-sm
                             ${isMe
                               ? "bg-black text-white rounded-br-sm"
                               : "bg-white text-gray-800 rounded-bl-sm"
                             }`}
                         >
-                          <p className="text-sm leading-relaxed">{msg.text}</p>
+                          {msg.image ? <div className=' rounded-md p-2'><img src={msg.image.url} className='w-40 h-40 rounded-md' />
+                            <p className="text-sm  leading-relaxed">{msg.text}</p>
+                          </div> : <p className="text-sm leading-relaxed">{msg.text}</p>}
                           <div
-                            className={`mt-1 text-[11px] text-right
-                              ${isMe ? "text-gray-300" : "text-gray-400"}`}
+                            className={`mt-1 text-[11px] text-right flex gap-4 justify-end`}
                           >
-                            {(timeAgo(msg.createdAt))}
+                            <p className={`${isMe ? "text-gray-300" : "text-gray-400"}`}>  {(timeAgo(msg.createdAt))}</p>
+                            {msg.senderId == User._id && <p className='text-red-600 text-3xl'>...</p>}
                           </div>
 
                         </div>
+
 
                       </div>
                     );
                   })
                 )}
+                {isPending && <div className='flex justify-end'><LoaderTwo /></div>}
                 <div ref={bottomRef} />
               </div>
             </>
 
         }
-        <div className="sticky bottom-0 bg-white border-t px-4 py-3">
+        <div className="sticky bottom-0 bg-white border-t px-4 py-3 relative">
+          {
+            imagetpreview && <div className="absolute px-4 py-4 bg-white  -top-20 right-60">
+
+              <img src={imagetpreview} alt="" className='w-20 h-20' />
+            </div>
+          }
           <div className="flex items-center gap-3">
             <input
               type="text"
@@ -346,7 +386,8 @@ const Message = () => {
             <div className="flex gap-4 items-center">
               <label htmlFor="imageUpload">
                 <GrGallery className='text-black text-2xl' />
-                <input type="file" hidden id='imageUpload' />
+                <input type="file" onChange={(e) => Setimage(e)} hidden id='imageUpload' />
+
               </label>
 
 
@@ -355,7 +396,7 @@ const Message = () => {
                 onClick={handleSend}
 
                 className={`p-3 rounded-full transition
-                      ${messageText.trim()
+                      ${messageText.trim() || imagetpreview
                     ? "bg-black text-white hover:bg-gray-900"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                   }`}
@@ -370,7 +411,7 @@ const Message = () => {
 
 
 
-    </motion.div>
+    </motion.div >
   )
 }
 

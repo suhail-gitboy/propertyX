@@ -12,13 +12,19 @@ export const creaateMessage = async (req, res) => {
     const { chatId, senderId, text } = req.body
 
 
+
+    const image = req.file ? { url: req.file.path, public_id: req.file.filename } : null
+
+
     try {
         const message = await Message.create({
             chatId,
             senderId,
-            text
+            text,
+            image
 
         })
+        console.log(message);
 
         res.status(200).json(message)
     } catch (error) {

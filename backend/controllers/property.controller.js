@@ -263,7 +263,7 @@ export const Listpropertyall = async (req, res) => {
 
         const lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
-        console.log(topBookedProperties);
+
 
         const dominatedbybookings = await Booking.aggregate([
             {
@@ -377,7 +377,6 @@ export const Listpropertyall = async (req, res) => {
 
 
 
-        console.log(Topuser);
 
         res.status(200).json({ property: Data, topuser: Topuser, tophosts: topBookedProperties, lastweakbooking: dominatedbybookings, totalrevenue: totalbookingoflastweek })
     } catch (error) {

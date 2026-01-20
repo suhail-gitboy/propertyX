@@ -1,23 +1,30 @@
 import mongoose from "mongoose";
 
-
-
-
-const Schema = new mongoose.Schema({
-    chatId: {
-        type: String
-    },
-    senderId: {
-        type: String
-    },
-    text: {
-        type: String
-    }
-
-},
+const messageSchema = new mongoose.Schema(
     {
-        timestamps: true
-    },)
+        chatId: {
+            type: String,
+            required: true,
+        },
+        senderId: {
+            type: String,
+            required: true,
+        },
+        text: {
+            type: String,
+            default: null,
+        },
+        image: {
+            type: {
+                url: String,
+                public_id: String,
+            },
+            default: null,
+        },
+    },
+    {
+        timestamps: true,
+    }
+);
 
-
-export const Message = mongoose.model("Message", Schema)
+export const Message = mongoose.model("Message", messageSchema);

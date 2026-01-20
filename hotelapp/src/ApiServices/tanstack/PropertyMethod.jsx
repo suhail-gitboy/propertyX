@@ -542,13 +542,13 @@ export const useNewmessage = (token) => {
 
     return useMutation({
 
-        mutationFn: async (body) => {
+        mutationFn: async ({ FormData }) => {
 
 
 
             Setloading(true)
             const headers = { Authorization: `Bearer ${token}` };
-            const res = await APInewmessage(body, headers);
+            const res = await APInewmessage(FormData, headers);
             return res.data;
         },
 
