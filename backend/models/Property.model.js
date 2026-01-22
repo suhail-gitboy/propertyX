@@ -108,6 +108,11 @@ const propertySchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    embedding: {
+        type: [Number],
+        index: false
+    },
+
 
     isActive: {
         type: String,

@@ -5,10 +5,12 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { TbAirConditioning } from "react-icons/tb";
 import Slider from '@mui/material/Slider';
 import { IoIosClose } from "react-icons/io";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-const Filtermodal = ({ Value, setValue, Setpage, Setskeleton, Setfilter }) => {
+import { clearfilter, filterbytype, Filterbysellorsale } from '../../redux/ProductSlice';
 
+const Filtermodal = ({ Value, setValue, Setpage, Setskeleton, Setfilter }) => {
+  const dispatch = useDispatch()
   const [arrowfirst, Setarrowfirst] = useState(true)
 
   const [arrowSecond, SetarrowSecond] = useState(true)
@@ -59,24 +61,37 @@ const Filtermodal = ({ Value, setValue, Setpage, Setskeleton, Setfilter }) => {
         {/* filter stuffs here */}
         <div className='border-r border-l w-full border-gray-700/10 flex flex-col  h-90  overflow-auto overflow-y-scroll'>
           <div className=' py-3 border  border-black/10 rounded-lg mb-20 bg-gray-100 w-full'>
-            <div className='flex justify-between border-b border-gray-600/10 px-3 py-3'>
+            <div onClick={() => dispatch(clearfilter())} className='flex justify-between border-b border-gray-600/10 px-3 py-3'>
               <p className='text-gray-600 text-lg font-semibold'>filter:</p>
               <p className='text-gray-600 text-md font-semibold'>clear</p>
             </div>
             {/* sect 1 */}
             <div className='flex flex-col items-center  border-b border-gray-600/10 px-3 py-3'>
               <div onClick={() => Setarrowfirst(!arrowfirst)} className='flex items-center w-full justify-between '>
+                <h3 className='text-md font-semibold '>listing type</h3>
+                {arrowfirst ? <button> <IoIosArrowDown /></button> : <button> <IoIosArrowUp /></button>}
+              </div>
+              <div className={`flex mt-3 ${arrowfirst ? "" : "hidden "} justify-center items-center transform transition-all duration-200 space-x-2 p-3 md:w-3/4 border border-gray-600/10 rounded-xl`}>
+                <h5 onClick={() => { dispatch(Filterbysellorsale("rent")); Settypehome("rent") }} className={`${Type == "rent" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2 flex flex-col items-center justify-center gap-2  text-nowrap rounded-md"}`} > <img src='/images/residential.png' className='w-12 h-12' /> for rent</h5>
+                <h5 onClick={() => { dispatch(Filterbysellorsale("sell")); Settypehome("sale") }} className={`${Type == "sale" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2  flex flex-col gap-2 rounded-md"}`} ><img src='/interior-design.png' className='w-14 h-14' />for sale</h5>
+
+              </div>
+
+            </div>
+            <div className='flex flex-col items-center  border-b border-gray-600/10 px-3 py-3'>
+              <div onClick={() => Setarrowfirst(!arrowfirst)} className='flex items-center w-full justify-between '>
                 <h3 className='text-md font-semibold '>Type of place</h3>
                 {arrowfirst ? <button> <IoIosArrowDown /></button> : <button> <IoIosArrowUp /></button>}
               </div>
               <div className={`flex mt-3 ${arrowfirst ? "" : "hidden "} justify-center items-center transform transition-all duration-200 space-x-2 p-3 md:w-3/4 border border-gray-600/10 rounded-xl`}>
-                <h5 className={`${Type == "all" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2 flex flex-col items-center justify-center gap-2  text-nowrap rounded-md"}`} onClick={() => Settypehome("all")}> <img src='/residential.png' className='w-12 h-12' />  Any Type</h5>
-                <h5 className={`${Type == "room" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2  flex flex-col gap-2 rounded-md"}`} onClick={() => Settypehome("room")}><img src='/interior-design.png' className='w-14 h-14' />Room</h5>
-                <h5 className={`${Type == "flat" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2  flex flex-col gap-2 rounded-md"}`} onClick={() => Settypehome("flat")}><img src='/images/flats.png' className='w-14 h-14' /> flat</h5>
-                <h5 className={`${Type == "house" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2  rounded-md flex flex-col gap-2"}`} onClick={() => Settypehome("house")}><img src='/house.png' className='w-14 h-14' /> house</h5>
+                <h5 className={`${Type == "all" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2 flex flex-col items-center justify-center gap-2  text-nowrap rounded-md"}`} onClick={() => { dispatch(filterbytype("apartment")); Settypehome("all") }}> <img src='/images/residential.png' className='w-12 h-12' />  apartment</h5>
+                <h5 className={`${Type == "room" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2  flex flex-col gap-2 rounded-md"}`} onClick={() => { dispatch(filterbytype("room")), Settypehome("room") }}><img src='/interior-design.png' className='w-14 h-14' />Room</h5>
+                <h5 className={`${Type == "flat" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2  flex flex-col gap-2 rounded-md"}`} onClick={() => { Settypehome("flat"); dispatch(filterbytype("villa")) }}><img src='/images/flats.png' className='w-14 h-14' /> villa</h5>
+                <h5 className={`${Type == "house" ? "border-black border-1 text-xs md:text-md px-4 py-2  rounded-md" : "text-xs md:text-md px-4 py-2  rounded-md flex flex-col gap-2"}`} onClick={() => { Settypehome("house"); dispatch(filterbytype("house")) }}><img src='/house.png' className='w-14 h-14' /> house</h5>
               </div>
 
             </div>
+
             {/* sec2 */}
             <div className='flex mt-5 flex-col items-center  border-b border-gray-600/10 px-3 py-3'>
               <div className='flex flex-col justify-start w-full '>

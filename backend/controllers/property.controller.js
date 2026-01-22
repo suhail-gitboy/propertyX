@@ -7,11 +7,23 @@ import { Wishlist } from "../models/Wishlist.js";
 import { v2 as cloudinary } from "cloudinary";
 import { Booking } from "../models/Booking.model.js";
 import { Aggregate } from "mongoose";
+import { getEmbedding, textGenerate } from "../services/Openaiembedding.js";
+
 dotenv.config()
+function cleanText(value) {
+    if (value === null || value === undefined) return "";
+    if (typeof value === "string") return value;
+    if (typeof value === "number") return value.toString();
+    if (Array.isArray(value)) return value.join(", ");
+    return JSON.stringify(value);
+}
+
+
 export const NewpropertyUpload = async (req, res) => {
 
 
     const { title, description, propertyType, listingType, price, squareFeet, roomsAvailable, amenities, location } = req.body
+
 
     const RoomsAvailableTonumber = Number(roomsAvailable)
 
@@ -28,10 +40,33 @@ export const NewpropertyUpload = async (req, res) => {
     const User = req.payload
     const locationParsed = JSON.parse(location)
 
+
     const parsedSquareFeet =
         squareFeet && squareFeet !== "null"
             ? Number(squareFeet)
             : undefined;
+
+    // Prepare clean text for embedding
+    const amenitiesText = Array.isArray(amenities)
+        ? amenities.join(", ")
+        : cleanText(amenities);
+    const textToEmbed = [
+        `Title: ${cleanText(title) || ""}`,
+        `City: ${cleanText(locationParsed?.city) || ""}`,
+        `Price per night: ${cleanText(price) || ""}`,
+        `Amenities: ${amenitiesText || ""}`,
+        `Description: ${cleanText(description) || ""}`
+    ].join(". ");
+
+    let embedding = [];
+
+    try {
+        embedding = await getEmbedding(textToEmbed);
+        console.log("Embedding length:", embedding.length); // should print 384
+    } catch (err) {
+        console.error("Embedding failed:", err.message);
+    }
+
 
     try {
         const Newproperty = await Propertymodel.create({
@@ -42,7 +77,7 @@ export const NewpropertyUpload = async (req, res) => {
             price,
             squareFeet: parsedSquareFeet,
             roomsAvailable: RoomsAvailableTonumber,
-            amenities,
+            amenities: amenities,
             seller: {
                 sellerId: User._id,
                 name: User.name,
@@ -59,7 +94,8 @@ export const NewpropertyUpload = async (req, res) => {
                 lng: locationParsed.lng
             },
 
-            images: Images
+            images: Images,
+            embedding: embedding
 
 
         })
@@ -70,7 +106,7 @@ export const NewpropertyUpload = async (req, res) => {
 
 
         await sendWhatsApp({
-            to: process.env.ADMIN_WHATSAPP,
+            to: User.phone ? `watsapp:91+${User.phone}` : process.env.ADMIN_WHATSAPP,
             message: `
 🏠 *New Property Submitted*
 
@@ -689,3 +725,59 @@ export const removeproperty = async (req, res) => {
     }
 }
 
+export const Vectorindex = async (req, res) => {
+    const { query } = req.body;
+    try {
+
+        console.log(query)
+
+        if (!query) {
+            return res.status(400).json({ message: "Search query is required" });
+        }
+
+        const queryEmbedding = await getEmbedding(query);
+
+        const results = await Propertymodel.aggregate([
+            {
+                $vectorSearch: {
+                    index: "vector_index",
+                    path: "embedding",
+                    queryVector: queryEmbedding,
+                    numCandidates: 100,
+                    limit: 5
+                }
+            },
+            {
+                $project: {
+                    property_id: "$_id",     // rename _id
+                    title: 1,
+                    location: "$location.city",
+                    rating: 1,
+
+
+                    image: { $arrayElemAt: ["$images", 0] },
+
+
+                    score: { $meta: "vectorSearchScore" },
+
+                    _id: 0
+                }
+            },
+
+
+        ]);
+
+        const summary = await textGenerate(results, query)
+
+
+
+        res.status(200).json({ results: results, summary: summary });
+
+    } catch (error) {
+        console.error("Vector search failed:", error);
+        res.status(500).json({ message: "Vector search failed" });
+    }
+
+
+
+}

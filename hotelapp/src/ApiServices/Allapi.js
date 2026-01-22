@@ -1,4 +1,5 @@
 
+import { darken } from "@mui/material/styles"
 import { MainapiCall, SERVERurl } from "./MAINapi.js"
 
 
@@ -218,4 +219,18 @@ export const Alluserdata = async (data, headers) => {
 
 export const Allnotifyadmin = async (data) => {
     return MainapiCall("POST", `${SERVERurl}/booking/notifybyadmin`, data)
+}
+
+// deletemessage
+
+export const Deleteemessage = async (data) => {
+    return MainapiCall("DELETE", `${SERVERurl}/message/delete`, data)
+}
+
+
+export const propertyVector = async (data) => {
+
+    console.log({ query: data });
+
+    return MainapiCall("POST", `${SERVERurl}/property/vector`, { query: data })
 }

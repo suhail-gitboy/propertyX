@@ -30,7 +30,7 @@ export default function BookedRoomCard({ booking }) {
     const cancel = usecancelbookedproperty(token)
 
     return (
-        <div className="max-w-md mx-auto rounded-3xl overflow-hidden bg-gradient-to-br from-[#0b1d26] via-[#132f3a] to-[#1c4a5a] shadow-2xl border border-white/10">
+        <div className="max-w-md mx-auto rounded-3xl overflow-auto py-10 bg-gradient-to-br from-[#0b1d26] via-[#132f3a] to-[#1c4a5a] shadow-2xl border border-white/10">
 
             {open && <BookedRoomWithModal data={booking} open={open} setOpen={setOpen} />}
             <div className="relative h-48">

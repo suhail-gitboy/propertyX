@@ -1,5 +1,5 @@
 
-
+import { v2 as cloudinary } from "cloudinary";
 
 
 
@@ -55,4 +55,25 @@ export const Getmessages = async (req, res) => {
 
     }
 
+}
+
+
+export const Deletemessage = async (req, res) => {
+
+    const { messageId, public_id } = req.body
+
+
+    try {
+
+        if (public_id) {
+            await cloudinary.uploader.destroy(public_id)
+        }
+        await Message.findByIdAndDelete({ _id: messageId })
+
+
+        res.status(200).json("deleted")
+    } catch (error) {
+        res.status(500).json(error)
+
+    }
 }

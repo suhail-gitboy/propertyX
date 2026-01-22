@@ -1,8 +1,8 @@
 import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AddcommentApi, AddlikeApi, AddWishlist, DeletecommentApi, FollowhostApi, GetuserData, GetwishlistApi, HostpropertyApi, Singlepropertyapi, unFollowhostApi, UpdatecommentApi, GetpropertyUpdate, Hideproperty, Deleteproperty, bookinghistoryApi, cancelbookingApi, Confirmbooking, Cancelbookingbyhost, NewStartconversation, APIGetmessagehistory, APInewmessage, AllmessagedHistory, Alluserdata } from "../Allapi";
+import { AddcommentApi, AddlikeApi, AddWishlist, DeletecommentApi, FollowhostApi, GetuserData, GetwishlistApi, HostpropertyApi, Singlepropertyapi, unFollowhostApi, UpdatecommentApi, GetpropertyUpdate, Hideproperty, Deleteproperty, bookinghistoryApi, cancelbookingApi, Confirmbooking, Cancelbookingbyhost, NewStartconversation, APIGetmessagehistory, APInewmessage, AllmessagedHistory, Alluserdata, Deleteemessage, propertyVector } from "../Allapi";
 import { toast } from "sonner";
 import { ContextDatas } from "../../Common/ContextWrapped";
-import { useNavigate } from "react-router";
+import { data, useNavigate } from "react-router";
 
 export const useGetsingleproperty = (id) => {
     return useQuery({
@@ -627,3 +627,31 @@ export const useGetalluserdata = (data, token) => {
 
 }
 
+
+
+export const useDeletemessage = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async ({ data }) => {
+            const res = await Deleteemessage(data)
+            return res
+
+        },
+        onSuccess: (data, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: ["messages", variables.chatId]
+            })
+        }
+    })
+}
+export const useNewsuggestions = () => {
+
+    return useMutation({
+        mutationFn: async ({ query }) => {
+            const res = await propertyVector(query)
+            return res.data
+
+
+        }
+    })
+}

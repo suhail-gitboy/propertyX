@@ -67,7 +67,7 @@ const Adminhome = () => {
                                 {/* Total Bookings */}
                                 <div className="flex justify-between items-center">
                                     <p className="text-sm text-purple-200">Total Bookings</p>
-                                    <p className="text-3xl font-bold">{totalrevenue[0].totalbooking}</p>
+                                    <p className="text-3xl font-bold">{totalrevenue[0]?.totalbooking}</p>
                                 </div>
 
                                 {/* Divider */}
@@ -77,12 +77,12 @@ const Adminhome = () => {
                                 <div className="flex justify-between items-center">
                                     <p className="text-sm text-purple-200">Total Revenue</p>
                                     <p className="text-3xl font-bold">
-                                        ₹{totalrevenue[0].totalrevenue.toLocaleString("en-IN")}
+                                        ₹{totalrevenue[0]?.totalrevenue.toLocaleString("en-IN")}
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-gradient-to-br from-emerald-500 via-green-500 to-lime-400 rounded-2xl p-6 shadow-lg text-white">
+                        <div className="bg-gradient-to-br from-rose-400 via-rose-500 to-rose-400 rounded-2xl p-6 shadow-lg text-white">
 
                             {/* Header */}
                             <div className="flex items-center justify-between mb-5">

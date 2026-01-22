@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 export function fallbackRender({ error, resetErrorBoundary }) {
+
+    const navigate = useNavigate()
     return (
         <div
             role="alert"

@@ -10,6 +10,7 @@ import { ContextDatas } from '../Common/ContextWrapped'
 import Swal from 'sweetalert2'
 import BookedRoomCard from './Bookingcard'
 import { useGetbookings } from '../ApiServices/tanstack/PropertyMethod'
+import LoaderMAin from '../Common/Loader'
 const Bookinglist = () => {
   const sampleImage = '/mnt/data/IMG_7246ACDF-FB44-45E0-A583-ABD058AA4BD8.jpeg'
   const [Modal, Setmodal] = useState(false)
@@ -29,6 +30,7 @@ const Bookinglist = () => {
   const { token } = ContextDatas()
   const { data } = useGetbookings(token)
   console.log(data);
+  if (!data) return <LoaderMAin />
 
   return (
     <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className='p-4 bg-gray-50'>

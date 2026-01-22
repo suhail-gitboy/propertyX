@@ -1,11 +1,14 @@
 import express from "express"
-import { Addcomment, Addlike, Addtowishlist, Approval, Deletecomment, GetpropertySaved, Hideproperty, Listpropertyall, NewpropertyUpload, RejectApproval, RemoveApproved, removeproperty, SingleProperty, Updatecomment, Updateproperty } from "../controllers/property.controller.js"
+import { Addcomment, Addlike, Addtowishlist, Approval, Deletecomment, GetpropertySaved, Hideproperty, Listpropertyall, NewpropertyUpload, RejectApproval, RemoveApproved, removeproperty, SingleProperty, Updatecomment, Updateproperty, Vectorindex } from "../controllers/property.controller.js"
 import { AuthmiddleWare } from "../middlewares/auth.middleware.js"
 import { CloudinaryStorageUpload } from "../middlewares/upload.middleware.js"
 import { Adminmiddlware } from "../middlewares/Adminmiddleware.js"
 
-
 export const PropertyRoute = express.Router()
+
+// vectorsearch
+
+PropertyRoute.post("/vector", Vectorindex)
 
 
 PropertyRoute.post("/new/property", AuthmiddleWare, CloudinaryStorageUpload.array("images", 8), NewpropertyUpload)
@@ -41,3 +44,5 @@ PropertyRoute.post("/wishlist/:id", AuthmiddleWare, Addtowishlist)
 PropertyRoute.put("/addcomment/:id", AuthmiddleWare, Addcomment)
 PropertyRoute.put("/updatecomment/:id/:commentId", AuthmiddleWare, Updatecomment)
 PropertyRoute.put("/deletecomment/:id/:commentId", AuthmiddleWare, Deletecomment)
+
+

@@ -61,7 +61,9 @@ const ProductSlice = createSlice({
                 } else if (Data === "highlow") {
                     state.products = [...state.products].sort((a, b) => b.price - a.price)
                 } else if (Data === "toprate") {
-                    state.products = [...state.products].sort((a, b) => a.rating - b.rating)
+
+
+                    state.products = [...state.products].sort((a, b) => a.comments.rating - b.rating)
                 } else if (Data == "lowrate") {
                     state.products = [...state.products].sort((a, b) => b.rating - a.rating)
                 } else {
@@ -69,6 +71,31 @@ const ProductSlice = createSlice({
                 }
 
             }
+        },
+        Filterbysellorsale: (state, action) => {
+            const payload = action.payload
+            if (payload.length > 0) {
+                state.products = state.Allproducts.filter((data) => data.listingType == payload)
+            } else {
+                state.products = state.Allproducts
+            }
+
+
+
+        },
+        clearfilter: (state, action) => {
+            state.products = state.Allproducts
+
+        },
+        filterbytype: (state, action) => {
+            const payload = action.payload
+            if (payload) {
+                state.products = state.Allproducts.filter((data) => data.propertyType == payload)
+            } else {
+                state.products = state.Allproducts
+            }
+
+
         },
         FuncAddallproduct: (state, action) => {
             const Data = action.payload
@@ -79,5 +106,5 @@ const ProductSlice = createSlice({
     }
 })
 
-export const { SearchFilter, Sortingfunc, FuncAddallproduct } = ProductSlice.actions;
+export const { SearchFilter, Sortingfunc, FuncAddallproduct, clearfilter, filterbytype, Filterbysellorsale } = ProductSlice.actions;
 export default ProductSlice.reducer;

@@ -115,8 +115,14 @@ export default function TriptoSignupModal() {
       >
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
-          <div className="text-xs text-gray-500">Create Account</div>
+          <div className="flex flex-col gap-3 w-full mt-4">
 
+            {/* USER SIGN IN */}
+
+
+            {/* HOST SIGN IN */}
+
+          </div>
           <button
             onClick={() => Setsignmodal(false)}
             aria-label="Close"
@@ -217,13 +223,21 @@ export default function TriptoSignupModal() {
               {/* Signup Button */}
               <button
                 type="submit"
-                className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium"
+                className="w-full py-3 bg-blue-500 text-white rounded-md text-sm font-medium"
               >
                 {loading ? <Loading /> : "Sign-in"}
               </button>
             </form>
           )}
         </Formik>
+        <button
+          className="w-full mt-5 py-3 rounded-lg bg-gray-700 border text-white border-neutral-300 text-neutral-700 
+               hover:bg-neutral-700 hover:text-white 
+               transition-all duration-300"
+        >
+          Sign in as Host
+        </button>
+
         <div className='mt-4 mb-4 w-full flex justify-center items-center'>
           <GoogleLogin
             onSuccess={credentialResponse => {

@@ -164,7 +164,7 @@ const PropertyCard = ({ property }) => {
             <AnimatePresence>
                 {
 
-                    property?.slice(0, 4).map((property, key) => (
+                    property?.slice(0, 10).map((property, key) => (
                         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, ease: easeIn }} key={key} className="bg-white rounded-xl shadow shadow-xl mb-6 w-full mx-auto">
 
                             {/* TOP : USER INFO */}

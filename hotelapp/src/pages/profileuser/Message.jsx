@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import { ContextDatas } from '../../Common/ContextWrapped';
-import { useAllmessaged, useGetalluserdata, useMessagehistory, useNewmessage, useStartConverstaion } from '../../ApiServices/tanstack/PropertyMethod';
+import { useAllmessaged, useDeletemessage, useGetalluserdata, useMessagehistory, useNewmessage, useStartConverstaion } from '../../ApiServices/tanstack/PropertyMethod';
 import Loading from '../../Components/Loading';
 import { toast } from 'sonner';
 import { GrGallery } from "react-icons/gr";
@@ -17,7 +17,7 @@ import { io, Socket } from "socket.io-client"
 import { useQueryClient } from '@tanstack/react-query';
 import Userprofile from './Userprofiledata';
 import { LoaderFour, LoaderOne, LoaderTwo } from '../../Utils/UILIBRARY/Loader';
-
+import Tooltip from "@mui/material/Tooltip";
 const Message = () => {
   const { token, User } = ContextDatas()
 
@@ -86,10 +86,7 @@ const Message = () => {
 
   }, [messagedata])
 
-  useEffect(() => {
-    console.log("recipient", allonlineUsers);
 
-  }, [allonlineUsers])
 
   useEffect(() => {
 
@@ -151,7 +148,7 @@ const Message = () => {
 
 
     Setuserprofile(recipientuserdetail?.recipientUser)
-    Setrecipientid(recipientuserdetail?.recipientUser._id)
+    Setrecipientid(recipientuserdetail?.recipientUser?._id)
     SetchatID(recipientuserdetail?.conversation?._id)
   }, [recipientuserdetail])
 
@@ -226,8 +223,19 @@ const Message = () => {
     SEtimagepreview("")
     SEtimagetoupload(null)
   };
+  const Deleteemessage = useDeletemessage()
+
+  const handleDelete = (msg) => {
 
 
+    const mssg = {
+      messageId: msg._id,
+      public_id: msg.image ? msg.image.public_id : null
+
+    }
+    Deleteemessage.mutate({ data: mssg, chatId })
+
+  }
 
 
 
@@ -346,10 +354,10 @@ const Message = () => {
                             <p className="text-sm  leading-relaxed">{msg.text}</p>
                           </div> : <p className="text-sm leading-relaxed">{msg.text}</p>}
                           <div
-                            className={`mt-1 text-[11px] text-right flex gap-4 justify-end`}
+                            className={`mt-1 text-[11px] text-right items-center flex gap-4 justify-end`}
                           >
                             <p className={`${isMe ? "text-gray-300" : "text-gray-400"}`}>  {(timeAgo(msg.createdAt))}</p>
-                            {msg.senderId == User._id && <p className='text-red-600 text-3xl'>...</p>}
+                            {msg.senderId == User._id && <Tooltip onClick={() => handleDelete(msg)} title="delete"><p className='text-red-600 text-sm'>...</p></Tooltip>}
                           </div>
 
                         </div>
@@ -365,9 +373,9 @@ const Message = () => {
             </>
 
         }
-        <div className="sticky bottom-0 bg-white border-t px-4 py-3 relative">
+        <div className="sticky bottom-0 bg-white border-t px-4 py-3 ">
           {
-            imagetpreview && <div className="absolute px-4 py-4 bg-white  -top-20 right-60">
+            imagetpreview && <div className="absolute px-4 py-4 bg-white  bottom-40 right-60">
 
               <img src={imagetpreview} alt="" className='w-20 h-20' />
             </div>

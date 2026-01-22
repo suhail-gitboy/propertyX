@@ -27,8 +27,8 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
         <>
             <div className='relative'>
 
-                <div className='relative flex justify-center items-center'>
-                    <img src="https://uploads.prod01.london.platform-os.com/instances/831/assets/images/What%20Makes%20a%20Building%20a%20Skyscraper%20by%20Fred%20Mills%20via%20The%20B1M.jpg?updated=1605539718" className='w-full sm:h-100 brightness-65 md:h-150' alt="" />
+                <div className='relative bg-black/65 flex justify-center items-center'>
+                    <img src="/images/home.png" className='w-full sm:h-100 brightness-70 md:h-150' alt="" />
                     <div className='text-center absolute '>
                         <AnimatePresence>
                             {text.split("").map((char, i) => (
@@ -56,72 +56,91 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
                 </div>
                 <div className='flex  relative justify-center items-center '>
 
-                    <div className=' absolute -bottom-9 bg-blue-100  rounded-md shadow-xl flex-col px-3 md:px-6 py-1 md:py-3'>
-                        <div className='mb-2  hidden md:flex  absolute left-0  justify-center items-center -top-18 w-full px-3 py-5  rounded-md'>
-                            <div className='flex items-center justify-center gap-x-2 backdrop-blur-xl px-9 mx-auto py-4 rounded-full'>
-                                <Link to="/search" className='flex  items-center text-white hover:bg-white hover:text-black  px-3 rounded-full py-2 transition-colors duration-300' ><RiHotelLine className=' w-6 h-6 mr-1' />hotel</Link>
-                                <Link to="/search" className='flex items-center text-white hover:bg-white hover:text-black  px-3 rounded-full py-2 transition-colors duration-300' ><IoIosHome className=' w-6 h-6 mr-1' />home</Link>
-                                <Link to="/search" className='flex items-center text-white hover:bg-white hover:text-black  px-3 rounded-full py-2 transition-colors duration-300' ><MdOutlineAddHomeWork className=' w-6 h-6 mr-1' />guest house</Link>
-                                <Link to="/search" className='flex items-center text-white hover:bg-white hover:text-black  px-3 rounded-full py-2 transition-colors duration-300' ><HiHomeModern className='text-white w-6 h-6 mr-1' />Villas</Link>
-                                <Link to="/search" className='flex items-center text-white hover:bg-white hover:text-black  px-3 rounded-full py-2 transition-colors duration-300' ><BsFillBuildingsFill className=' hover:text-black w-6 h-6 mr-1 ' />Appartments</Link>
+                    <div className="absolute -bottom-9 bg-neutral-200 rounded-md shadow-xl flex-col px-3 md:px-6 py-1 md:py-3">
+
+                        {/* TOP CATEGORY PILLS */}
+                        <div className="mb-2 hidden md:flex absolute left-0 justify-center items-center -top-18 w-full px-3 py-5 rounded-md">
+                            <div className="flex items-center justify-center gap-x-2 backdrop-blur-xl bg-neutral-900/80 px-9 mx-auto py-4 rounded-full">
+
+                                {[
+                                    { icon: <RiHotelLine />, label: "hotel" },
+                                    { icon: <IoIosHome />, label: "home" },
+                                    { icon: <MdOutlineAddHomeWork />, label: "guest house" },
+                                    { icon: <HiHomeModern />, label: "villas" },
+                                    { icon: <BsFillBuildingsFill />, label: "apartments" },
+                                ].map((item, i) => (
+                                    <Link
+                                        key={i}
+                                        to="/search"
+                                        className="flex items-center text-neutral-200 hover:bg-white hover:text-neutral-900 px-3 py-2 rounded-full transition"
+                                    >
+                                        <span className="w-6 h-6 mr-1">{item.icon}</span>
+                                        {item.label}
+                                    </Link>
+                                ))}
                             </div>
                         </div>
-                        <div className="flex md:mt-6 space-x-4 items-center">
+
+                        {/* MAIN CONTENT */}
+                        <div className="flex md:mt-6 space-x-4 items-center text-neutral-900">
 
                             {/* LEFT TEXT */}
                             <div className="hidden md:flex md:flex-row gap-4 items-center">
-                                <div className=" gap-4">
-                                    <p className="text-black font-semibold text-md md:text-xl">
+                                <div className="gap-4">
+                                    <p className="font-semibold text-md md:text-xl text-neutral-900">
                                         EXPLORE
                                     </p>
-                                    <p className="font-semibold text-xs md:text-sm text-gray-600">
+                                    <p className="font-semibold text-xs md:text-sm text-neutral-600">
                                         find your ideal property
                                     </p>
                                 </div>
 
-                                <img src="/house.png" className='h-18 w-14' alt="" />
+                                <img src="/house.png" className="h-18 w-14 opacity-80" alt="" />
                             </div>
 
                             {/* ACTION BLOCKS */}
                             <div className="flex px-6 space-x-4 items-center">
 
                                 {/* FIND PROPERTY */}
-                                <Link to="/search" className="hidden md:flex flex-col items-center border-l border-black/10 p-3">
-                                    <div className="flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full font-semibold text-sm shadow-sm">
+                                <Link
+                                    to="/search"
+                                    className="hidden md:flex flex-col items-center border-l border-neutral-300 p-3"
+                                >
+                                    <div className="flex items-center gap-2 bg-neutral-900 text-white px-4 py-2 rounded-full font-semibold text-sm shadow-sm">
                                         <FaHome />
                                         Find Property
                                     </div>
-                                    <p className="text-gray-600 text-sm mt-1 flex items-center gap-1">
-                                        view on map <FaMapMarkerAlt className="text-blue-600" />
+                                    <p className="text-neutral-600 text-sm mt-1 flex items-center gap-1">
+                                        view on map <FaMapMarkerAlt />
                                     </p>
                                 </Link>
 
                                 {/* SEARCH OPTIONS */}
-                                <div className="hidden md:flex flex-col items-center border-l border-black/10 p-3">
+                                <div className="hidden md:flex flex-col items-center border-l border-neutral-300 p-3">
                                     <Link
                                         to="/search"
-                                        className="flex items-center gap-2 px-4 py-2 text-xs font-semibold border border-indigo-600 text-indigo-600 rounded-full hover:bg-indigo-600 hover:text-white transition"
+                                        className="flex items-center gap-2 px-4 py-2 text-xs font-semibold border border-neutral-900 text-neutral-900 rounded-full hover:bg-neutral-900 hover:text-white transition"
                                     >
                                         <FaSearch />
-                                        More Filters
+                                        use chat bot
                                     </Link>
-                                    <p className="text-gray-600 text-sm mt-1">
+                                    <p className="text-neutral-600 text-sm mt-1">
                                         advanced search
                                     </p>
                                 </div>
 
                                 {/* HOST CTA */}
-                                <div className="flex flex-col items-center border-0 md:border-l border-black/10 p-2 md:p-3">
+                                <div className="flex flex-col items-center border-0 md:border-l border-neutral-300 p-2 md:p-3">
                                     {User?.role === "host" ? (
                                         <>
                                             <Link
                                                 to="/property/host"
-                                                className="flex items-center gap-2 px-4 py-2 text-xs md:text-lg font-semibold bg-green-600 text-white rounded-full hover:bg-green-700 transition shadow"
+                                                className="flex items-center gap-2 px-4 py-2 text-xs md:text-lg font-semibold bg-neutral-900 text-white rounded-full hover:opacity-90 transition shadow"
                                             >
                                                 <FaPlusCircle />
                                                 Start Hosting
                                             </Link>
-                                            <p className="text-gray-600 text-sm mt-1 hidden md:flex">
+                                            <p className="text-neutral-600 text-sm mt-1 hidden md:flex">
                                                 list your property
                                             </p>
                                         </>
@@ -129,12 +148,12 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
                                         <>
                                             <Link
                                                 to="/register/host"
-                                                className="flex items-center gap-2 px-4 py-2 text-xs font-semibold border border-green-600 text-green-600 rounded-full hover:bg-green-600 hover:text-white transition"
+                                                className="flex items-center gap-2 px-4 py-2 text-xs font-semibold border border-neutral-900 text-neutral-900 rounded-full hover:bg-neutral-900 hover:text-white transition"
                                             >
                                                 <FaPlusCircle />
                                                 Be a Host
                                             </Link>
-                                            <p className="text-gray-600 text-sm mt-1 hidden md:flex">
+                                            <p className="text-neutral-600 text-sm mt-1 hidden md:flex">
                                                 earn from listings
                                             </p>
                                         </>
@@ -146,15 +165,16 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
                             <div>
                                 <Link
                                     to="/search"
-                                    className="flex items-center mr-5 md:mr-0 gap-2 px-3 md:px-5 py-2 rounded-md text-xs  md:text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-90 transition shadow"
+                                    className="flex items-center mr-5 md:mr-0 gap-2 px-3 md:px-5 py-2 rounded-md text-xs md:text-sm font-semibold text-white bg-neutral-900 hover:bg-neutral-800 transition shadow"
                                 >
                                     <FaSearch />
                                     Search
                                 </Link>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
+
                 </div>
 
             </div>

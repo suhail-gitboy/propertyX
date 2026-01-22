@@ -2,6 +2,9 @@ import axios from "axios"
 
 export const SERVERurl = "https://propertyx-xm8w.onrender.com"
 
+// "http://localhost:8000"
+// "https://propertyx-xm8w.onrender.com"
+
 
 
 

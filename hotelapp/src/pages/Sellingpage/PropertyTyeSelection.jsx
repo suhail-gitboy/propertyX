@@ -27,7 +27,7 @@ const PROPERTY_TYPES = [
     },
     {
         id: "villa",
-        title: "Villa",
+        title: "villa",
         description: "A luxury standalone property",
         icon: Hotel,
     },

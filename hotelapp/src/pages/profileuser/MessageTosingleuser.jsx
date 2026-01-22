@@ -6,9 +6,14 @@ import { useMessagehistory, useNewmessage, useStartConverstaion } from '../../Ap
 import { formatDate, timeAgo } from '../../Utils/UILIBRARY/Realtime';
 import { toast } from 'sonner';
 import { GrGallery } from "react-icons/gr";
+import { FaClosedCaptioning } from 'react-icons/fa';
+import { CiImageOff } from "react-icons/ci";
+import { LoaderTwo } from '../../Utils/UILIBRARY/Loader';
 const MessageTosingleuser = () => {
     const [recientuser, Setrecipientuser] = useState(null)
     const [conversationid, Setconversationid] = useState(null)
+    const [imagetoupload, Setimgupload] = useState(null)
+    const [imagepreviw, Setpreview] = useState(null)
     const [messageshistory, Setmessagehistory] = useState([])
 
     const { id } = useParams()
@@ -58,25 +63,52 @@ const MessageTosingleuser = () => {
     const [messageText, setMessageText] = useState("");
 
 
-    const sendmessage = useNewmessage(token)
+    const { isPending, mutate: sendmessage
+    } = useNewmessage(token)
 
 
     const handleSend = () => {
-        if (!messageText) {
-            toast.warning("type something")
+        if (messageText || imagetoupload) {
+            const body = {
+                chatId: conversationid,
+                senderId: User._id,
+                text: messageText
+            }
+            const reqbody = new FormData()
+            reqbody.append("chatId", conversationid);
+            reqbody.append("senderId", User._id);
+            reqbody.append("text", messageText);
+
+            if (imagetoupload) {
+                reqbody.append("image", imagetoupload); // ✅ File object
+            }
+
+
+
+
+
+            sendmessage({ FormData: reqbody, chatId: conversationid })
+
+
+            setMessageText("");
+            Setpreview(null)
+            Setimgupload(null)
+            return
+
         }
 
-        const body = {
-            chatId: conversationid,
-            senderId: User._id,
-            text: messageText
-        }
-
-        sendmessage.mutate(body)
+        toast.warning("type something")
 
 
-        setMessageText("");
     };
+
+
+
+    const Funcimage = (e) => {
+        const image = e.target.files[0]
+        Setimgupload(image)
+        Setpreview(URL.createObjectURL(image))
+    }
     return (
         <div className="w-full relative h-160 flex flex-col">
 
@@ -113,7 +145,9 @@ const MessageTosingleuser = () => {
                                             : "bg-white text-gray-800 rounded-bl-sm"
                                         }`}
                                 >
-                                    <p className="text-sm leading-relaxed">{msg.text}</p>
+                                    {msg.image ? <div className=' rounded-md p-2'><img src={msg.image.url} className='w-40 h-40 rounded-md' />
+                                        <p className="text-sm  leading-relaxed">{msg.text}</p>
+                                    </div> : <p className="text-sm leading-relaxed">{msg.text}</p>}
                                     <div
                                         className={`mt-1 text-[11px] text-right
                       ${isMe ? "text-gray-300" : "text-gray-400"}`}
@@ -129,9 +163,20 @@ const MessageTosingleuser = () => {
                         You haven’t started a conversation
                     </p>
                 )}
+                {isPending && <div className='flex justify-end'> <LoaderTwo /></div>}
             </div>
 
-            <div className="sticky bottom-0 bg-white border-t px-4 py-3">
+            <div className="sticky  bottom-0 bg-white border-t px-4 py-3">
+                {
+                    imagepreviw && <div className="absolute px-4 py-4 bg-white  bottom-35 right-60">
+                        <p className='flex justify-end' onClick={() => {
+                            Setpreview(null)
+                            Setimgupload(null)
+                        }}><CiImageOff className='text-red-500 text-xl ' /></p>
+
+                        <img src={imagepreviw} alt="" className='w-20 h-20' />
+                    </div>
+                }
                 <div className="flex items-center gap-3">
                     <input
                         type="text"
@@ -143,10 +188,10 @@ const MessageTosingleuser = () => {
               focus:outline-none focus:ring-2 focus:ring-black/20"
                     />
 
-                    <div className="flex gap-4 items-center">
+                    <div className="flex relative gap-4 items-center">
                         <label htmlFor="imageUpload">
                             <GrGallery className='text-black text-2xl' />
-                            <input type="file" hidden id='imageUpload' />
+                            <input onChange={(e) => Funcimage(e)} type="file" hidden id='imageUpload' />
                         </label>
 
 
@@ -155,7 +200,7 @@ const MessageTosingleuser = () => {
                             onClick={handleSend}
 
                             className={`p-3 rounded-full transition
-              ${messageText.trim()
+              ${messageText.trim() || imagetoupload
                                     ? "bg-black text-white hover:bg-gray-900"
                                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                                 }`}

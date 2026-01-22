@@ -15,7 +15,7 @@ const Userprofile = () => {
   const { SetUser, User, token } = ContextDatas()
   const { data: userdata } = useGetsingleuser(User?._id)
 
-  console.log(userdata);
+
 
 
   const [modeledit, Setmodal] = useState(false)
@@ -41,7 +41,7 @@ const Userprofile = () => {
   }, [User])
 
   const { data } = useGetbookings(token)
-  console.log(data);
+
 
 
   return (

@@ -35,12 +35,20 @@ const Nav = ({
   const keralaPlaces = [ /* same list as before */];
 
   return (
-    <div className="px-3 md:px-8 py-5 flex justify-between items-center shadow-md">
+    <div className="px-3 md:px-8 py-5 flex justify-between bg-linear-to-b from-neutral-200 to-neutral-300 items-center shadow-md">
 
       {/* LOGO */}
-      <h3 className="font-bold text-sm md:text-2xl bg-linear-to-br from-blue-400 via-blue-600 to-yellow-500 text-transparent bg-clip-text">
-        Property<span className="bg-linear-to-br from-blue-400 via-yellow-400 to-yellow-700 text-transparent bg-clip-text">X.in</span>
+
+      <h3 className="font-bold text-sm md:text-2xl 
+  bg-gradient-to-br from-gray-500 via-gray-600 to-gray-700 
+  text-transparent bg-clip-text">
+        Property
+        <span className="bg-gradient-to-br from-violet-400 via-violet-500 to-violet-700 text-transparent bg-clip-text">
+          X.in
+        </span>
       </h3>
+
+
 
       {/* SEARCH BAR */}
       {search && (
@@ -54,10 +62,10 @@ const Nav = ({
           </p>
 
           <button
-            className="p-2 bg-blue-500 rounded-xl"
+            className="p-2 bg-black-500 rounded-xl"
             onClick={() => Setsearchpop(true)}
           >
-            <IoSearchOutline className="text-white text-xl" />
+            <IoSearchOutline className="text-black text-xl" />
           </button>
 
           {searchpop && (
@@ -74,21 +82,21 @@ const Nav = ({
       <div className="hidden md:flex items-center space-x-4">
 
         {/* Always visible */}
-        <Link to="/profile/aibot">
+        {/* <Link to="/profile/aibot">
           <Tooltip title="AI guidance">
-            <SlEarphonesAlt className="text-2xl text-blue-800" />
+            <SlEarphonesAlt className="text-2xl text-black" />
           </Tooltip>
-        </Link>
+        </Link> */}
 
         <Link to="/profile/wishlists">
           <Tooltip title="Wishlist">
-            <CiHeart className="text-2xl text-blue-800" />
+            <CiHeart className="text-2xl text-black" />
           </Tooltip>
         </Link>
 
         <Link
           to="/profile/aibot"
-          className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold"
+          className="bg-black text-white px-4 py-2 rounded-full text-sm font-semibold"
         >
           AI Assistant
         </Link>
@@ -108,13 +116,13 @@ const Nav = ({
         ) : <>
           <Link to="/">
             <Tooltip title="Home">
-              <CiHome className="text-2xl text-blue-800/60" />
+              <CiHome className="text-2xl text-black" />
             </Tooltip>
           </Link>
 
           <Link to="/profile">
             <Tooltip title="Profile">
-              <VscAccount className="text-2xl text-blue-800" />
+              <VscAccount className="text-2xl text-black" />
             </Tooltip>
           </Link>
         </>}
@@ -127,7 +135,7 @@ const Nav = ({
             <Button onClick={() => Setloginmodal(true)} text="Login" />
           ) : User.role == "admin" ? (
             <>
-              <Link to={"/admin/home"} className="px-4 py-1 bg-blue-950 text-white rounded-md">
+              <Link to={"/admin/home"} className="px-4 py-1 bg-black text-white rounded-md">
                 admin
               </Link>
 
@@ -135,9 +143,9 @@ const Nav = ({
           ) : <>
             {profile ? <RiMenu3Fill
               onClick={() => Setbaropen(!baropen)}
-              className="text-3xl text-blue-500"
+              className="text-3xl text-black"
             /> : <Link to="/profile">
-              <VscAccount className="text-2xl text-blue-800" />
+              <VscAccount className="text-2xl text-black" />
             </Link>}</>}
         </div>
       )}

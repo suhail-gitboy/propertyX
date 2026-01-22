@@ -129,13 +129,9 @@ const RoomPaymentModal = ({
                         <div className="flex items-center justify-between">
                             <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                                 <FaHotel className="text-teal-600" />
-                                no of guest
+                                valid mobile number
                             </label>
-                            <label className="text-sm  text-gray-400 font-light flex items-center gap-2">
 
-                                maximum 3 member per room
-                                <FaUserAltSlash className="text-yellow-600" />
-                            </label>
                         </div>
 
 
@@ -146,9 +142,19 @@ const RoomPaymentModal = ({
                             value={Booking.phone}
                             onChange={(e) => Setbooking(prev => ({ ...prev, phone: Number(e.target.value) }))}
                             className="mt-3 w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm
-          focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition"
+          focus:ring-2 focus:ring-teal-500 focus:border-teal-500 mb-3 outline-none transition"
                         />
+                        <div className="flex items-center justify-between">
+                            <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                                <FaHotel className="text-teal-600" />
+                                no of guest
+                            </label>
+                            <label className="text-sm  text-gray-400 font-light flex items-center gap-2">
 
+                                maximum 3 member per room
+                                <FaUserAltSlash className="text-yellow-600" />
+                            </label>
+                        </div>
                         <input
                             type="number"
                             min={1}
