@@ -234,3 +234,9 @@ export const propertyVector = async (data) => {
 
     return MainapiCall("POST", `${SERVERurl}/property/vector`, { query: data })
 }
+export const Getfullproperyforinfinite = async (param = 1) => {
+    return MainapiCall(
+        "GET",
+        `${SERVERurl}/property/getfull?per_page=2&page=${param}`
+    );
+};

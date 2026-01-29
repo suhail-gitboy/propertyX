@@ -33,6 +33,7 @@ import PropertyCard from '../Components/MediaScroll';
 import Homenav from '../Common/Homenav';
 import { toast } from 'sonner';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { Getfullproperyforinfinite } from '../ApiServices/Allapi';
 
 
 const Home = () => {
