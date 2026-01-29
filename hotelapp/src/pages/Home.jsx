@@ -65,43 +65,43 @@ const Home = () => {
   const { products, loading } = useSelector((state) => state.Product)
 
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage, isLoading
-  } = useInfiniteQuery({
-    queryKey: ["propertydata"],
-    queryFn: async ({ pageParam = 1 }) => {
-      const res = await Getfullproperyforinfinite(pageParam);
-      return res.data; // { data, hasMore }
-    },
-    getNextPageParam: (lastPage, allPages) => {
-      console.log("lastPage:", lastPage);
-      return lastPage.hasMore ? allPages.length + 1 : undefined;
-    },
-  });
+  // const {
+  //   data,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   isFetchingNextPage, isLoading
+  // } = useInfiniteQuery({
+  //   queryKey: ["propertydata"],
+  //   queryFn: async ({ pageParam = 1 }) => {
+  //     const res = await Getfullproperyforinfinite(pageParam);
+  //     return res.data; // { data, hasMore }
+  //   },
+  //   getNextPageParam: (lastPage, allPages) => {
+  //     console.log("lastPage:", lastPage);
+  //     return lastPage.hasMore ? allPages.length + 1 : undefined;
+  //   },
+  // });
 
-  const loadMoreRef = useRef(null);
+  // const loadMoreRef = useRef(null);
 
-  useEffect(() => {
-    if (!loadMoreRef.current || !hasNextPage) return;
+  // useEffect(() => {
+  //   if (!loadMoreRef.current || !hasNextPage) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 1 }
-    );
+  //   const observer = new IntersectionObserver(
+  //     ([entry]) => {
+  //       if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+  //         fetchNextPage();
+  //       }
+  //     },
+  //     { threshold: 1 }
+  //   );
 
-    observer.observe(loadMoreRef.current);
+  //   observer.observe(loadMoreRef.current);
 
-    return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  //   return () => observer.disconnect();
+  // }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  console.log("dsadadcsaddas", data?.pages);
+  // console.log("dsadadcsaddas", data?.pages);
 
   useEffect(() => {
 
