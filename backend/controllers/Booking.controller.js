@@ -393,9 +393,10 @@ export const PaymentStripe = async (req, res) => {
         checkin,
         checkout,
         rooms,
-        paymentMode,
         totalPrice
     } = req.body;
+
+    const userId = req.payload._id; // ✅ user from auth
 
     const property = await Propertymodel.findById(propertyId).select("images");
 
@@ -403,7 +404,6 @@ export const PaymentStripe = async (req, res) => {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             mode: "payment",
-
             line_items: [
                 {
                     price_data: {
@@ -417,25 +417,23 @@ export const PaymentStripe = async (req, res) => {
                     quantity: 1,
                 },
             ],
-
-            // 🔥 VERY IMPORTANT
             metadata: {
                 propertyId,
                 hostId,
+                userId,                  // ✅ include logged-in user
                 name,
                 phone,
-                checkin,
-                checkout,
+                checkIn: new Date(checkin).toISOString(),
+                checkOut: new Date(checkout).toISOString(),
                 rooms,
                 totalPrice,
+                paymentMode: "online"
             },
-
-            success_url: "http://localhost:5173/payment/success",
-            cancel_url: "http://localhost:5173/payment/cancel",
+            success_url: "https://yourfrontend.com/payment/success",
+            cancel_url: "https://yourfrontend.com/payment/cancel",
         });
 
         res.status(200).json({ url: session.url });
-
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -444,6 +442,7 @@ export const PaymentStripe = async (req, res) => {
         });
     }
 };
+
 
 export const stripeWebhook = async (req, res) => {
     const sig = req.headers["stripe-signature"];
