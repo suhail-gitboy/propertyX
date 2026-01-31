@@ -34,7 +34,7 @@ const Searchpage = () => {
     return true
   });
 
-  const Productperpage = 20
+  const Productperpage = 10
   const Totalpage = Math?.ceil(FilteredSlider?.length / Productperpage)
   const CurrpageLAstindex = Page * Productperpage
   const CurrpageFirstindex = CurrpageLAstindex - Productperpage
@@ -145,15 +145,38 @@ const Searchpage = () => {
               }
             </div>
 
-            <div className='flex justify-end'   >
-              <div className={` 
+            {
+              products?.length > 0 && <div className='flex justify-end'   >
+                <div className={` 
           bottom-5 fixed left-5"
-       w-fit p-4 flex justify-end space-x-2.5 -3 bg-blue-500/70 rounded-md text-white`} >
-                <button onClick={Backword}><BsSkipBackward /></button>
-                <h1 className=' text-xl font-semibold'>page {Page} of {Totalpage}</h1>
-                <button onClick={Forward}><BsFastForward /></button>
+       w-fit p-4 flex justify-end space-x-2.5 -3 bg-gray-200 rounded-md text-black/45`} >
+                  <button onClick={Backword} disabled={Page === 1}>
+                    <BsSkipBackward />
+                  </button>
+
+                  <div className="text-xl font-semibold flex space-x-2">
+                    {[...Array(Math.ceil(products?.length / 10))].map((_, i) => (
+                      <p
+                        key={i}
+                        onClick={() => Setpage(i + 1)}
+                        className={`px-2 py-2 rounded-md text-white cursor-pointer ${Page === i + 1 ? "bg-blue-600" : "bg-gray-500"
+                          }`}
+                      >
+                        {i + 1}
+                      </p>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={Forward}
+                    disabled={Page === Math.ceil(products?.length / 10)}
+                  >
+                    <BsFastForward />
+                  </button>
+
+                </div>
               </div>
-            </div>
+            }
           </div>
 
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaHotel, FaRupeeSign, FaCreditCard, FaMoneyBillWave, FaTimes, FaUserAltSlash } from "react-icons/fa";
 import { MdInfoOutline } from "react-icons/md";
 import { ContextDatas } from "../../Common/ContextWrapped";
@@ -24,6 +24,7 @@ const RoomPaymentModal = ({
 
     const { Booking, Setbooking, loading, Setloading, token, User, Setloginmodal, Setnotifydata, bookingsuccessmodal, SetbookingSuccessfull } = ContextDatas()
 
+    useEffect(() => { Setloading(false) }, [])
     const checkin = new Date(Booking.checkin);
     const checkout = new Date(Booking.checkout);
 
@@ -96,7 +97,13 @@ const RoomPaymentModal = ({
 
     return (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center px-4">
-            <div className="bg-white w-full max-w-md rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.25)] overflow-hidden">
+            <div className="  bg-white
+    w-[92%] sm:w-[90%]
+    max-w-sm md:max-w-lg lg:max-w-xl
+    max-h-[85vh] sm:max-h-[90vh]
+    rounded-3xl
+    shadow-[0_20px_60px_rgba(0,0,0,0.25)]
+    overflow-y-auto">
 
                 {/* Header */}
                 <div className="flex items-start justify-between px-6 pt-6 pb-4 border-b">

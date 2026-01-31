@@ -1,5 +1,5 @@
 import express from "express"
-import { BookinglistAll, Cancelbooking, Cancelbookingbyhost, checkAvailability, Newbooking, Notifyuserfromadminpanel, PaymentStripe, UserConfirmation } from "../controllers/Booking.controller.js"
+import { BookinglistAll, Cancelbooking, Cancelbookingbyhost, checkAvailability, Newbooking, Notifyuserfromadminpanel, PaymentStripe, stripeWebhook, UserConfirmation } from "../controllers/Booking.controller.js"
 import { AuthmiddleWare } from "../middlewares/auth.middleware.js"
 
 
@@ -21,4 +21,6 @@ BookingRoute.put("/cancelbookingbyhost/:id", AuthmiddleWare, Cancelbookingbyhost
 BookingRoute.put("/confirmation/:id", AuthmiddleWare, UserConfirmation)
 
 BookingRoute.post("/payment", AuthmiddleWare, PaymentStripe)
+
+BookingRoute.post("/webhook", express.raw({ type: "application/json" }), stripeWebhook)
 BookingRoute.post("/notifybyadmin", Notifyuserfromadminpanel)

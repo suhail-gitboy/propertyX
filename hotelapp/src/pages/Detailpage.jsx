@@ -26,6 +26,8 @@ import { SERVERurl } from '../ApiServices/MAINapi';
 
 const Detailpage = () => {
 
+
+
   const navigate = useNavigate()
   const { isLogged, SetisLogged, loginmdal, Setloginmodal, User, Booking, Setbooking } = ContextDatas()
   // mapping 

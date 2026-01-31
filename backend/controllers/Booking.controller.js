@@ -397,43 +397,102 @@ export const PaymentStripe = async (req, res) => {
         totalPrice
     } = req.body;
 
-    const image = await Propertymodel.findById({ _id: propertyId }).select("images")
-    console.log(image.images[0].url);
+    const property = await Propertymodel.findById(propertyId).select("images");
 
     try {
-
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
+            mode: "payment",
+
             line_items: [
                 {
                     price_data: {
                         currency: "usd",
                         product_data: {
-                            name: name,
-                            images: [image.images[0].url]
+                            name,
+                            images: [property.images[0].url],
                         },
-                        unit_amount: totalPrice * 100
+                        unit_amount: totalPrice * 100,
                     },
                     quantity: 1,
-                }
+                },
             ],
-            mode: "payment",
-            success_url: "http://localhost:5173/payment/success",
-            cancel_url: "http://localhost:5173/payment/cancel"
-        })
 
-        res.status(200).json({ url: session.url })
+            // 🔥 VERY IMPORTANT
+            metadata: {
+                propertyId,
+                hostId,
+                name,
+                phone,
+                checkin,
+                checkout,
+                rooms,
+                totalPrice,
+            },
+
+            success_url: "http://localhost:5173/payment/success",
+            cancel_url: "http://localhost:5173/payment/cancel",
+        });
+
+        res.status(200).json({ url: session.url });
 
     } catch (error) {
         res.status(500).json({
             success: false,
             message: "Payment failed",
-            error: error.message
-        })
+            error: error.message,
+        });
+    }
+};
+
+export const stripeWebhook = async (req, res) => {
+    const sig = req.headers["stripe-signature"];
+
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(
+            req.body,
+            sig,
+            process.env.WEBHOOK_SECRET
+        );
+    } catch (err) {
+        console.error("Webhook signature verification failed:", err.message);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
+    if (event.type === "checkout.session.completed") {
+        const session = event.data.object;
 
-}
+        const metadata = session.metadata;
+
+        try {
+            await Booking.create({
+                propertyId: metadata.propertyId,
+                userId: metadata.userId,
+                hostId: metadata.hostId,
+
+                name: metadata.name,
+                phone: metadata.phone,
+
+                checkIn: new Date(metadata.checkIn),
+                checkOut: new Date(metadata.checkOut),
+
+                rooms: Number(metadata.rooms),
+                totalPrice: Number(metadata.totalPrice),
+                paymentMode: metadata.paymentMode,
+
+                bookingStatus: "confirmed",
+            });
+
+            console.log("✅ Booking stored successfully");
+        } catch (dbErr) {
+            console.error("❌ Booking save failed:", dbErr);
+        }
+    }
+
+    res.json({ received: true });
+};
 
 
 

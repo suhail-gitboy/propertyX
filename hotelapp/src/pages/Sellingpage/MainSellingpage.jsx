@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Stepper, { Step } from '../../Utils/UILIBRARY/Stepper';
 import PropertyPurposeSelector from './SellorRent';
 import PropertyTypeSelector from './PropertyTyeSelection';
@@ -32,7 +32,9 @@ const MainSellingpage = () => {
     const { popUpinputsuccess, Setpopupinputsuccess, loading, Setloading, User, token, property, setProperty } = ContextDatas()
 
 
-
+    useEffect(() => {
+        Setloading(false)
+    }, [])
 
 
     const UploadProperty = async () => {
