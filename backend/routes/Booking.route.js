@@ -22,5 +22,5 @@ BookingRoute.put("/confirmation/:id", AuthmiddleWare, UserConfirmation)
 
 BookingRoute.post("/payment", AuthmiddleWare, PaymentStripe)
 
-BookingRoute.post("/webhook", express.raw({ type: "application/json" }), stripeWebhook)
+BookingRoute.post("/webhook", stripeWebhook)
 BookingRoute.post("/notifybyadmin", Notifyuserfromadminpanel)
