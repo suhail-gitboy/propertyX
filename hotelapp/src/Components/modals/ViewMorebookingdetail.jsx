@@ -40,19 +40,19 @@ export default function BookedRoomWithModal({ open, setOpen, data }) {
                         Booking Details
                     </h2>
                     <p className="text-sm text-gray-400">
-                        Booking ID: {data._id}
+                        Booking ID: {data?._id}
                     </p>
                 </div>
 
                 {/* Property */}
                 <div className="flex">
                     <img
-                        src={data?.propertyId?.images[0].url}
+                        src={data?.propertyId?.images[0]?.url}
                         alt="property"
                         className="w-1/2 h-40 object-cover"
                     />
                     <img
-                        src={data?.propertyId?.images[3].url}
+                        src={data?.propertyId?.images[1]?.url}
                         alt="property"
                         className="w-1/2 h-40 object-cover"
                     />

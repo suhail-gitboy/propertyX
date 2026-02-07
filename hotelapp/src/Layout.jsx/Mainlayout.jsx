@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { Outlet } from 'react-router'
 import Footer from '../Common/Footer'
@@ -15,14 +15,16 @@ import { addWishlist } from '../redux/BookingSlice'
 import { useGetallwishlist } from '../ApiServices/tanstack/PropertyMethod'
 import BookingSuccessModal from '../Utils/UILIBRARY/bookedsucesmodal'
 import { SERVERurl } from '../ApiServices/MAINapi'
+import { Refreshapi } from '../ApiServices/Allapi'
+import Loading from '../Components/Loading'
 
 const Mainlayout = () => {
   const { popUpinputsuccess, Setpopupinputsuccess, bookingsuccessmodal, SetbookingSuccessfull } = ContextDatas()
-  const { loginmdal, signmodal, token } = ContextDatas()
+  const { loginmdal, signmodal, token, SetUser } = ContextDatas()
   const dispatch = useDispatch()
 
 
-
+  const [load, Setloading] = useState(false)
   const { data } = useAllPropertiesAdmin()
 
   const { property } = data || []
@@ -34,7 +36,34 @@ const Mainlayout = () => {
 
   }, [data])
 
+
+  useEffect(() => {
+
+    const Refresh = async () => {
+      Setloading(true)
+      const res = await Refreshapi()
+
+
+      if (res.status == 200) {
+        Setloading(false)
+        SetUser(res.data.user)
+      } else {
+        Setloading(false)
+        console.log(res);
+
+      }
+
+    }
+
+    Refresh()
+
+  }, [])
+
   const FooterRef = useRef(null)
+  if (load) {
+    return <Loading />
+  }
+
   return (
 
     <>

@@ -77,6 +77,13 @@ export const LoginController = async (req, res) => {
 
 
         const Token = jwt.sign({ email: CheckemailExist.email, _id: CheckemailExist._id, picture: CheckemailExist.picture, role: CheckemailExist.role, name: CheckemailExist.name }, process.env.SECRET_KEY, { expiresIn: "4h" })
+        res.cookie("token", Token, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            sameSite: "none",
+            secure: true,
+            path: "/auth/refresh",
+        })
         return res.status(200).json({ user: Makeobject, Token })
     } catch (error) {
         console.log(error);
@@ -86,7 +93,49 @@ export const LoginController = async (req, res) => {
 
 }
 
+export const Refreshtokenaccess = async (req, res) => {
+    try {
+        const token = req.cookies?.token;
 
+        if (!token) {
+            return res.status(401).json({ message: "No token found" });
+        }
+
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+        // Only keep safe fields
+        const payload = {
+            userId: decoded.userId,
+            email: decoded.email,
+            role: decoded.role,
+        };
+
+        const accessToken = jwt.sign(
+            payload,
+            process.env.SECRET_KEY,
+            { expiresIn: "15m" }
+        );
+
+
+        return res.status(200).json({ token: accessToken, user: decoded });
+
+    } catch (error) {
+        return res.status(401).json({
+            message: "Invalid or expired token",
+        });
+    }
+};
+
+export const logout = (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+        path: "/auth/refresh",
+    });
+
+    return res.status(200).json({ message: "Logged out" });
+};
 
 
 export const GoogleLoginController = async (req, res) => {
@@ -100,8 +149,15 @@ export const GoogleLoginController = async (req, res) => {
     if (user) {
 
         const Token = jwt.sign({ email: user.email, _id: user._id, picture: user.picture, role: user.role, name: user.name }, process.env.SECRET_KEY, { expiresIn: "4h" })
+        res.cookie("token", Token, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            sameSite: "none",
+            secure: true,
+            path: "/auth/refresh",
+        })
         res.status(200).json({ user: user, Token })
-        console.log(user);
+
     } else {
         const New = await Usermodel.create({
             name: username,
@@ -119,6 +175,13 @@ export const GoogleLoginController = async (req, res) => {
         const Makeobject = New.toObject()
         delete Makeobject.password
         const Token = jwt.sign({ email: New.email, _id: New._id, picture: New.picture, role: New.role, name: New.name }, process.env.SECRET_KEY, { expiresIn: "4h" })
+        res.cookie("token", Token, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            sameSite: "none",
+            secure: true,
+            path: "/auth/refresh",
+        })
         res.status(200).json({ user: Makeobject, Token })
 
     }
@@ -218,6 +281,13 @@ export const GoogleLoginHostController = async (req, res) => {
         await user.save()
 
         const Token = jwt.sign({ email: user.email, _id: user._id, picture: user.picture, role: user.role, name: user.name }, process.env.SECRET_KEY, { expiresIn: "4h" })
+        res.cookie("token", Token, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            sameSite: "none",
+            secure: true,
+            path: "/auth/refresh",
+        })
         res.status(200).json({ user: user, Token })
 
     } else {
@@ -233,6 +303,13 @@ export const GoogleLoginHostController = async (req, res) => {
         })
 
         const Token = jwt.sign({ email: New.email, _id: New._id, picture: New.picture, role: New.role, name: New.name }, process.env.SECRET_KEY, { expiresIn: "4h" })
+        res.cookie("token", Token, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            sameSite: "none",
+            secure: true,
+            path: "/auth/refresh",
+        })
         res.status(200).json({ user: New, Token })
 
     }

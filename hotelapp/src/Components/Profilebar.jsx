@@ -13,6 +13,7 @@ import { FaHouseChimney } from "react-icons/fa6";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { toast } from 'sonner';
 import Loading from './Loading';
+import { Logoutapi } from '../ApiServices/Allapi';
 const Profilebar = () => {
 
   const GetName = JSON.parse(localStorage.getItem("user"))
@@ -35,8 +36,11 @@ const Profilebar = () => {
 
 
 
-  const FunctionLogout = () => {
+  const FunctionLogout = async () => {
     Setloading(true)
+    const data = await Logoutapi()
+    console.log(data);
+
 
     setTimeout(() => {
 

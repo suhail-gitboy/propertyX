@@ -39,6 +39,7 @@ import MessageTosingleuser from './pages/profileuser/MessageTosingleuser'
 import ErrorFallback from './Common/Routererror'
 import Loader from './Common/Loader'
 import LoaderMAin from './Common/Loader'
+import Protuctedroutebasedrole from './Common/Protuctedroute'
 
 
 
@@ -61,12 +62,12 @@ function App() {
         },
 
         { path: "roomdetail/:id", element: (<Detailpage />), errorElement: <ErrorFallback /> },
-        { path: "/editproperty/:id", element: (<Editpage />) },
+        { path: "/editproperty/:id", element: (<Protuctedroutebasedrole host={true} > <Editpage /></Protuctedroutebasedrole>) },
         { path: "/payment/success", element: (<ConfettiDemo />) },
         { path: "/payment/cancel", element: (<ConfettiDemo cancel={"cancel"} />) },
         // profilepage
         {
-          path: "profile", element: <ProtectedRoutes><Profile /></ProtectedRoutes>, children: [
+          path: "profile", element: <Protuctedroutebasedrole  > <Profile /></Protuctedroutebasedrole>, children: [
             { index: true, element: <Userprofile /> },
             { path: "bookings", element: <Bookinglist /> },
             { path: "messages", element: <Message /> },
@@ -75,7 +76,7 @@ function App() {
             { path: "aibot", element: <Alassitance /> },
             { path: "history", element: <Saleshistory /> },
 
-            { path: "dashboard", element: <Dashboard /> },
+            { path: "dashboard", element: <Protuctedroutebasedrole host={true}>  <Dashboard /> </Protuctedroutebasedrole> },
             { path: "yourproperties", element: <PropertiesGrid /> }
 
           ]
@@ -83,7 +84,7 @@ function App() {
 
         // new  property upload
         {
-          path: "/property/host", element: <MainSellingpage />
+          path: "/property/host", element: <Protuctedroutebasedrole host={true}>   <MainSellingpage /></Protuctedroutebasedrole>
         },
         // payment
         {
@@ -101,7 +102,7 @@ function App() {
 
         // adminside
         {
-          path: "/admin", element: <Adminlayout />,
+          path: "/admin", element: <Protuctedroutebasedrole admin={true}>     <Adminlayout /></Protuctedroutebasedrole>,
           children: [
             { path: "/admin/home", element: <Adminhome /> }
             , {

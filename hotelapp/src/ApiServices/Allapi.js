@@ -14,6 +14,14 @@ export const Login = async (data) => {
 
     return await MainapiCall("POST", `${SERVERurl}/auth/Login`, data)
 }
+export const Refreshapi = async () => {
+
+    return await MainapiCall("GET", `${SERVERurl}/auth/refresh`, {})
+}
+export const Logoutapi = async () => {
+
+    return await MainapiCall("POST", `${SERVERurl}/auth/logout`, {})
+}
 
 export const GoogleAuth = async (data) => {
 

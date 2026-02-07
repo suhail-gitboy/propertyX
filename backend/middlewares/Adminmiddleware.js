@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 export const Adminmiddlware = (req, res, next) => {
 
 
-    const Token = req.headers?.authorization?.split(" ")[1]
+    const Token = req.cookies.token || req.headers?.authorization?.split(" ")[1]
 
 
     if (Token) {

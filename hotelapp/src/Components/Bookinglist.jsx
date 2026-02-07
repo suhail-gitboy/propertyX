@@ -29,7 +29,7 @@ const Bookinglist = () => {
 
   const { token } = ContextDatas()
   const { data } = useGetbookings(token)
-  console.log(data);
+
   if (!data) return <LoaderMAin />
 
   return (
