@@ -78,7 +78,7 @@ const Home = () => {
     },
     getNextPageParam: (lastPage, allPages) => {
       console.log("lastPage:", lastPage);
-      return lastPage.hasMore ? allPages.length + 1 : undefined;
+      return lastPage?.hasMore ? allPages.length + 1 : undefined;
     },
   });
 
