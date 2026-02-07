@@ -133,7 +133,24 @@ const Home = () => {
 
 
         <div className="mx-auto w-full md:w-4/6 min-h-screen">
-          <PropertyCard property={AfterFiltered} />
+          <div className="grid grid-cols-1 gap-4">
+            <AnimatePresence>
+              {data?.pages
+                ?.flatMap(page => page.prop)
+                .map(property => (
+                  <PropertyCard
+                    key={property._id}
+                    property={property}
+                  />
+                ))}
+              {hasNextPage && (
+                <div ref={loadMoreRef} className="h-10" />
+              )}
+
+              {isFetchingNextPage && <p>Loading more…</p>}
+
+            </AnimatePresence>
+          </div>
         </div>
 
       </div>
