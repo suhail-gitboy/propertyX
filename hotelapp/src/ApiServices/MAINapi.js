@@ -16,7 +16,7 @@ export const MainapiCall = async (Method, Url, Data, reqHeader) => {
         url: Url,
         data: Data,
         headers: reqHeader ? reqHeader : { "Content-Type": "application/json" },
-        withCredentials: true
+
 
 
     }

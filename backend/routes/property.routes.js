@@ -7,7 +7,7 @@ import { Adminmiddlware } from "../middlewares/Adminmiddleware.js"
 export const PropertyRoute = express.Router()
 
 // vectorsearch
-
+PropertyRoute.get("/getfull",)
 PropertyRoute.post("/vector", Vectorindex)
 
 
