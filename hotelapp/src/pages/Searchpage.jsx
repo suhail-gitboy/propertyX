@@ -15,6 +15,7 @@ import { CiGrid41 } from "react-icons/ci";
 import { CiGrid2H } from "react-icons/ci";
 import { LuSettings2 } from "react-icons/lu";
 import Filtermodal from '../Components/modals/Filtermodal'
+import LoaderMAin from '../Common/Loader'
 const Searchpage = () => {
 
 
@@ -23,17 +24,26 @@ const Searchpage = () => {
 
   const [Value, setValue] = useState([599, 100000])
   const [Page, Setpage] = useState(1)
+  let FilteredSlider
+  const functionfilter = () => {
 
+    if (!products) return
+    FilteredSlider = Array.isArray(products) && products.filter((data) => {
+
+
+      if (data.isActive !== "approved") return false
+      if (data.listingType == "rent") {
+        return data.price >= Value[0] && data.price <= Value[1]
+      }
+
+      return true
+    })
+
+  }
+
+  functionfilter()
   // filter
-  const FilteredSlider = products?.filter((data) => {
-    if (data.isActive !== "approved") return false
-    if (data.listingType == "rent") {
-      return data.price >= Value[0] && data.price <= Value[1]
-    }
-
-    return true
-  });
-
+  useEffect(() => { }, [])
   const Productperpage = 10
   const Totalpage = Math?.ceil(FilteredSlider?.length / Productperpage)
   const CurrpageLAstindex = Page * Productperpage
@@ -85,7 +95,7 @@ const Searchpage = () => {
   const [grid, Setgrid] = useState(1)
   const [filtermodal, Setfiltermodal] = useState(false)
 
-
+  if (!products) return <LoaderMAin />
   return (
     <motion.div initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1, damping: 5 }}

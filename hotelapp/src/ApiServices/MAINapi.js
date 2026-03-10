@@ -2,7 +2,7 @@ import axios from "axios"
 
 export const SERVERurl = "http://localhost:8000"
 
-// "http://localhost:8000"
+// ""
 // "https://propertyx-xm8w.onrender.com"
 
 
@@ -16,6 +16,7 @@ export const MainapiCall = async (Method, Url, Data, reqHeader) => {
         url: Url,
         data: Data,
         headers: reqHeader ? reqHeader : { "Content-Type": "application/json" },
+        withCredentials: true
 
 
 

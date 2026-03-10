@@ -1,14 +1,15 @@
 
-import { cache } from "."
+
+import redisClient from "./rediscache.js"
 export async function setJson(key, value, expireAt) {
 
     const valuestring = JSON.stringify(value)
 
     if (expireAt) {
 
-        const duration = expireAt?.getTime() - Date.now()
 
-        return cache.set(key, valuestring, { PX: duration })
+
+        return redisClient.set(key, valuestring, { PX: expireAt })
 
     } else {
         return cache.set(key, valuestring)
@@ -19,13 +20,13 @@ export async function setJson(key, value, expireAt) {
 
 export async function JSon(type) {
 
-    const type = await cache.type(type)
+    const typeOfdata = await redisClient.type(type)
 
-    if (type !== "string") return null
+    if (typeOfdata !== "string") return null
 
 
-    const json = await cache.get(type)
-    if (json) return JSON.parse(type)
+    const json = await redisClient.get(type)
+    if (json) return JSON.parse(json)
 
 
     return null

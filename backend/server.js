@@ -30,13 +30,14 @@ app.use(cors({
   origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 
 }));
 
 // Chan
 // mongoose connection 
 import "./config/db.js"
-import "./cacheredis/rediscache.js"
+import { connectRedis } from "./cacheredis/rediscache.js";
 import { Authroute } from "./routes/auth.route.js";
 import { UseRoute } from "./routes/user.routes.js";
 import { PropertyRoute } from "./routes/property.routes.js";
@@ -80,7 +81,10 @@ app.get("/geocode", async (req, res) => {
 
 const PORT = process.env.PORT || 8000;
 
-const EXpressserver = app.listen(PORT, () => console.log("Server running on port 8000"));
+const EXpressserver = app.listen(PORT, () => {
+  console.log("Server running on port 8000");
+  connectRedis()
+});
 
 
 const io = new Server(EXpressserver, {
@@ -150,3 +154,4 @@ io.on("connection", (socket) => {
 
 
 
+export default app;

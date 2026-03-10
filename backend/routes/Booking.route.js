@@ -3,6 +3,7 @@ import { BookinglistAll, Cancelbooking, Cancelbookingbyhost, checkAvailability, 
 import { AuthmiddleWare } from "../middlewares/auth.middleware.js"
 
 
+
 export const BookingRoute = express.Router()
 
 

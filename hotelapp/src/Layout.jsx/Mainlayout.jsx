@@ -28,11 +28,13 @@ const Mainlayout = () => {
   const { data } = useAllPropertiesAdmin()
 
   const { property } = data || []
-  console.log("SERVER URL:", SERVERurl)
+
+  const propertydata = Array.isArray(property) ? property : property?.data
+
 
 
   useEffect(() => {
-    dispatch(FuncAddallproduct(property))
+    dispatch(FuncAddallproduct(propertydata))
 
   }, [data])
 

@@ -8,6 +8,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { Booking } from "../models/Booking.model.js";
 import { Aggregate } from "mongoose";
 import { getEmbedding, textGenerate } from "../services/Openaiembedding.js";
+import { Deletefromit, GETdatafromcache, keys, SavePropertycache } from "../cacheredis/Savedata.js";
 
 dotenv.config()
 function cleanText(value) {
@@ -17,6 +18,35 @@ function cleanText(value) {
     if (Array.isArray(value)) return value.join(", ");
     return JSON.stringify(value);
 }
+export const GEtAllpropertyinfinte = async (req, res) => {
+
+
+
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const perPage = parseInt(req.query.per_page) || 2;
+        const skip = (page - 1) * perPage;
+        console.log(page);
+
+
+
+        const properties = await Propertymodel
+            .find({ isActive: "approved" }).select("-embedding")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(perPage + 1)
+
+
+        const hasMore = properties.length > perPage;
+        if (hasMore) properties.pop();
+
+        res.status(200).json({ prop: properties, hasMore });
+    } catch (error) {
+        console.error("GEtAllpropertyinfinte error:", error);
+        res.status(500).json({ message: error.message, stack: error.stack });
+    }
+};
+
 
 
 export const NewpropertyUpload = async (req, res) => {
@@ -99,7 +129,7 @@ export const NewpropertyUpload = async (req, res) => {
 
 
         })
-
+        await Deletefromit(keys.PROPERTY)
 
         res.status(200).json(Newproperty)
         console.log(Newproperty);
@@ -208,6 +238,8 @@ export const Updateproperty = async (req, res) => {
             { new: true }
         );
 
+        await Deletefromit(keys.PROPERTY)
+
         res.status(200).json({
             success: true,
             message: "Property updated successfully",
@@ -231,7 +263,16 @@ export const Listpropertyall = async (req, res) => {
 
     try {
 
-        const Data = await Propertymodel.find().sort({ createdAt: -1 })
+
+        let Data = await GETdatafromcache(keys.PROPERTY)
+        if (!Data) {
+            Data = await Propertymodel.find().sort({ createdAt: -1 }).select("-embedding")
+
+
+
+            await SavePropertycache(Data, keys.PROPERTY)
+        }
+
 
 
         const topBookedProperties = await Booking.aggregate([

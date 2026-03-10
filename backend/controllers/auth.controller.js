@@ -35,7 +35,8 @@ export const RegisterController = async (req, res) => {
 
         })
 
-        res.status(200).json({ User: User })
+
+        res.status(200).json({ name: name, email: email, _id: User._id })
 
 
     } catch (error) {

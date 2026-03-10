@@ -1,22 +1,24 @@
-import { Durationcaching } from "../config/datacredential";
-import { Propertymodel } from "../models/Property.model";
-import { JSon, setJson } from "./query";
-import cache from "."
+import { Durationcaching } from "../config/datacredential.js";
+
+import { JSon, setJson } from "./query.js";
+import redisClient from "./rediscache.js";
 export const keys = {
     PROPERTY: "PROPERTY",
+    SCROLLABLE: "SCROLLABLE",
     BOOKING: "BOOKING",
-    MESSAGE: "MESSAGE"
+    MESSAGE: "MESSAGE",
+    USER: "USER"
 }
 
 
 // save to it redis
 
-export async function SavePropertycache(property) {
+export async function SavePropertycache(property, keys) {
 
 
 
 
-    return setJson(keys.PROPERTY, { data: property }, new Date(Date.now()) + Number(Durationcaching.durationMain))
+    return setJson(keys, property, Number(Durationcaching.durationMain))
 
 }
 
@@ -29,5 +31,5 @@ export async function GETdatafromcache(keys) {
 }
 
 export async function Deletefromit(keys) {
-    await cache.del(keys)
+    await redisClient.del(keys)
 }

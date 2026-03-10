@@ -8,8 +8,8 @@ import Stripe from "stripe";
 import { adminBroadcastTemplate } from "../services/admintemplateemail.js";
 import { sendMailjet } from "../utils/Smpt.js";
 import e from "cors";
+import { GETdatafromcache, keys, SavePropertycache } from "../cacheredis/Savedata.js";
 const stripe = new Stripe(process.env.STRIPE_SECRET)
-
 
 export const checkAvailability = async (req, res) => {
     try {
@@ -172,7 +172,7 @@ Thank you for choosing us!
 
 export const BookinglistAll = async (req, res) => {
     const Usertype = req.payload
-    console.log(Usertype);
+
 
     try {
 
@@ -181,22 +181,29 @@ export const BookinglistAll = async (req, res) => {
                 ? { userId: Usertype._id }
                 : { hostId: Usertype._id };
 
-        const users = await Booking.find(filter).populate({
-            path: "propertyId",
-            select: "title location price images"
-        })
-            .populate({
-                path: "userId",
-                select: "name email"
+
+        let Allbooking = await GETdatafromcache(keys.BOOKING)
+
+        if (!Allbooking) {
+            Allbooking = await Booking.find(filter).populate({
+                path: "propertyId",
+                select: "title location price images"
             })
-            .populate({
-                path: "hostId",
-                select: "name email"
-            })
-            .sort({ createdAt: -1 })
+                .populate({
+                    path: "userId",
+                    select: "name email"
+                })
+                .populate({
+                    path: "hostId",
+                    select: "name email"
+                })
+                .sort({ createdAt: -1 })
+
+            await SavePropertycache(Allbooking, keys.BOOKING)
 
 
-        res.status(200).json(users)
+        }
+        res.status(200).json(Allbooking)
     } catch (error) {
 
         res.status(500).json(error)

@@ -2,6 +2,7 @@ import { Usermodel } from "../models/User.model.js";
 import bcrypt from "bcrypt"
 import { v2 as cloudinary } from "cloudinary";
 import { Propertymodel } from "../models/Property.model.js";
+import { Deletefromit, GETdatafromcache, SavePropertycache } from "../cacheredis/Savedata.js";
 
 
 export const UpdateUserprofile = async (req, res) => {
@@ -41,7 +42,7 @@ export const UpdateUserprofile = async (req, res) => {
 
         const userObj = updatedUser.toObject();
         delete userObj.password;
-
+        await Deletefromit(keys.USER)
         res.status(200).json(userObj);
     } catch (error) {
         console.error(error);
@@ -94,7 +95,7 @@ export const FollowUser = async (req, res) => {
         await Usermodel.findByIdAndUpdate({ _id: id }, { $addToSet: { followers: currentUser } })
 
         await Usermodel.findByIdAndUpdate({ _id: currentUser }, { $addToSet: { following: id } })
-
+        await Deletefromit(keys.USER)
         res.status(200).json({ message: "Followed successfully" });
 
     } catch (error) {
@@ -114,8 +115,8 @@ export const UnfollowUser = async (req, res) => {
         await Usermodel.findByIdAndUpdate({ _id: id }, { $pull: { followers: currentUser } })
 
         await Usermodel.findByIdAndUpdate({ _id: currentUser }, { $pull: { following: id } })
-
-        res.status(200).json({ message: "Followed successfully" });
+        await Deletefromit(keys.USER)
+        res.status(200).json({ message: "Unfollowed successfully" });
 
     } catch (error) {
         res.status(500).json(error)
@@ -131,17 +132,25 @@ export const GETsingleuser = async (req, res) => {
 
 
     try {
+        let data = await GETdatafromcache(keys.USER)
 
-        const User = await Usermodel.findOne({ _id: id }).populate({
-            path: "followers",
-            select: "name picture "
-        }).populate({
-            path: "following",
-            select: "name picture "
-        })
+        if (!data) {
+            data = await Usermodel.findOne({ _id: id }).populate({
+                path: "followers",
+                select: "name picture "
+            }).populate({
+                path: "following",
+                select: "name picture "
+            })
 
 
-        return res.status(200).json(User)
+
+            await SavePropertycache(data, keys.USER)
+
+        }
+
+
+        return res.status(200).json(data)
     } catch (error) {
         return res.status(500).json(error)
     }

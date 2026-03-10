@@ -62,7 +62,6 @@ const Home = () => {
 
 
   const [AfterFiltered, Setafterfiltered] = useState([])
-  const { products, loading } = useSelector((state) => state.Product)
 
 
   const {
@@ -74,7 +73,7 @@ const Home = () => {
     queryKey: ["propertydata"],
     queryFn: async ({ pageParam = 1 }) => {
       const res = await Getfullproperyforinfinite(pageParam);
-      return res.data; // { data, hasMore }
+      return res.data;
     },
     getNextPageParam: (lastPage, allPages) => {
       console.log("lastPage:", lastPage);
@@ -101,12 +100,8 @@ const Home = () => {
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  console.log("dsadadcsaddas", data?.pages);
 
-  useEffect(() => {
 
-    Setafterfiltered(products?.filter((data) => data.isActive == "approved" && !data.isAvailable == false))
-  }, [products])
   const { pathname } = useLocation()
 
   useEffect(() => {
@@ -114,7 +109,7 @@ const Home = () => {
   }, [pathname])
   return (
     <>
-      {/* top */}
+
       <Nav homesearch={"yes"} />
 
 
@@ -135,11 +130,11 @@ const Home = () => {
         <div className="mx-auto w-full md:w-4/6 min-h-screen">
           <div className="grid grid-cols-1 gap-4">
             <AnimatePresence>
-              {data?.pages
-                ?.flatMap(page => page.prop)
+              {!data ? <>loading server is slow</> : data?.pages
+                ?.flatMap(page => page?.prop)
                 .map(property => (
                   <PropertyCard
-                    key={property._id}
+                    key={property?._id}
                     property={property}
                   />
                 ))}
@@ -159,41 +154,20 @@ const Home = () => {
 
 
 
-      <div className={`mt-30  px-4 md:px-20 md:grid w-full  grid grid-cols-2 md:grid-cols-4  gap-4 space-y-3 h-auto mb-20`}>
 
-        {
-
-          AfterFiltered?.map((data, id) => (
-            <AnimatePresence>
-
-              <CardHome property={data} grid={1} id={id} home={"home"} />
-
-
-
-            </AnimatePresence>
-          ))
-
-
-        }
-      </div>
       <div className="flex justify-end px-4 md:px-20">
         <Link to="/search" className='px-4 flex justify-center items-center py-2 rounded text-white bg-blue-400 hover:bg-blue-600'>See more <FaLongArrowAltRight className='ml-2' /></Link>
       </div>
 
-      <div className='px-5 sm:px-7 md:px-14 lg:px-20'> {/*padding main*/}
-
-        {/* third */}
+      <div className='px-5 sm:px-7 md:px-14 lg:px-20'>
 
 
 
 
 
-        {/* s7 */}
 
 
 
-        {/* s5 */}
-        {/* sec7 */}
         <div className='mt-20'>
 
           <motion.div className='grid grid-cols-1 sm:grid-cols-3'>
@@ -252,7 +226,7 @@ const Home = () => {
         </motion.div>
 
 
-        {/* SCROLL CONTAINER */}
+
 
 
       </motion.div>

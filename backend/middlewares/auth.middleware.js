@@ -5,13 +5,15 @@ export const AuthmiddleWare = (req, res, next) => {
 
 
 
-    const Token = req.cookies.token || req.headers?.authorization?.split(" ")[1]
+    const Token = req.headers?.authorization?.split(" ")[1] || req.cookies.token
+
 
     if (Token) {
         try {
 
 
             const Verfied = jwt.verify(Token, process.env.SECRET_KEY)
+
 
             req.payload = Verfied
 
