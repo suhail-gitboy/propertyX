@@ -33,8 +33,6 @@ app.use(cors({
 
 }));
 
-// Chan
-// mongoose connection 
 import "./config/db.js"
 import "./cacheredis/rediscache.js"
 import { Authroute } from "./routes/auth.route.js";

@@ -1,40 +1,30 @@
-version: '3.8'
-
 
 services:
- backend:
-  build: ./backend
-  ports:
-    - "8000:8000"
-  container_name: backend
-  restart: always
-  environment:
-  MAIL_JETAPI: ${MAIL_JETAPI}
-  MAIL_JETSECRET: ${MAIL_JETSECRET}
-  MAIL_USER: ${MAIL_USER}
 
-  DATABASE_URL: ${DATABASE_URL}
-  SECRET_KEY: ${SECRET_KEY}
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    container_name: backend
+    restart: always
+    env_file:
+      - ./backend/.env
 
-  CLOUDINARY_NAME: ${CLOUDINARY_NAME}
-  CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
-  CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+    depends_on:
+      - redis
 
-  TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
-  TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
-  TWILIO_WHATSAPP_FROM: ${TWILIO_WHATSAPP_FROM}
-  ADMIN_WHATSAPP: ${ADMIN_WHATSAPP}
+  frontend:
+    build: ./hotelapp
+    ports:
+      - "5173:80"
+    container_name: frontend
+    restart: always
 
-  MAIL_PASS: ${MAIL_PASS}
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass password
 
-  STRIPE_SECRET: ${STRIPE_SECRET}
-
-  PORT: ${PORT}
-
-
- frontent:
-      build: ./hotelapp
-      ports:
-        - "5173:5173"
-      container_name: frontent
-      restart: always
+    
