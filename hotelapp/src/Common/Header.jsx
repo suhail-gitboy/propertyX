@@ -118,7 +118,7 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
                                 {/* SEARCH OPTIONS */}
                                 <div className="hidden md:flex flex-col items-center border-l border-neutral-300 p-3">
                                     <Link
-                                        to="/search"
+                                        to="/profile/aibot"
                                         className="flex items-center gap-2 px-4 py-2 text-xs font-semibold border border-neutral-900 text-neutral-900 rounded-full hover:bg-neutral-900 hover:text-white transition"
                                     >
                                         <FaSearch />

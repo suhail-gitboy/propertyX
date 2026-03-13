@@ -27,4 +27,3 @@ services:
       - "6379:6379"
     command: redis-server --requirepass password
 
-    

@@ -1,5 +1,5 @@
 import express from "express"
-import { Addcomment, Addlike, Addtowishlist, Approval, Deletecomment, GetpropertySaved, Hideproperty, Listpropertyall, NewpropertyUpload, RejectApproval, RemoveApproved, removeproperty, SingleProperty, Updatecomment, Updateproperty, Vectorindex } from "../controllers/property.controller.js"
+import { Addcomment, Addlike, Addtowishlist, Approval, Deletecomment, GEtAllpropertyinfinte, GetpropertySaved, Hideproperty, Listpropertyall, NewpropertyUpload, RejectApproval, RemoveApproved, removeproperty, SingleProperty, Updatecomment, Updateproperty, Vectorindex } from "../controllers/property.controller.js"
 import { AuthmiddleWare } from "../middlewares/auth.middleware.js"
 import { CloudinaryStorageUpload } from "../middlewares/upload.middleware.js"
 import { Adminmiddlware } from "../middlewares/Adminmiddleware.js"
@@ -7,7 +7,7 @@ import { Adminmiddlware } from "../middlewares/Adminmiddleware.js"
 export const PropertyRoute = express.Router()
 
 // vectorsearch
-PropertyRoute.get("/getfull",)
+PropertyRoute.get("/getfull", GEtAllpropertyinfinte)
 PropertyRoute.post("/vector", Vectorindex)
 
 
