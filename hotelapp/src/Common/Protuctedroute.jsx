@@ -3,12 +3,14 @@ import React from "react";
 import { ContextDatas } from "./ContextWrapped";
 
 const ProtectedRouteBasedRole = ({ admin, host, children }) => {
-    const { User, loading } = ContextDatas();
+    const { User, loading, Setloginmodal } = ContextDatas();
 
 
 
     if (!User) {
-        return <p>Please login</p>;
+
+        Setloginmodal(true)
+        return <p className="min-h-screen bg-white">Please login</p>;
     }
 
     if (admin && User.role !== "admin") {
