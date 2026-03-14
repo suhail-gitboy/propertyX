@@ -49,6 +49,36 @@ export const GEtAllpropertyinfinte = async (req, res) => {
 
 
 
+export const GEtAllpropertyinfinte = async (req, res) => {
+
+
+
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const perPage = parseInt(req.query.per_page) || 2;
+        const skip = (page - 1) * perPage;
+        console.log(page);
+
+
+
+        const properties = await Propertymodel
+            .find({ isActive: "approved" }).select("-embedding")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(perPage + 1)
+
+
+        const hasMore = properties.length > perPage;
+        if (hasMore) properties.pop();
+
+        res.status(200).json({ prop: properties, hasMore });
+    } catch (error) {
+        console.error("GEtAllpropertyinfinte error:", error);
+        res.status(500).json({ message: error.message, stack: error.stack });
+    }
+};
+
+
 export const NewpropertyUpload = async (req, res) => {
 
 
