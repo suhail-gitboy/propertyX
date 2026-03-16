@@ -34,6 +34,7 @@ import Homenav from '../Common/Homenav';
 import { toast } from 'sonner';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Getfullproperyforinfinite } from '../ApiServices/Allapi';
+import Loading from '../Components/Loading';
 
 
 const Home = () => {
@@ -74,7 +75,7 @@ const Home = () => {
     queryKey: ["propertydata"],
     queryFn: async ({ pageParam = 1 }) => {
       const res = await Getfullproperyforinfinite(pageParam);
-      return res.data; // { data, hasMore }
+      return res.data;
     },
     getNextPageParam: (lastPage, allPages) => {
       console.log("lastPage:", lastPage);
@@ -112,13 +113,15 @@ const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [pathname])
+
+  if (!data || data == null || data.pages == undefined) return <Loading />
   return (
     <>
-      {/* top */}
+
       <Nav homesearch={"yes"} />
 
 
-      {/* hero */}
+
       <Header />
       <div className="pt-40 px-4 md:px-10 flex pb-10 w-full">
 

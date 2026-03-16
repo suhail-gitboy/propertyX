@@ -151,9 +151,8 @@ const PropertyCard = ({ property, key }) => {
 
     return (
 
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, ease: easeIn }} key={key} className="bg-white rounded-xl shadow shadow-xl mb-6 w-full mx-auto">
+        <motion.div key={key} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, ease: easeIn }} key={key} className="bg-white rounded-xl shadow shadow-xl mb-6 w-full mx-auto">
 
-            {/* TOP : USER INFO */}
             <Link to={`/host/${property.seller.sellerId}/profile`} className="flex items-center gap-3 p-4">
                 <img
                     src={property.seller.picture.url}
@@ -170,7 +169,7 @@ const PropertyCard = ({ property, key }) => {
 
 
             <Carousalimg carouselId={property._id} images={property.images} />
-            {/* detailed caption */}
+
             <div>
                 <div className="px-4 mt-3 flex gap-2 flex-wrap">
                     <span className="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
@@ -188,7 +187,7 @@ const PropertyCard = ({ property, key }) => {
                     )}
                 </div>
 
-                {/* TITLE */}
+
                 <div className="px-4 mt-2">
                     <h3 className="font-semibold">{property.title}</h3>
                     <p className="text-sm text-gray-500 line-clamp-2">
@@ -196,14 +195,14 @@ const PropertyCard = ({ property, key }) => {
                     </p>
                 </div>
 
-                {/* PRICE */}
+
                 <div className="px-4 mt-2 flex items-center gap-1 font-semibold">
                     <IndianRupee className="w-4 h-4 text-green-600" />
                     {property.price.toLocaleString()}
                 </div>
             </div>
 
-            {/* ACTION ICONS */}
+
             <div className="relative">     {likemodal && ndex == key && <Likemodal property={property} setmodal={setlikemodal} />}</div>
 
 
@@ -227,7 +226,7 @@ const PropertyCard = ({ property, key }) => {
                 <Bookmark onClick={() => Addtowishlist(property._id)} className="w-6 h-6 cursor-pointer hover:text-yellow-500" />
             </div>
 
-            {/* STATS */}
+
 
             {showKey == key && showComment && (
                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 240 }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3, ease: easeIn }} className="px-4 py-3 flex flex-col h-60 overflow-auto bg-black space-y-4">
@@ -235,7 +234,6 @@ const PropertyCard = ({ property, key }) => {
                         property.comments.map((data, idkey) => (
                             <div className="px-4 py-2 flex items-start justify-between">
 
-                                {/* LEFT : USER + COMMENT */}
                                 <div className="gap-3">
                                     <div className="flex items-center gap-3">
                                         <img
@@ -269,7 +267,7 @@ const PropertyCard = ({ property, key }) => {
 
                                 </div>
 
-                                {/* RIGHT : LIKE ICON */}
+                                ¸
 
                                 <div className="flex gap-2 justify-between items-center relative">
                                     <button >
