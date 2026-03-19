@@ -5,7 +5,7 @@ import dotenv from "dotenv"
 dotenv.config()
 
 const redisurl = `redis://:${redis.password}@${redis.host}:${redis.port}`
-console.log(redisurl);
+
 
 const redisClient = createClient({ url: redisurl })
 

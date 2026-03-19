@@ -114,7 +114,7 @@ const Home = () => {
     window.scrollTo(0, 0)
   }, [pathname])
 
-  if (!data || data == null || data.pages == undefined) return <Loading />
+
   return (
     <>
 
@@ -136,24 +136,27 @@ const Home = () => {
 
 
         <div className="mx-auto w-full md:w-4/6 min-h-screen">
-          <div className="grid grid-cols-1 gap-4">
-            <AnimatePresence>
-              {data?.pages
-                ?.flatMap(page => page.prop)
-                .map(property => (
-                  <PropertyCard
-                    key={property._id}
-                    property={property}
-                  />
-                ))}
-              {hasNextPage && (
-                <div ref={loadMoreRef} className="h-10" />
-              )}
+          {!data || data == null ? <div className='flex gap-2 items-center'><p className='font-bold text-md text-blue-500 animate-pulse'>Server is slow</p><Loading /></div> :
+            <div className="grid grid-cols-1 gap-4">
+              <AnimatePresence>
+                {data?.pages
+                  ?.flatMap(page => page?.prop)
+                  .map(property => (
+                    <PropertyCard
+                      key={property?._id}
+                      property={property}
+                    />
+                  ))}
+                {hasNextPage && (
+                  <div ref={loadMoreRef} className="h-10" />
+                )}
 
-              {isFetchingNextPage && <p>Loading more…</p>}
+                {isFetchingNextPage && <p>Loading more…</p>}
 
-            </AnimatePresence>
-          </div>
+              </AnimatePresence>
+            </div>
+
+          }
         </div>
 
       </div>

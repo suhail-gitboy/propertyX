@@ -60,9 +60,7 @@ const Mainlayout = () => {
   }, [])
 
   const FooterRef = useRef(null)
-  if (load) {
-    return <Loading />
-  }
+
 
   return (
 
