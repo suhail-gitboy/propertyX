@@ -102,7 +102,6 @@ const Home = () => {
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  console.log("dsadadcsaddas", data?.pages);
 
   useEffect(() => {
 

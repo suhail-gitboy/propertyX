@@ -54,7 +54,7 @@ function App() {
         {
           path: "/", element: <Home />
         },
-        // searchpage
+
         { path: "search", element: <Searchpage /> },
 
         {
