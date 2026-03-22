@@ -78,7 +78,7 @@ const Home = () => {
       return res.data;
     },
     getNextPageParam: (lastPage, allPages) => {
-      console.log("lastPage:", lastPage);
+
       return lastPage?.hasMore ? allPages.length + 1 : undefined;
     },
   });
@@ -140,9 +140,9 @@ const Home = () => {
               <AnimatePresence>
                 {data?.pages
                   ?.flatMap(page => page?.prop)
-                  .map(property => (
+                  .map((property, key) => (
                     <PropertyCard
-                      key={property?._id}
+                      key={property._id}
                       property={property}
                     />
                   ))}

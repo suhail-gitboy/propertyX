@@ -238,7 +238,7 @@ export const Deleteemessage = async (data) => {
 
 export const propertyVector = async (data) => {
 
-    console.log({ query: data });
+
 
     return MainapiCall("POST", `${SERVERurl}/property/vector`, { query: data })
 }

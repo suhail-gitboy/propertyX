@@ -28,7 +28,6 @@ const Mainlayout = () => {
   const { data } = useAllPropertiesAdmin()
 
   const { property } = data || []
-  console.log("SERVER URL:", SERVERurl)
 
 
   useEffect(() => {
@@ -49,7 +48,7 @@ const Mainlayout = () => {
         SetUser(res.data.user)
       } else {
         Setloading(false)
-        console.log(res);
+
 
       }
 
