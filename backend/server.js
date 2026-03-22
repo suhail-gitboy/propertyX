@@ -14,6 +14,7 @@ app.use("/booking/webhook", express.raw({ type: "application/json" }));
 app.use(express.json())
 app.use(cookieParser())
 const allowedOrigins = [
+  "https://property-x-lszr.vercel.app",
   "http://localhost:5173",
   "http://localhost:5174",
   "https://propertyxrealestate.netlify.app",
