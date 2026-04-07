@@ -6,7 +6,7 @@ import { Adminmiddlware } from "../middlewares/Adminmiddleware.js"
 
 export const PropertyRoute = express.Router()
 
-// vectorsearch
+
 PropertyRoute.get("/getfull", GEtAllpropertyinfinte)
 PropertyRoute.post("/vector", Vectorindex)
 
@@ -17,7 +17,7 @@ PropertyRoute.put("/update/:id", AuthmiddleWare, CloudinaryStorageUpload.array("
 PropertyRoute.get("/getall", Listpropertyall)
 
 
-// admin side
+
 
 PropertyRoute.put("/approve/:id", Adminmiddlware, Approval)
 

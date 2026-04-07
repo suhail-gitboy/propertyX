@@ -53,7 +53,9 @@ app.use("/booking", BookingRoute)
 app.use("/conversation", Conversatiionrouter)
 app.use("/message", Messagerouter)
 
-
+app.get("/", (req, res) => {
+  res.send("hhello world")
+})
 app.get("/geocode", async (req, res) => {
   const q = req.query.q;
   if (!q) return res.status(400).json({ error: "missing query" });
@@ -81,7 +83,7 @@ app.get("/geocode", async (req, res) => {
 
 const PORT = process.env.PORT || 8000;
 
-const EXpressserver = app.listen(PORT, () => console.log("Server running on port 8000"));
+const EXpressserver = app.listen(PORT, '0.0.0.0', () => console.log("Server running on port 8000"));
 
 
 const io = new Server(EXpressserver, {
