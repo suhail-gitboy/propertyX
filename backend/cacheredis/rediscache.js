@@ -6,8 +6,14 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-const redisurl = `redis://:${redis.password}@${redis.host}:${redis.port}`
-console.log(redisurl);
+
+let redisurl;
+if (redis.password) {
+    redisurl = `redis://:${redis.password}@${redis.host}:${redis.port}`;
+} else {
+    redisurl = `redis://${redis.host}:${redis.port}`;
+}
+
 
 const redisClient = createClient({ url: redisurl })
 

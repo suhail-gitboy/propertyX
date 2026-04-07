@@ -28,7 +28,10 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
             <div className='relative'>
 
                 <div className='relative bg-black/65 flex justify-center items-center'>
-                    <img src="/images/home.png" className='w-full sm:h-100 brightness-70 md:h-150' alt="" />
+                    <img src="https://res.cloudinary.com/dlyufkmc5/image/upload/v1774675188/house_o0kuzp.webp
+
+
+" className='w-full sm:h-100 brightness-70 md:h-150' alt="" />
                     <div className='text-center absolute '>
                         <AnimatePresence>
                             {text.split("").map((char, i) => (
@@ -115,7 +118,6 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
                                     </p>
                                 </Link>
 
-                                {/* SEARCH OPTIONS */}
                                 <div className="hidden md:flex flex-col items-center border-l border-neutral-300 p-3">
                                     <Link
                                         to="/profile/aibot"
@@ -129,7 +131,7 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
                                     </p>
                                 </div>
 
-                                {/* HOST CTA */}
+
                                 <div className="flex flex-col items-center border-0 md:border-l border-neutral-300 p-2 md:p-3">
                                     {User?.role === "host" ? (
                                         <>
