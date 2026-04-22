@@ -6,7 +6,7 @@ const ImagesHotal = ({ images, Setmodalimage }) => {
             <div className="flex justify-end items-end w-full">
                 <p className='text-white font-semibold py-3 text-2xl p-6' onClick={() => Setmodalimage(false)}>close</p>
             </div>
-            <div className="w-4/6 mt-20  h-screen overflow-auto ">
+            <div className="w-full md:w-4/6 mt-10  h-screen overflow-auto ">
                 {
                     images.map((data, key) => (
                         <div className='p-4 my-2'>

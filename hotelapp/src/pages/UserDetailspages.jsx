@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useFollow, useGetsingleuser, useGetuserproperty, useunFollow } from '../ApiServices/tanstack/PropertyMethod';
 import { ContextDatas } from '../Common/ContextWrapped';
 import LoaderMAin from '../Common/Loader';
+import { useLocation } from 'react-router';
 
 
 const UserDetailspages = () => {
@@ -11,7 +12,7 @@ const UserDetailspages = () => {
     const { token, User, Setloginmodal } = ContextDatas()
 
 
-
+    const { pathname } = useLocation();
 
     const [user, Setuser] = useState({})
 
@@ -20,6 +21,9 @@ const UserDetailspages = () => {
 
     const { data } = useGetuserproperty(host)
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [pathname])
 
 
     useEffect(() => {

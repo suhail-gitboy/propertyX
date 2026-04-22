@@ -1,4 +1,5 @@
 import React from 'react'
+import { optimizeImage } from '../Utils/Cloudinaryconvert'
 
 const Carousalimg = ({ images, carouselId }) => {
     const goTo = (id) => {
@@ -21,7 +22,8 @@ const Carousalimg = ({ images, carouselId }) => {
                         className="carousel-item relative w-full"
                     >
                         <img
-                            src={img.url}
+                            alt='imagesproperty'
+                            src={optimizeImage(img.url)}
                             className="w-full h-full object-cover"
                         />
 

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Link } from "react-router";
 import { useAddtowishlist } from "../ApiServices/tanstack/PropertyMethod";
 import { ContextDatas } from "../Common/ContextWrapped";
+import { optimizeImage } from "../Utils/Cloudinaryconvert";
 
 
 const CardHome = ({ property, id }) => {
@@ -29,6 +30,8 @@ const CardHome = ({ property, id }) => {
         }
     }
 
+
+
     return (
         <motion.div
             key={id}
@@ -40,7 +43,7 @@ const CardHome = ({ property, id }) => {
             {/* IMAGE SECTION */}
             <div className="relative overflow-hidden rounded-2xl aspect-[4/3] bg-gray-200">
                 <img
-                    src={property.images[0].url}
+                    src={optimizeImage(property.images[0].url)}
                     alt={property.name}
                     className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                 />

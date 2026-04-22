@@ -1,7 +1,6 @@
 import { AnimatePresence, motion, useInView, easeInOut } from 'framer-motion'
 import React, { useRef } from 'react'
 import { Link, useLocation } from 'react-router'
-
 import { FaMapMarkerAlt, FaSearch, FaHome, FaPlusCircle } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { BsFillBuildingsFill } from "react-icons/bs"
@@ -11,6 +10,7 @@ import { HiHomeModern } from "react-icons/hi2";
 import { MdOutlineAddHomeWork } from "react-icons/md"
 import { VscAccount } from "react-icons/vsc";
 import { ContextDatas } from './ContextWrapped';
+import Nav from './Nav';
 
 const Header = ({ text = "Find homes,Connect directly" }) => {
     const ref = useRef(null);
@@ -27,8 +27,13 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
         <>
             <div className='relative'>
 
+
                 <div className='relative bg-black/65 flex justify-center items-center'>
-                    <img src="/images/home.png" className='w-full sm:h-100 brightness-70 md:h-150' alt="" />
+                    <section className='z-50 absolute top-0 left-0 right-0'>
+                        <Nav homesearch="fvfd" />
+                    </section>
+
+                    <img src="/house.webp" className='w-full sm:h-100 brightness-70 md:h-150' alt="" />
                     <div className='text-center absolute '>
                         <AnimatePresence>
                             {text.split("").map((char, i) => (
@@ -95,7 +100,7 @@ const Header = ({ text = "Find homes,Connect directly" }) => {
                                     </p>
                                 </div>
 
-                                <img src="/house.png" className="h-18 w-14 opacity-80" alt="" />
+                                <img src="/home.webp" alt="homeimage" className="h-18 w-14 opacity-80" />
                             </div>
 
                             {/* ACTION BLOCKS */}

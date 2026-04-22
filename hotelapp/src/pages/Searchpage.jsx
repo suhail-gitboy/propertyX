@@ -147,31 +147,47 @@ const Searchpage = () => {
 
             {
               products?.length > 0 && <div className='flex justify-end'   >
-                <div className={` 
-          bottom-5 fixed left-5"
-       w-fit p-4 flex justify-end space-x-2.5 -3 bg-gray-200 rounded-md text-black/45`} >
-                  <button onClick={Backword} disabled={Page === 1}>
-                    <BsSkipBackward />
+                <div className="fixed bottom-5 left-5 flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 py-2 shadow-sm">
+
+                  {/* Back button */}
+                  <button
+                    onClick={Backword}
+                    disabled={Page === 1}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
+                  >
+                    <BsSkipBackward size={14} />
                   </button>
 
-                  <div className="text-xl font-semibold flex space-x-2">
+                  {/* Divider */}
+                  <div className="w-px h-5 bg-gray-200" />
+
+                  {/* Page numbers */}
+                  <div className="flex items-center gap-1">
                     {[...Array(Math.ceil(products?.length / 10))].map((_, i) => (
-                      <p
+                      <button
                         key={i}
                         onClick={() => Setpage(i + 1)}
-                        className={`px-2 py-2 rounded-md text-white cursor-pointer ${Page === i + 1 ? "bg-blue-600" : "bg-gray-500"
+                        className={`w-8 h-8 rounded-lg text-sm font-medium transition-all duration-150 cursor-pointer
+          ${Page === i + 1
+                            ? "bg-gray-800 text-white"
+                            : "text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                           }`}
                       >
                         {i + 1}
-                      </p>
+                      </button>
                     ))}
                   </div>
 
+                  {/* Divider */}
+                  <div className="w-px h-5 bg-gray-200" />
+
+                  {/* Forward button */}
                   <button
                     onClick={Forward}
                     disabled={Page === Math.ceil(products?.length / 10)}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
                   >
-                    <BsFastForward />
+                    <BsFastForward size={14} />
                   </button>
 
                 </div>

@@ -1,47 +1,45 @@
 import './App.css'
 import { createBrowserRouter, Link, RouterProvider } from 'react-router-dom'
 import React, { lazy, Suspense } from 'react'
-const Home = lazy(() => import("./pages/Home"))
-
 import { Toaster } from "sonner"
-
 import { AnimatePresence } from 'framer-motion'
-const Searchpage = lazy(() => import("./pages/Searchpage"))
-const Profile = lazy(() => import('./pages/Profile'))
 
-const Detailpage = lazy(() => import("./pages/Detailpage"))
-import Wishlist from './Components/Wishlist'
-import Bookinglist from './Components/Bookinglist'
+
 import Mainlayout from './Layout.jsx/Mainlayout'
 import ProtectedRoutes from './Common/ProtectedRoutes'
-import Userprofile from './pages/profileuser/Userprofiledata'
-import Message from './pages/profileuser/Message'
-import Alassitance from './pages/profileuser/Alassitance'
-import Saleshistory from './pages/profileuser/Saleshistory'
-
-import Mapdetail from './pages/Sellingpage/Mapdetail'
-import Payment from './pages/Payment'
-import MainSellingpage from './pages/Sellingpage/MainSellingpage'
-import Dashboard from './pages/profileuser/Dashboard'
-import UserHistory from './pages/profileuser/UserHistory'
-import PropertiesGrid from './pages/profileuser/YourAllproperty'
-import Adminhome from './Admin/AdminHome'
-import Adminuserpage from './Admin/Admin.users'
-import Adminproductmanagement from './Admin/Adminmanage'
-
-import Adminlayout from './Admin/AdminLayout'
-import AdminProfile from './Admin/Adminprofile'
-import UserDetailspages from './pages/UserDetailspages'
-import HostRegister from './pages/HostRegister'
-import Editpage from './pages/Editpage'
-import { ConfettiDemo } from './Utils/UILIBRARY/Sucesscomp'
-import MessageTosingleuser from './pages/profileuser/MessageTosingleuser'
-import ErrorFallback from './Common/Routererror'
-import Loader from './Common/Loader'
-import LoaderMAin from './Common/Loader'
 import Protuctedroutebasedrole from './Common/Protuctedroute'
+import ErrorFallback from './Common/Routererror'
+import LoaderMAin from './Common/Loader'
 
 
+const Home = lazy(() => import("./pages/Home"))
+const Searchpage = lazy(() => import("./pages/Searchpage"))
+const Detailpage = lazy(() => import("./pages/Detailpage"))
+const UserDetailspages = lazy(() => import('./pages/UserDetailspages'))
+const HostRegister = lazy(() => import('./pages/HostRegister'))
+const Editpage = lazy(() => import('./pages/Editpage'))
+const Payment = lazy(() => import('./pages/Payment'))
+const MainSellingpage = lazy(() => import('./pages/Sellingpage/MainSellingpage'))
+const ConfettiDemo = lazy(() => import('./Utils/UILIBRARY/Sucesscomp').then(m => ({ default: m.ConfettiDemo })))
+
+const Profile = lazy(() => import('./pages/Profile'))
+const Userprofile = lazy(() => import('./pages/profileuser/Userprofiledata'))
+const Wishlist = lazy(() => import('./Components/Wishlist'))
+const Bookinglist = lazy(() => import('./Components/Bookinglist'))
+const Message = lazy(() => import('./pages/profileuser/Message'))
+const MessageTosingleuser = lazy(() => import('./pages/profileuser/MessageTosingleuser'))
+const Alassitance = lazy(() => import('./pages/profileuser/Alassitance'))
+const Saleshistory = lazy(() => import('./pages/profileuser/Saleshistory'))
+const Dashboard = lazy(() => import('./pages/profileuser/Dashboard'))
+const UserHistory = lazy(() => import('./pages/profileuser/UserHistory'))
+const PropertiesGrid = lazy(() => import('./pages/profileuser/YourAllproperty'))
+
+
+const Adminlayout = lazy(() => import('./Admin/AdminLayout'))
+const Adminhome = lazy(() => import('./Admin/AdminHome'))
+const Adminuserpage = lazy(() => import('./Admin/Admin.users'))
+const Adminproductmanagement = lazy(() => import('./Admin/Adminmanage'))
+const AdminProfile = lazy(() => import('./Admin/Adminprofile'))
 
 function App() {
 

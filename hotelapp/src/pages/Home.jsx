@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { NavLink } from "react-router-dom"
 import {
@@ -25,8 +25,8 @@ import Nav from '../Common/Nav';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import CardHome from '../Components/HomepageCard';
-
+// import CardHome from '';
+const Cardhome = lazy(() => import("../Components/HomepageCard"))
 import Header from '../Common/Header';
 import PropertyCard from '../Components/MediaScroll';
 
@@ -35,6 +35,9 @@ import { toast } from 'sonner';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Getfullproperyforinfinite } from '../ApiServices/Allapi';
 import Loading from '../Components/Loading';
+import CardSkeletonGrid from '../Components/Skeleton/Skeleton';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from '../Common/Errorboundary';
 
 
 const Home = () => {
@@ -117,12 +120,43 @@ const Home = () => {
   return (
     <>
 
-      <Nav homesearch={"yes"} />
+
+
+
 
 
 
       <Header />
-      <div className="pt-40 px-4 md:px-10 flex pb-10 w-full">
+
+
+
+      <div className="px-4 pt-20 md:px-20">
+
+        <ErrorBoundary fallback={<ErrorFallback />} onReset={() => { window.location.reload }}>
+          <Suspense fallback={<CardSkeletonGrid />}>
+            {!data || data == null ? <CardSkeletonGrid /> : <><div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              {AfterFiltered?.slice(0, 4).map((data, id) => (
+
+
+
+
+                <AnimatePresence key={id}>
+                  <Cardhome property={data} grid={1} id={id} home={"home"} />
+                </AnimatePresence>
+
+
+
+              ))}
+            </div>
+            </>}
+
+          </Suspense>
+        </ErrorBoundary>
+
+
+
+      </div>
+      <div className="pt-20 px-4 md:px-10 flex pb-10 w-full">
 
 
         <div className="hidden md:block md:w-1/6">
@@ -164,26 +198,7 @@ const Home = () => {
 
 
 
-      <div className={`mt-30  px-4 md:px-20 md:grid w-full  grid grid-cols-2 md:grid-cols-4  gap-4 space-y-3 h-auto mb-20`}>
 
-        {
-
-          AfterFiltered?.map((data, id) => (
-            <AnimatePresence>
-
-              <CardHome property={data} grid={1} id={id} home={"home"} />
-
-
-
-            </AnimatePresence>
-          ))
-
-
-        }
-      </div>
-      <div className="flex justify-end px-4 md:px-20">
-        <Link to="/search" className='px-4 flex justify-center items-center py-2 rounded text-white bg-blue-400 hover:bg-blue-600'>See more <FaLongArrowAltRight className='ml-2' /></Link>
-      </div>
 
       <div className='px-5 sm:px-7 md:px-14 lg:px-20'> {/*padding main*/}
 
@@ -204,20 +219,20 @@ const Home = () => {
           <motion.div className='grid grid-cols-1 sm:grid-cols-3'>
             <motion.div initial={{ opacity: 0, filter: "blur(10px)" }} whileInView={{ opacity: 1, filter: "blur(0px)" }} transition={{ duration: 0.7, ease: easeInOut }} className='p-4 flex flex-col items-center justify-center space-y-2'>
               <div className='p-4 bg-blue-200 rounded-md'>
-                <img src="/images/shield-check.png" alt="" className='w-10 h-10 ' />
+                <img src="/images/shield-check.webp" alt="priceicon" className='w-10 h-10 ' />
               </div>
               <p className='font-semibold text-xl'>No hidden fees</p>
               <p className='text-sm text-center text-gray-700 '>Transparent pricing with no hidden fees.</p>
             </motion.div>
             <motion.div initial={{ opacity: 0, filter: "blur(10px)" }} whileInView={{ opacity: 1, filter: "blur(0px)" }} transition={{ duration: 0.7, ease: easeInOut }} className='p-4 flex flex-col items-center justify-center space-y-2'>
               <div className='p-4 bg-blue-200 rounded-md'>
-                <img src="/images/file-list-edit.png" alt="" className='w-10 h-10 ' />
+                <img src="/images/file-list-edit.avif" alt="editicon" className='w-10 h-10 ' />
               </div>
               <p className='font-semibold text-xl'>Instant booking</p>
               <p className='text-sm text-center text-gray-700 '>Get confirm right after you reserve.</p>
             </motion.div> <motion.div initial={{ opacity: 0, filter: "blur(10px)" }} whileInView={{ opacity: 1, filter: "blur(0px)" }} transition={{ duration: 0.7, ease: easeInOut }} className='p-4 flex flex-col items-center  space-y-2'>
               <div className='p-4 bg-blue-200 rounded-md'>
-                <img src="/images/dollar-circle.png" alt="" className='w-10 h-10 ' />
+                <img src="/images/dollar-circle.avif" alt="dollaricon" className='w-10 h-10 ' />
               </div>
               <p className='font-semibold text-xl'>Flexibility</p>
               <p className='text-sm text-center text-gray-700 '>flexible option with free cancellation on many listings.</p>
