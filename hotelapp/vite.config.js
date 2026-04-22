@@ -14,18 +14,16 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (id.includes('react-icons')) return 'react-icons'
-          if (id.includes('@mui/material')) return 'mui'
-          if (id.includes('framer-motion')) return 'framer'
-          if (id.includes('lodash')) return 'lodash'
-          if (id.includes('lucide-react')) return 'lucide'
-          if (id.includes('formik')) return 'formik'
-          if (id.includes('yup')) return 'yup'
-          if (id.includes('@tanstack')) return 'tanstack'
-          if (id.includes('@reduxjs')) return 'redux'
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'redux-vendor': ['@reduxjs/toolkit', 'react-redux'],
+          'map-vendor': ['leaflet', 'react-leaflet'],
+          'ui-vendor': ['@mui/material', 'framer-motion'],
+          'form-vendor': ['formik', 'yup'],
+          'query-vendor': ['@tanstack/react-query'],
         }
       }
-    }
+    },
+    chunkSizeWarningLimit: 500,
   }
 });
