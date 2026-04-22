@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Button from "./Button";
 import AutocompleteTwo from "./Autocomplete";
-import { div } from "three/src/nodes/math/OperatorNode.js";
 
 const Nav = ({
   search,
