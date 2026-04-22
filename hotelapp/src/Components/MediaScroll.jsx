@@ -33,7 +33,6 @@ const PropertyCard = ({ property, key }) => {
 
 
 
-    // mui 
 
 
 
@@ -67,7 +66,7 @@ const PropertyCard = ({ property, key }) => {
 
     const Mutateforcomment = useADDcoment(token)
 
-    // add comment
+
     const Uploadcomment = (id) => {
 
         if (!token) {
@@ -151,7 +150,7 @@ const PropertyCard = ({ property, key }) => {
 
     return (
 
-        <motion.div key={key} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, ease: easeIn }} key={key} className="bg-white rounded-xl shadow shadow-xl mb-6 w-full mx-auto">
+        <motion.div key={property._id} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, ease: easeIn }} className="bg-white rounded-xl shadow shadow-xl mb-6 w-full mx-auto">
 
             <Link to={`/host/${property.seller.sellerId}/profile`} className="flex items-center gap-3 p-4">
                 <img
